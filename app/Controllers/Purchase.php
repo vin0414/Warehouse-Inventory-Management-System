@@ -2136,7 +2136,7 @@ class Purchase extends BaseController
         $keyword = "%".$val."%";
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblreview a');
-        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,b.DateNeeded,b.PurchaseType,c.Fullname');
+        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,b.DateNeeded,b.PurchaseType,b.Urgency,c.Fullname');
         $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
         $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
         $builder->WHERE('a.accountID',$user)->like('a.OrderNo',$keyword);
@@ -2146,6 +2146,11 @@ class Purchase extends BaseController
         {
             ?>
             <tr>
+                <td>
+                    <?php if($row->Urgency==1 || $row->Urgency==2){ ?>
+                        <i class="icon-copy bi bi-exclamation-triangle"></i>
+                    <?php }?>
+                </td>
                 <td><?php echo $row->DateReceived ?></td>
                 <td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
                 <td><?php echo $row->Fullname ?></td>

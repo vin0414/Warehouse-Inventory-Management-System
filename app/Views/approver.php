@@ -515,6 +515,7 @@
 											<div class="table-responsive tableFixHead" style="height:500px;overflow-y:auto;">
 												<table class="table stripe hover nowrap">
 													<thead>
+														<th>&nbsp;</th>
 														<th>Date Received</th>
 														<th>PRF No</th>
 														<th>Requestor</th>
@@ -527,6 +528,11 @@
 													<tbody id="tblreview">
 														<?php foreach($review as $row): ?>
 															<tr>
+																<td>
+																	<?php if($row->Urgency==1 || $row->Urgency==2){ ?>
+																		<i class="icon-copy bi bi-exclamation-triangle"></i>
+																	<?php }?>
+																</td>
 																<td><?php echo $row->DateReceived ?></td>
 																<td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
 																<td><?php echo $row->Fullname ?></td>

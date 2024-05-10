@@ -514,15 +514,15 @@
 														<?php if($row->Status==0){ ?>
 															<span class="badge bg-warning text-white">To Dept Head/Master</span>
 														<?php }else if($row->Status==1){?>
-															<span class="badge bg-info text-white">To Materials</span>
+															<span class="badge bg-info text-white">To Materials Manager</span>
 														<?php }else if($row->Status==2){ ?>
-															<span class="badge bg-danger text-white">CANCELLED</span>
+															<span class="badge bg-danger text-white">Cancelled</span>
 														<?php }else if($row->Status==3){ ?>
-															<span class="badge bg-success text-white">APPROVED</span>
+															<span class="badge bg-success text-white">Approved</span>
 														<?php }else if($row->Status==4){ ?>
 															<span class="badge bg-primary text-white">To Dept Head</span>
 														<?php }else{ ?>
-															<span class="badge bg-secondary text-white">CLOSE</span>
+															<span class="badge bg-secondary text-white">Close</span>
 														<?php } ?>
 													</td>
 													<td>
@@ -589,11 +589,11 @@
 														<?php }else if($row->Status==1){?>
 															<span class="badge bg-info text-white">To Negotiator</span>
 														<?php }else if($row->Status==3){?>
-															<span class="badge bg-primary text-white">To Materials</span>
+															<span class="badge bg-primary text-white">To Materials Manager</span>
 														<?php }else if($row->Status==4){?>
-															<span class="badge bg-success text-white">APPROVED</span>
+															<span class="badge bg-success text-white">Approved</span>
 														<?php }else { ?>
-															<span class="badge bg-danger text-white">CANCELLED</span>
+															<span class="badge bg-danger text-white">Cancelled</span>
 														<?php } ?>
 													</td>
 													<td>
@@ -626,11 +626,11 @@
 												<td><?php echo $row->purchaseNumber ?></td>
 												<td>
 													<?php if($row->Status==0){ ?>
-														<span class="badge bg-warning text-white">PENDING</span>
+														<span class="badge bg-warning text-white">To Materials Manager</span>
 													<?php }else if($row->Status==1){?>
-														<span class="badge bg-success text-white">APPROVED</span>
+														<span class="badge bg-success text-white">Approved</span>
 													<?php }else if($row->Status==2){?>
-														<span class="badge bg-danger text-white">CANCELLED</span>
+														<span class="badge bg-danger text-white">Cancelled</span>
 													<?php }?>
 												</td>
 												<td>
