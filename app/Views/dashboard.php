@@ -519,7 +519,7 @@
 						<div class="card-box bg-primary text-white height-100-p widget-style3">
 							<div class="card-body">
 								<div class="card-title">New PRF</div>
-								<h1 class="text-white">0</h1>
+								<h1 class="text-white"><?=number_format($pending,0)?></h1>
 							</div>
 						</div>
 					</div>
@@ -527,7 +527,7 @@
 						<div class="card-box bg-primary text-white height-100-p widget-style3">
 							<div class="card-body">
 								<div class="card-title">On Process</div>
-								<h1 class="text-white">0</h1>
+								<h1 class="text-white"><?=number_format($ongoing,0)?></h1>
 							</div>
 						</div>
 					</div>
@@ -535,7 +535,7 @@
 						<div class="card-box bg-primary text-white height-100-p widget-style3">
 							<div class="card-body">
 								<div class="card-title">Approved</div>
-								<h1 class="text-white">0</h1>
+								<h1 class="text-white"><?=number_format($approved,0)?></h1>
 							</div>
 						</div>
 					</div>
@@ -543,7 +543,7 @@
 						<div class="card-box bg-primary text-white height-100-p widget-style3">
 							<div class="card-body">
 								<div class="card-title">Quotation</div>
-								<h1 class="text-white">0</h1>
+								<h1 class="text-white"><?=number_format($quotation,0)?></h1>
 							</div>
 						</div>
 					</div>
@@ -551,15 +551,15 @@
 						<div class="card-box bg-primary text-white height-100-p widget-style3">
 							<div class="card-body">
 								<div class="card-title">For P.O.</div>
-								<h1 class="text-white">0</h1>
+								<h1 class="text-white"><?=number_format($approvedQ,0)?></h1>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-2 mb-20">
 						<div class="card-box bg-primary text-white height-100-p widget-style3">
 							<div class="card-body">
-								<div class="card-title">Total</div>
-								<h1 class="text-white">0</h1>
+								<div class="card-title">Total PRF</div>
+								<h1 class="text-white"><?=number_format($total,0)?></h1>
 							</div>
 						</div>
 					</div>
@@ -572,16 +572,7 @@
 							</div>
 							<div class="card-body">
 								<div class="latest-post">
-									<ul>
-										<li>
-											<h4>
-												<a href="#"
-													>Ut enim ad minim veniam, quis nostrud
-													exercitation ullamco</a
-												>
-											</h4>
-											<span>15,000.00</span><span style="float:right;">1 day ago</span>
-										</li>
+									<ul id="emergencyList">
 									</ul>
 								</div>
 							</div>
@@ -594,16 +585,7 @@
 							</div>
 							<div class="card-body">
 								<div class="latest-post">
-									<ul>
-										<li>
-											<h4>
-												<a href="#"
-													>Ut enim ad minim veniam, quis nostrud
-													exercitation ullamco</a
-												>
-											</h4>
-											<span>10,000.00</span><span style="float:right;">1 day ago</span>
-										</li>
+									<ul id="urgentList">					
 									</ul>
 								</div>
 							</div>
@@ -616,16 +598,7 @@
 							</div>
 							<div class="card-body">
 								<div class="latest-post">
-									<ul>
-										<li>
-											<h4>
-												<a href="#"
-													>Ut enim ad minim veniam, quis nostrud
-													exercitation ullamco</a
-												>
-											</h4>
-											<span>8,700.00</span><span style="float:right;">1 day ago</span>
-										</li>
+									<ul id="moderateList">
 									</ul>
 								</div>
 							</div>
@@ -638,16 +611,7 @@
 							</div>
 							<div class="card-body">
 								<div class="latest-post">
-									<ul>
-										<li>
-											<h4>
-												<a href="#"
-													>Ut enim ad minim veniam, quis nostrud
-													exercitation ullamco</a
-												>
-											</h4>
-											<span>8,700.00</span><span style="float:right;">1 day ago</span>
-										</li>
+									<ul id="lowList">
 									</ul>
 								</div>
 							</div>
@@ -684,8 +648,76 @@
 		<script src="assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
-			$(document).ready(function(){notify();});
+			$(document).ready(function(){notify();emergencyList();ugentList();moderateList();lowList();});
 			google.charts.setOnLoadCallback(requestChart);
+			function emergencyList()
+			{
+				$.ajax({
+					url:"<?=site_url('emergency-level')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#emergencyList').html("<li><h4><a href='javascript:void(0);'>No Record(s)</a></h4></li>");
+						}
+						else
+						{
+							$('#emergencyList').html(response);
+						}
+					}
+				});
+			}
+			function ugentList()
+			{
+				$.ajax({
+					url:"<?=site_url('urgent-level')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#urgentList').html("<li><h4><a href='javascript:void(0);'>No Record(s)</a></h4></li>");
+						}
+						else
+						{
+							$('#urgentList').html(response);
+						}
+					}
+				});
+			}
+			function moderateList()
+			{
+				$.ajax({
+					url:"<?=site_url('moderate-level')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#moderateList').html("<li><h4><a href='javascript:void(0);'>No Record(s)</a></h4></li>");
+						}
+						else
+						{
+							$('#moderateList').html(response);
+						}
+					}
+				});
+			}
+			function lowList()
+			{
+				$.ajax({
+					url:"<?=site_url('low-level')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#lowList').html("<li><h4><a href='javascript:void(0);'>No Record(s)</a></h4></li>");
+						}
+						else
+						{
+							$('#lowList').html(response);
+						}
+					}
+				});
+			}
 			function requestChart() 
 			{
 				var data = google.visualization.arrayToDataTable([

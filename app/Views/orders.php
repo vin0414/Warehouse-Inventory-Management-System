@@ -466,7 +466,14 @@
                             </div>
                         <?php endif; ?>
                         <form method="POST" class="row g-3" id="frmPurchase" enctype="multipart/form-data" action="<?=base_url('save-order')?>">
-                            <div class="col-12 form-group">
+							<div class="col-12 form-group">
+								<b><label>Priority Level : </label></b>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="1" required/>&nbsp;<label>Emergency</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="2"/>&nbsp;<label>Urgent</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="3"/>&nbsp;<label>Medium</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="4"/>&nbsp;<label>Low</label>
+							</div>
+							<div class="col-12 form-group">
                                 <div class="row g-3">
 									<div class="col-lg-2">
                                         <label>Type of Purchase</label>

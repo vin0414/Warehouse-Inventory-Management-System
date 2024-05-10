@@ -11,6 +11,94 @@ class Dashboard extends BaseController
         $this->db = db_connect();
     }
 
+    public function emergencyPRF()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('OrderNo, Reason, DateNeeded');
+        $builder->WHERE('Status<>',3)->WHERE('Urgency',1);
+        $builder->limit(5);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <li>
+                <h4>
+                    <a href="javascript:void(0);">
+                        <?php echo $row->OrderNo ?> - <?php echo substr($row->Reason,0,20) ?>..
+                    </a>
+                </h4>
+                <span>Date Needed : <?php echo $row->DateNeeded ?></span><span style="float:right;"></span>
+            </li>
+            <?php
+        }
+    }
+
+    public function urgentPRF()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('OrderNo, Reason, DateNeeded');
+        $builder->WHERE('Status<>',3)->WHERE('Urgency',2);
+        $builder->limit(5);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <li>
+                <h4>
+                    <a href="javascript:void(0);">
+                        <?php echo $row->OrderNo ?> - <?php echo substr($row->Reason,0,20) ?>..
+                    </a>
+                </h4>
+                <span>Date Needed : <?php echo $row->DateNeeded ?></span><span style="float:right;"></span>
+            </li>
+            <?php
+        }
+    }
+
+    public function moderatePRF()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('OrderNo, Reason, DateNeeded');
+        $builder->WHERE('Status<>',3)->WHERE('Urgency',3);
+        $builder->limit(5);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <li>
+                <h4>
+                    <a href="javascript:void(0);">
+                        <?php echo $row->OrderNo ?> - <?php echo substr($row->Reason,0,20) ?>..
+                    </a>
+                </h4>
+                <span>Date Needed : <?php echo $row->DateNeeded ?></span><span style="float:right;"></span>
+            </li>
+            <?php
+        }
+    }
+
+    public function lowPRF()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('OrderNo, Reason, DateNeeded');
+        $builder->WHERE('Status<>',3)->WHERE('Urgency',4);
+        $builder->limit(5);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <li>
+                <h4>
+                    <a href="javascript:void(0);">
+                        <?php echo $row->OrderNo ?> - <?php echo substr($row->Reason,0,20) ?>..
+                    </a>
+                </h4>
+                <span>Date Needed : <?php echo $row->DateNeeded ?></span><span style="float:right;"></span>
+            </li>
+            <?php
+        }
+    }
+
     public function Notification($username)
     {
         $accountModel = new \App\Models\accountModel();

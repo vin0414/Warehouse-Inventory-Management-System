@@ -326,6 +326,7 @@ class Purchase extends BaseController
         $reviewModel = new \App\Models\reviewModel();
         //datas
         $user = session()->get('loggedUser');
+        $urgency = $this->request->getPost('urgencyLevel');
         $datePrepared = $this->request->getPost('datePrepared');
         $itemGroup = $this->request->getPost('item_group');
         $tomorrow = date("Y-m-d", time() + 86400);
@@ -380,7 +381,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$datePrepared,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN',
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                         $file->move('Attachment/',$originalName);
@@ -390,7 +391,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$tomorrow,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN',
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                         $file->move('Attachment/',$originalName);
@@ -464,7 +465,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$datePrepared,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>'N/A','Remarks'=>'OPEN',
+                            'PurchaseType'=>$purchase_type,'Attachment'=>'N/A','Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                     }
@@ -473,7 +474,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$datePrepared,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN',
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                         $file->move('Attachment/',$originalName);
@@ -486,7 +487,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$tomorrow,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>'N/A','Remarks'=>'OPEN',
+                            'PurchaseType'=>$purchase_type,'Attachment'=>'N/A','Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                     }
@@ -495,7 +496,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$tomorrow,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN',
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                         $file->move('Attachment/',$originalName);

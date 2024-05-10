@@ -31,11 +31,78 @@ class Home extends BaseController
 
     public function dashboard()
     {
+        //total PRF request per date
         $builder = $this->db->table('tblprf');
         $builder->select('DateCreated,COUNT(prfID)total');
         $builder->groupBy('DateCreated');
         $query = $builder->get()->getResult();
-        $data = ['query'=>$query];
+        //get all the new PRF
+        $total_pending=0;
+        $builder = $this->db->table('tblprf');
+        $builder->select('COUNT(prfID)total');
+        $builder->WHERE('Status',0);
+        $pending = $builder->get();
+        if($row = $pending->getRow())
+        {
+            $total_pending = $row->total;
+        }
+        //get the total of on proceess PRF
+        $onprocess = 0;$status = [0,2,3];
+        $builder = $this->db->table('tblprf');
+        $builder->select('COUNT(prfID)total');
+        $builder->WHERENOTIN('Status',$status);
+        $ongoing = $builder->get();
+        if($row = $ongoing->getRow())
+        {
+            $onprocess = $row->total;
+        }
+        //get all the approved
+        $total_approved=0;
+        $builder = $this->db->table('tblprf');
+        $builder->select('COUNT(prfID)total');
+        $builder->WHERE('Status',3);
+        $totalApproved = $builder->get();
+        if($row = $totalApproved->getRow())
+        {
+            $total_approved = $row->total;
+        }
+        //total PRF
+        $total=0;
+        $builder = $this->db->table('tblprf');
+        $builder->select('COUNT(prfID)total');
+        $totalPRF = $builder->get();
+        if($row = $totalPRF->getRow())
+        {
+            $total = $row->total;
+        }
+        //total pending quotation
+        $total_quote = 0;$statuses = [2,4];
+        $builder = $this->db->table('tblcanvass_form');
+        $builder->select('COUNT(Reference)total');
+        $builder->WHERENOTIN('Status',$statuses);
+        $totalQ = $builder->get();
+        if($row = $totalQ->getRow())
+        {
+            $total_quote = $row->total;
+        }
+        //total approved Quotation
+        $approvedQ= 0;
+        $builder = $this->db->table('tblcanvass_form');
+        $builder->select('COUNT(Reference)total');
+        $builder->WHERE('Status',4);
+        $approvedQ = $builder->get();
+        if($row = $approvedQ->getRow())
+        {
+            $approvedQ = $row->total;
+        }
+        //collect
+        $data = ['query'=>$query,
+        'pending'=>$total_pending,
+        'ongoing'=>$onprocess,
+        'approved'=>$total_approved,
+        'total'=>$total,
+        'quotation'=>$total_quote,
+        'approvedQ'=>$approvedQ];
         return view('dashboard',$data);
     }
 
