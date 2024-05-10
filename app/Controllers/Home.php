@@ -31,85 +31,11 @@ class Home extends BaseController
 
     public function dashboard()
     {
-        //get the total volume per product name
-        $builder = $this->db->table('tblinventory');
-        $builder->select('productName,SUM(Qty)total');
-        $builder->groupBy('productID')->orderBy('total','DESC')->limit(25);
+        $builder = $this->db->table('tblprf');
+        $builder->select('DateCreated,COUNT(prfID)total');
+        $builder->groupBy('DateCreated');
         $query = $builder->get()->getResult();
-        //total of item per assignment
-        $builder = $this->db->table('tblwarehouse a');
-        $builder->select('a.warehouseName,IFNULL(COUNT(b.productID),0)total');
-        $builder->join('tblinventory b','b.warehouseID=a.warehouseID','LEFT');
-        $builder->groupBy('a.warehouseID');
-        $assign = $builder->get()->getResult();
-        //categorized
-        $builder = $this->db->table('tblcategory a');
-        $builder->select('a.categoryName,COUNT(DISTINCT b.productID)total');
-        $builder->join('tblinventory b','b.categoryID=a.categoryID','LEFT');
-        $builder->groupBy('a.categoryID');
-        $category = $builder->get()->getResult();
-        //total stocks
-        $stocks=0;
-        $builder = $this->db->table('tblinventory');
-        $builder->select('FORMAT(IFNULL(SUM(Qty),0),0)total');
-        $builder->WHERE('Qty<>',0);
-        $data = $builder->get();
-        if($row = $data->getRow())
-        {
-            $stocks= $row->total;
-        }
-        //void
-        $void=0;
-        $builder = $this->db->table('tblinventory');
-        $builder->select('FORMAT(COUNT(*),0)total');
-        $builder->WHERE('Qty',0);
-        $data = $builder->get();
-        if($row = $data->getRow())
-        {
-            $void= $row->total;
-        }
-        //reserved
-        $reserved=0;
-        $builder = $this->db->table('tblreserved');
-        $builder->select('FORMAT(IFNULL(SUM(Qty),0),0)total');
-        $data = $builder->get();
-        if($row = $data->getRow())
-        {
-            $reserved= $row->total;
-        }
-        //total item
-        $onhand=0;
-        $builder = $this->db->table('tblinventory');
-        $builder->select('SUM(Qty)total');
-        $builder->WHERE('Qty<>',0);
-        $data = $builder->get();
-        if($row = $data->getRow())
-        {
-            $onhand =  $row->total;
-        }
-        //reserved
-        $reserve=0;
-        $builder = $this->db->table('tblreserved');
-        $builder->select('SUM(Qty)total');
-        $data = $builder->get();
-        if($row = $data->getRow())
-        {
-            $reserve =  $row->total;
-        }
-        $total = $onhand + $reserve;
-        $totalItem = number_format($total,0);
-        //approved PO
-        $purchase_order=0;
-        $builder = $this->db->table('tblpurchase_logs');
-        $builder->select('COUNT(*)total');
-        $builder->WHERE('Status',1);
-        $data = $builder->get();
-        if($row = $data->getRow())
-        {
-            $purchase_order = number_format($row->total,0);
-        }
-        $data = ['query'=>$query,'assignment'=>$assign,'category'=>$category,'purchase'=>$purchase_order,
-        'stocks'=>$stocks,'void'=>$void,'reserve'=>$reserved,'total'=>$totalItem];
+        $data = ['query'=>$query];
         return view('dashboard',$data);
     }
 

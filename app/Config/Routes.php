@@ -33,8 +33,6 @@ $routes->get('/', 'Home::index');
 $routes->post('/auth','Auth::check');
 $routes->get('/logout','Auth::logout');
 //dashboard
-$routes->get('out-of-stock','Dashboard::outofStock');
-$routes->get('list-supplier','Dashboard::listSupplier');
 $routes->get('pending-damage-report','Dashboard::damageItem');
 $routes->get('pending-repair-report','Dashboard::overhaulItem');
 $routes->get('pending-transfer-report','Dashboard::transferItem');

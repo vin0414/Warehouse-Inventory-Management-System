@@ -168,6 +168,16 @@
 					<div class="dropdown">
 						<a
 							class="dropdown-toggle no-arrow"
+							href="<?=site_url('/scan')?>"
+						>
+							<i class="icon-copy bi bi-qr-code-scan"></i>
+						</a>
+					</div>
+				</div>
+				<div class="dashboard-setting user-notification">
+					<div class="dropdown">
+						<a
+							class="dropdown-toggle no-arrow"
 							href="javascript:;"
 							data-toggle="right-sidebar"
 						>
@@ -504,136 +514,161 @@
 
 		<div class="main-container">
 			<div class="xs-pd-20-10 pd-ltr-20">
-				<div class="title pb-20">
-					<h2 class="h3 mb-0">Overview
-						<a href="<?=site_url('/scan')?>" style="float:right;"><i class="icon-copy bi bi-qr-code-scan"></i>&nbsp;Scanner</a>
-					</h2>
+				<div class="row pb-10">
+					<div class="col-lg-2 mb-20">
+						<div class="card-box bg-primary text-white height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">New PRF</div>
+								<h1 class="text-white">0</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 mb-20">
+						<div class="card-box bg-primary text-white height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">On Process</div>
+								<h1 class="text-white">0</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 mb-20">
+						<div class="card-box bg-primary text-white height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">Approved</div>
+								<h1 class="text-white">0</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 mb-20">
+						<div class="card-box bg-primary text-white height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">Quotation</div>
+								<h1 class="text-white">0</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 mb-20">
+						<div class="card-box bg-primary text-white height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">For P.O.</div>
+								<h1 class="text-white">0</h1>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-2 mb-20">
+						<div class="card-box bg-primary text-white height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">Total</div>
+								<h1 class="text-white">0</h1>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="row pb-10">
-					<div class="col-xl-2 col-lg-2 col-md-6 mb-20">
-						<div class="card-box height-100-p widget-style3 bg-primary">
-							<div class="d-flex flex-wrap">
-								<div class="widget-data">
-									<div class="weight-700 font-24 text-white" id="allStocks"><i class="icon-copy dw dw-server"></i> <?=$total?></div>
-									<div class="font-14 text-white weight-500">
-										Physical Available
-									</div>
+					<div class="col-lg-3 mb-20">
+						<div class="card-box height-100-p widget-style3">
+							<div class="card-header bg-danger text-white">
+							<i class="icon-copy bi bi-exclamation-triangle"></i>&nbsp;Emergency
+							</div>
+							<div class="card-body">
+								<div class="latest-post">
+									<ul>
+										<li>
+											<h4>
+												<a href="#"
+													>Ut enim ad minim veniam, quis nostrud
+													exercitation ullamco</a
+												>
+											</h4>
+											<span>15,000.00</span><span style="float:right;">1 day ago</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-2 col-lg-2 col-md-6 mb-20">
-						<div class="card-box height-100-p widget-style3 bg-primary">
-							<div class="d-flex flex-wrap">
-								<div class="widget-data">
-									<div class="weight-700 font-24 text-white" id="totalReserved"><i class="icon-copy dw dw-server"></i> <?=$reserve?></div>
-									<div class="font-14 text-white weight-500">
-										Soft Reserved
-									</div>
+					<div class="col-lg-3 mb-20">
+						<div class="card-box height-100-p widget-style3">
+							<div class="card-header bg-warning text-white">
+							<i class="icon-copy bi bi-clock"></i>&nbsp;High Priority
+							</div>
+							<div class="card-body">
+								<div class="latest-post">
+									<ul>
+										<li>
+											<h4>
+												<a href="#"
+													>Ut enim ad minim veniam, quis nostrud
+													exercitation ullamco</a
+												>
+											</h4>
+											<span>10,000.00</span><span style="float:right;">1 day ago</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-2 col-lg-2 col-md-6 mb-20">
-						<div class="card-box height-100-p widget-style3 bg-primary">
-							<div class="d-flex flex-wrap">
-								<div class="widget-data">
-									<div class="weight-700 font-24 text-white" id="totalStocks"><i class="icon-copy dw dw-server"></i> <?=$stocks?></div>
-									<div class="font-14 text-white weight-500">
-										On-hand Inventory
-									</div>
+					<div class="col-lg-3 mb-20">
+						<div class="card-box height-100-p widget-style3">
+							<div class="card-header bg-primary text-white">
+							<i class="icon-copy bi bi-info-circle"></i>&nbsp;Moderate Priority
+							</div>
+							<div class="card-body">
+								<div class="latest-post">
+									<ul>
+										<li>
+											<h4>
+												<a href="#"
+													>Ut enim ad minim veniam, quis nostrud
+													exercitation ullamco</a
+												>
+											</h4>
+											<span>8,700.00</span><span style="float:right;">1 day ago</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-2 col-lg-2 col-md-6 mb-20">
-						<div class="card-box height-100-p widget-style3 bg-primary">
-							<div class="d-flex flex-wrap">
-								<div class="widget-data">
-									<div class="weight-700 font-24 text-white" id="totalOrders"><i class="icon-copy dw dw-shopping-cart"></i> <?=$purchase?></div>
-									<div class="font-14 text-white weight-500">
-										Purchase Order
-									</div>
-								</div>
+					<div class="col-lg-3 mb-20">
+						<div class="card-box height-100-p widget-style3">
+							<div class="card-header bg-success text-white">
+							<i class="icon-copy bi bi-info-circle"></i>&nbsp;Low Priority
 							</div>
-						</div>
-					</div>
-					<div class="col-xl-2 col-lg-2 col-md-6 mb-20">
-						<div class="card-box height-100-p widget-style3 bg-primary">
-							<div class="d-flex flex-wrap">
-								<div class="widget-data">
-									<div class="weight-700 font-24 text-white" id="totalReturn"><i class="icon-copy dw dw-notepad"></i> 0</div>
-									<div class="font-14 text-white weight-500">
-										Returned Item
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-xl-2 col-lg-2 col-md-6 mb-20">
-						<div class="card-box height-100-p widget-style3 bg-primary">
-							<div class="d-flex flex-wrap">
-								<div class="widget-data">
-									<div class="weight-700 font-24 text-white" id="totalVoid"><i class="icon-copy dw dw-package"></i> <?=$void?></div>
-									<div class="font-14 text-white weight-500">
-										Out of Stocks
-									</div>
+							<div class="card-body">
+								<div class="latest-post">
+									<ul>
+										<li>
+											<h4>
+												<a href="#"
+													>Ut enim ad minim veniam, quis nostrud
+													exercitation ullamco</a
+												>
+											</h4>
+											<span>8,700.00</span><span style="float:right;">1 day ago</span>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-
 				<div class="row pb-10">
-					<div class="col-lg-8 form-group">
-						<div class="card-box pd-20">
-							<div class="card-title">
-								<div class="h5 mb-md-0">Inventory Value Per Product Name</div>
-							</div>
-							<div id="chartContainer" style="height:400px;"></div>
-						</div>
-					</div>
-					<div class="col-lg-4 form-group">
-						<div class="card-box pd-20">
-							<div class="card-title">
-								<div class="h5 mb-md-0">Volume Per Location</div>
-							</div>
-							<div id="chartAssignment" style="height:400px;"></div>
-						</div>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="col-lg-4 col-md-6 mb-20">
-						<div class="card-box pd-20">
-							<div class="d-flex justify-content-between pb-10">
-								<div class="h5 mb-0">Top Suppliers</div>
-							</div>
-							<div class="user-list" style="overflow-y:auto;height:300px;">
-								<ul id="listSupplier">
-									
-								</ul>
+					<div class="col-lg-8 mb-20">
+						<div class="card-box height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">PRF Request Per Day</div>	
+								<div id="chartContainer" style="width:100%;height:300px;"></div>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-4 col-md-6 mb-20">
-						<div class="card-box pd-20">
-							<div class="d-flex justify-content-between">
-								<div class="h5 mb-0">Out of Stocks</div>
+					<div class="col-lg-4 mb-20">
+						<div class="card-box height-100-p widget-style3">
+							<div class="card-body">
+								<div class="card-title">Total Request Per Category</div>	
+								<div id="addContainer" style="width:100%;height:300px;"></div>
 							</div>
-							<div class="user-list" style="overflow-y:auto;height:300px;">
-								<ul id="outStock">
-									
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4 col-md-12 mb-20">
-                    	<div class="card-box pd-20">
-							<div class="d-flex justify-content-between">
-								<div class="h5 mb-0">Stocks By Category</div>
-							</div>
-							<div id="chartCategory" style="height:300px;"></div>
 						</div>
 					</div>
 				</div>
@@ -649,19 +684,15 @@
 		<script src="assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
-			$(document).ready(function(){outStock();listSupplier();notify();});
-			function listSupplier(){$.ajax({url:"<?=site_url('list-supplier')?>",method:"GET",success:function(response){if(response===""){$('#listSupplier').html("<li>No Records</li>");}else{$('#listSupplier').append(response);}}});}
-			function outStock(){$.ajax({url:"<?=site_url('out-of-stock')?>",method:"GET",success:function(response){if(response===""){$('#outStock').html("<li>No Records</li>");}else{$('#outStock').append(response);}}});}
-			google.charts.setOnLoadCallback(productChart);google.charts.setOnLoadCallback(assignChart);google.charts.setOnLoadCallback(categoryChart);
-			function productChart() 
+			$(document).ready(function(){notify();});
+			google.charts.setOnLoadCallback(requestChart);
+			function requestChart() 
 			{
-	
-				/* Define the chart to be drawn.*/
 				var data = google.visualization.arrayToDataTable([
-					["Product", "Total"],
+					["Date", "Total"],
 					<?php 
 					foreach ($query as $row){
-					echo "['".$row->productName."',".$row->total."],";
+					echo "['".$row->DateCreated."',".$row->total."],";
 					}
 					?>
 				]);
@@ -675,51 +706,6 @@
 				var chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
 				chart.draw(data, options);
 			}
-			function assignChart() 
-			{
-	
-				/* Define the chart to be drawn.*/
-				var data = google.visualization.arrayToDataTable([
-					['Assignment', 'Total'],
-					<?php 
-					foreach ($assignment as $row){
-					echo "['".$row->warehouseName."',".$row->total."],";
-					}
-					?>
-				]);
-
-				var options = {
-				title: '',
-				curveType: 'function',
-				legend: { position: 'bottom' },
-				};
-				/* Instantiate and draw the chart.*/
-				var chart = new google.visualization.PieChart(document.getElementById('chartAssignment'));
-				chart.draw(data, options);
-			}
-			function categoryChart() 
-			{
-	
-				/* Define the chart to be drawn.*/
-				var data = google.visualization.arrayToDataTable([
-					['Assignment', 'Total'],
-					<?php 
-					foreach ($category as $row){
-					echo "['".$row->categoryName."',".$row->total."],";
-					}
-					?>
-				]);
-
-				var options = {
-				title: '',
-				curveType: 'function',
-				legend: { position: 'bottom' },
-				};
-				/* Instantiate and draw the chart.*/
-				var chart = new google.visualization.PieChart(document.getElementById('chartCategory'));
-				chart.draw(data, options);
-			}
-
 			function notify()
 			{
 				$.ajax({
