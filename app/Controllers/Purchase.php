@@ -2147,9 +2147,11 @@ class Purchase extends BaseController
             ?>
             <tr>
                 <td>
-                    <?php if($row->Urgency==1 || $row->Urgency==2){ ?>
-                        <i class="icon-copy bi bi-exclamation-triangle"></i>
-                    <?php }?>
+                    <?php if($row->Urgency==1){ ?>
+                        <span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i></span>
+                    <?php }else if($row->Urgency==2){?>
+                        <span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
+                    <?php } ?>
                 </td>
                 <td><?php echo $row->DateReceived ?></td>
                 <td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
