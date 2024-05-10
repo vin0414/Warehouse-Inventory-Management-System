@@ -555,27 +555,53 @@
         <script>
 			$(document).ready(function()
 			{
-				editors();notify();add_business_days();
+				editors();notify();
 				$("#Table").on('click','.btnDelete',function(){
                     $(this).closest('tr').remove();
                 });
 			});
-			function add_business_days()
-			{
-				var date = new Date();
-				var startDate = new Date(); 
-				startDate = new Date(startDate);
-				var endDate = "", noOfDaysToAdd = 15, count = 0;
-				while(count < noOfDaysToAdd){
-					endDate = new Date(startDate.setDate(startDate.getDate() + 1));
-					if(endDate.getDay() != 0 && endDate.getDay() != 6){
-					//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
-					count++;
-					}
+			$('input:radio[name="urgencyLevel"]').change(function(){
+				if($(this).val()==1||$(this).val()==2)
+				{
+					$('#dateNeeded').val("<?php echo date('Y-m-d') ?>");
+            		$('#dateNeeded').attr('min',"<?php echo date('Y-m-d') ?>");
 				}
-				$('#dateNeeded').val(convert(endDate));
-            	$('#dateNeeded').attr('min',convert(endDate));
-			}
+				else if($(this).val()==3)
+				{
+					var date = new Date();
+					var startDate = new Date(); 
+					startDate = new Date(startDate);
+					var endDate = "", count = 0;
+					var noOfDaysToAdd = 3;
+					while(count < noOfDaysToAdd){
+						endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+						if(endDate.getDay() != 0 && endDate.getDay() != 6){
+						//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
+						count++;
+						}
+					}
+					$('#dateNeeded').val(convert(endDate));
+            		$('#dateNeeded').attr('min',convert(endDate));
+				}
+				else if($(this).val()==4)
+				{
+					var date = new Date();
+					var startDate = new Date(); 
+					startDate = new Date(startDate);
+					var endDate = "", count = 0;
+					var noOfDaysToAdd = 5;
+					while(count < noOfDaysToAdd){
+						endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+						if(endDate.getDay() != 0 && endDate.getDay() != 6){
+						//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
+						count++;
+						}
+					}
+					$('#dateNeeded').val(convert(endDate));
+            		$('#dateNeeded').attr('min',convert(endDate));
+				}
+			});
+
 			function convert(str) {
 				var date = new Date(str),
 				mnth = ("0" + (date.getMonth() + 1)).slice(-2),

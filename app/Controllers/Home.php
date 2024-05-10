@@ -36,6 +36,11 @@ class Home extends BaseController
         $builder->select('DateCreated,COUNT(prfID)total');
         $builder->groupBy('DateCreated');
         $query = $builder->get()->getResult();
+        //chart by urgency level
+        $builder = $this->db->table('tblprf');
+        $builder->select('Urgency,COUNT(prfID)total');
+        $builder->groupBy('Urgency');
+        $chart = $builder->get()->getResult();
         //get all the new PRF
         $total_pending=0;
         $builder = $this->db->table('tblprf');
@@ -102,7 +107,8 @@ class Home extends BaseController
         'approved'=>$total_approved,
         'total'=>$total,
         'quotation'=>$total_quote,
-        'approvedQ'=>$approvedQ];
+        'approvedQ'=>$approvedQ,
+        'chart'=>$chart,];
         return view('dashboard',$data);
     }
 

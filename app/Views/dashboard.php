@@ -631,7 +631,7 @@
 						<div class="card-box height-100-p widget-style3">
 							<div class="card-body">
 								<div class="card-title">Total Request Per Category</div>	
-								<div id="addContainer" style="width:100%;height:300px;"></div>
+								<div id="categoryContainer" style="width:100%;height:300px;"></div>
 							</div>
 						</div>
 					</div>
@@ -649,7 +649,7 @@
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
 			$(document).ready(function(){notify();emergencyList();ugentList();moderateList();lowList();});
-			google.charts.setOnLoadCallback(requestChart);
+			google.charts.setOnLoadCallback(requestChart);google.charts.setOnLoadCallback(categoryChart);
 			function emergencyList()
 			{
 				$.ajax({
@@ -736,6 +736,31 @@
 				};
 				/* Instantiate and draw the chart.*/
 				var chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
+				chart.draw(data, options);
+			}
+			function categoryChart() 
+			{
+				var data = google.visualization.arrayToDataTable([
+					["Urgency", "Total"],
+					<?php 
+					foreach ($chart as $row){
+						$level="";
+						if($row->Urgency==1){$level = "Emergency";}
+						else if($row->Urgency==2){$level = "Urgent";}
+						else if($row->Urgency==3){$level = "Moderate";}
+						else if($row->Urgency==4){$level = "Low";}
+					echo "['".$level."',".$row->total."],";
+					}
+					?>
+				]);
+
+				var options = {
+				title: '',
+				curveType: 'function',
+				legend: { position: 'bottom' }
+				};
+				/* Instantiate and draw the chart.*/
+				var chart = new google.visualization.PieChart(document.getElementById('categoryContainer'));
 				chart.draw(data, options);
 			}
 			function notify()
