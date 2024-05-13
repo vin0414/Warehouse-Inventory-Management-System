@@ -460,7 +460,7 @@
 					</div>
 				<?php endif; ?>
                 <div class="card-box">
-                    <div class="card-header">Generate Purchase Order (P.O.)</div>
+                    <div class="card-header">Purchase Order (P.O.)</div>
                     <div class="card-body">
 						<div class="tabs">
 							<ul class="nav nav-pills justify-content-left" role="tablist">
@@ -482,6 +482,16 @@
 										role="tab"
 										aria-selected="true"
 										>List of Purchase Order</a
+									>
+								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link text-blue"
+										data-toggle="tab"
+										href="#delivery6"
+										role="tab"
+										aria-selected="true"
+										>For Deliveries</a
 									>
 								</li>
 							</ul>
@@ -532,7 +542,7 @@
 														<div class="dropdown">
 															<a class="btn btn-primary btn-sm dropdown-toggle"
 																href="#" role="button" data-toggle="dropdown">
-																SELECT
+																More
 															</a>
 															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 																<button type="button" class="dropdown-item comment" value="<?php echo $row->Reference ?>">
@@ -612,7 +622,7 @@
 													<div class="dropdown">
 														<a class="btn btn-primary btn-sm dropdown-toggle"
 															href="#" role="button" data-toggle="dropdown">
-															SELECT
+															More
 														</a>
 														<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 															<a class="dropdown-item" href="<?=site_url('file-download/')?><?php echo $row->purchaseNumber ?>">
@@ -621,14 +631,90 @@
 															<a class="dropdown-item" href="<?=site_url('open-file/')?><?php echo $row->purchaseNumber ?>" target="_blank">
 																<i class="icon-copy dw dw-view"></i>&nbsp;View
 															</a>
+															<?php if($row->Status==1){ ?>
 															<button type="button" class="dropdown-item sendEmail" value="<?php echo $row->purchaseNumber ?>">
 																<i class="icon-copy dw dw-mail"></i>&nbsp;Send via Email
 															</button>
+															<button type="button" class="dropdown-item deliver" value="<?php echo $row->purchaseNumber ?>">
+																<i class="icon-copy dw dw-delivery-truck-2"></i>&nbsp;Add Delivery date
+															</button>
+															<?php } ?>
 														</div>
 													</div>
 												</td>
 											</tr>
 										<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+								<div class="tab-pane fade" id="delivery6" role="tabpanel">
+									<br/>
+									<table class="data-table table stripe hover">
+										<thead>
+											<th>P.O. No</th>
+											<th>Expected Date</th>
+											<th>Payment Status</th>
+											<th>Delivery Status</th>
+											<th>Remarks</th>
+											<th>Action</th>
+										</thead>
+										<tbody>
+											<?php foreach($delivery as $row): ?>
+												<tr>
+													<td><?php echo $row['purchaseNumber'] ?></td>
+													<td><?php echo $row['ExpectedDate'] ?></td>
+													<td>
+														<?php if($row['PaymentStatus']==0){ ?>
+															<span class="badge bg-warning text-white">Pending</span>
+														<?php }else { ?>
+															<span class="badge bg-success text-white">Paid</span>
+														<?php } ?>
+													</td>
+													<td>
+														<?php if($row['DeliveryStatus']=="Pending"){ ?>
+															<span class="badge bg-warning text-white">For Delivery</span>
+														<?php }else if($row['DeliveryStatus']=="Delivered") { ?>
+															<span class="badge bg-success text-white">Delivered</span>
+														<?php }else{ ?>
+															<span class="badge bg-danger text-white">Cancelled</span>
+														<?php } ?>
+													</td>
+													<td>
+														<?php if($row['ActualDate']=="N/A"){ ?>	
+															-
+														<?php }else{ ?>
+															<?php if($row['ActualDate'] <= $row['ExpectedDate']){?>
+																<span class="badge bg-success text-white">On-Time</span>
+															<?php }else if($row['ActualDate'] > $row['ExpectedDate']){ ?>
+																<span class="badge bg-danger text-white">Late</span>
+															<?php } ?>
+														<?php } ?>												
+													</td>
+													<td>
+														<div class="dropdown">
+															<a class="btn btn-primary btn-sm dropdown-toggle"
+																href="#" role="button" data-toggle="dropdown">
+																More
+															</a>
+															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
+																<?php if($row['PaymentStatus']==0){ ?>
+																<button type="button" class="dropdown-item tagAsPaid" value="<?php echo $row['deliveryID'] ?>">
+																	<i class="icon-copy dw dw-checked"></i>&nbsp;Tag as Paid
+																</button>
+																<?php } ?>
+																<?php if($row['DeliveryStatus']=="Pending"){ ?>
+																<button type="button" class="dropdown-item tagAsDelivered" value="<?php echo $row['deliveryID'] ?>">
+																	<i class="icon-copy dw dw-checked"></i>&nbsp;Tag as Delivered
+																</button>
+																<button type="button" class="dropdown-item cancelDelivery" value="<?php echo $row['deliveryID'] ?>">
+																	<i class="icon-copy dw dw-cancel"></i>&nbsp;Cancelled
+																</button>
+																<?php } ?>
+															</div>
+														</div>
+													</td>
+												</tr>
+											<?php endforeach; ?>
 										</tbody>
 									</table>
 								</div>
@@ -638,6 +724,30 @@
                 </div>
 			</div>
 		</div>
+		<div class="modal fade" id="deliverModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">
+                            Add Delivery Date
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+						<form method="POST" class="row g-3" id="frmDelivery">
+							<input type="hidden" name="code" id="code"/>
+							<div class="col-12 form-group">
+								<label>Expected Date</label>
+								<input type="date" class="form-control" name="date"/>
+							</div>
+							<div class="col-12 form-group">
+								<input type="submit" class="btn btn-primary" id="btnSend" value="Save Entry"/>
+							</div>
+						</form>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<div class="modal" id="modal-loading" data-backdrop="static">
 			<div class="modal-dialog modal-sm">
 				<div class="modal-content">
@@ -664,6 +774,68 @@
 			{
 				notify();
 			});
+			$(document).on('click','.deliver',function(){
+				$('#deliverModal').modal('show');
+				$('#code').attr("value",$(this).val());
+			});
+
+			$(document).on('click','.cancelDelivery',function(){
+				var confirmation = confirm('Do you want to tag this as cancelled?');
+				if(confirmation)
+				{
+					$.ajax({
+						url:"<?=site_url('cancel-delivery')?>",method:"POST",
+						data:{id:$(this).val()},
+						success:function(response)
+						{
+							if(response==="success"){
+								location.reload();
+							}else{
+								alert(response);
+							}
+						}
+					});
+				}
+			});
+
+			$(document).on('click','.tagAsDelivered',function(){
+				var confirmation = confirm('Do you want to tag this as delivered?');
+				if(confirmation)
+				{
+					$.ajax({
+						url:"<?=site_url('delivered')?>",method:"POST",
+						data:{id:$(this).val()},
+						success:function(response)
+						{
+							if(response==="success"){
+								location.reload();
+							}else{
+								alert(response);
+							}
+						}
+					});
+				}
+			});
+
+			$(document).on('click','.tagAsPaid',function(){
+				var confirmation = confirm('Do you want to tag this as Paid?');
+				if(confirmation)
+				{
+					$.ajax({
+						url:"<?=site_url('tag-as-paid')?>",method:"POST",
+						data:{id:$(this).val()},
+						success:function(response)
+						{
+							if(response==="success"){
+								location.reload();
+							}else{
+								alert(response);
+							}
+						}
+					});
+				}
+			});
+
 			function notify()
 			{
 				$.ajax({
@@ -775,6 +947,21 @@
 					}
 				});
             });
+
+			$('#frmDelivery').on('submit',function(e){
+				e.preventDefault();
+				var data = $(this).serialize();
+				$('#btnSend').attr("value","Saving. Please wait");
+				$.ajax({
+					url:"<?=site_url('delivery')?>",method:"POST",
+					data:data,
+					success:function(response)
+					{
+						if(response==="success"){location.reload();}else{alert(response);}
+						$('#btnSend').attr("value","Save Entry");
+					}
+				});
+			});
 		</script>
 	</body>
 </html>

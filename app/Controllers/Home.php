@@ -1538,8 +1538,11 @@ class Home extends BaseController
         $builder->join('tblcanvass_sheet c','c.purchaseLogID=a.purchaseLogID','LEFT');
         $builder->groupBy('a.purchaseNumber');
         $purchase = $builder->get()->getResult();
+        //delivery Info
+        $deliveryModel = new \App\Models\deliveryModel();
+        $delivery = $deliveryModel->findAll();
 
-        $data = ['canvass'=>$canvass,'purchase'=>$purchase];
+        $data = ['canvass'=>$canvass,'purchase'=>$purchase,'delivery'=>$delivery];
         return view('purchase-order',$data);
     }
 

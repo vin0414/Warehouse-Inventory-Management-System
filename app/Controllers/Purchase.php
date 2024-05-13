@@ -2244,4 +2244,69 @@ class Purchase extends BaseController
             <?php
         }
     }
+
+    public function sendEmail()
+    {
+
+    }
+
+    public function deliveryDate()
+    {
+        $deliveryModel = new \App\Models\deliveryModel();
+        //data
+        $code = $this->request->getPost('code');
+        $date = $this->request->getPost('date');
+        $validation = $this->validate([
+            'code'=>'is_unique[tbldelivery_info.purchaseNumber]'
+        ]);
+
+        if(!$validation)
+        {
+            echo "Invalid! Purchase Number :".$code . " already exist";
+        }
+        else
+        {
+            if(empty($date))
+            {
+                echo "Invalid! Please select expected date";
+            }
+            else
+            {
+                $deliveryStatus = "Pending";
+                $values = ['purchaseNumber'=>$code, 'ExpectedDate'=>$date,'PaymentStatus'=>0,'DeliveryStatus'=>$deliveryStatus,'ActualDate'=>"N/A"];
+                $deliveryModel->save($values);
+                echo "success";
+            }
+        }
+    }
+
+    public function cancelDelivery()
+    {
+        $deliveryModel = new \App\Models\deliveryModel();
+        //data
+        $id = $this->request->getPost('id');
+        $values = ['DeliveryStatus'=>"Cancelled",];
+        $deliveryModel->update($id,$values);
+        echo "success";
+    }
+
+    public function successDelivery()
+    {
+        $deliveryModel = new \App\Models\deliveryModel();
+        //data
+        $id = $this->request->getPost('id');
+        $values = ['DeliveryStatus'=>"Delivered",'ActualDate'=>date('Y-m-d')];
+        $deliveryModel->update($id,$values);
+        echo "success";
+    }
+
+    public function tagAsPaid()
+    {
+        $deliveryModel = new \App\Models\deliveryModel();
+        //data
+        $id = $this->request->getPost('id');
+        $values = ['PaymentStatus'=>1];
+        $deliveryModel->update($id,$values);
+        echo "success";
+    }
 }

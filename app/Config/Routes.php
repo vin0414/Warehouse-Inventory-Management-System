@@ -160,6 +160,11 @@ $routes->get('fetch-items','Purchase::fetchItems');
 $routes->get('search-request','Purchase::searchRequest');
 $routes->get('search-order','Purchase::searchOrder');
 $routes->get('search-purchase','Purchase::searchPurchase');
+$routes->post('send-email','Purchase::sendEmail');
+$routes->post('delivery','Purchase::deliveryDate');
+$routes->post('cancel-delivery','Purchase::cancelDelivery');
+$routes->post('delivered','Purchase::successDelivery');
+$routes->post('tag-as-paid','Purchase::tagAsPaid');
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {
