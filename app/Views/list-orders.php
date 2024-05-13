@@ -530,7 +530,7 @@
 															<div class="dropdown">
 																<a class="btn btn-primary btn-sm dropdown-toggle"
 																	href="#" role="button" data-toggle="dropdown">
-																	SELECT
+																	More
 																</a>
 																<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 																	<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><i class="dw dw-book"></i>&nbsp;View</button>
@@ -544,7 +544,7 @@
 															<div class="dropdown">
 																<a class="btn btn-primary btn-sm dropdown-toggle"
 																	href="#" role="button" data-toggle="dropdown">
-																	SELECT
+																	More
 																</a>
 																<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 																	<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><i class="dw dw-book"></i>&nbsp;View</button>
