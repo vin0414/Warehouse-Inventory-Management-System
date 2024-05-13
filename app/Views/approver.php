@@ -535,7 +535,10 @@
 																		<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
 																	<?php } ?>
 																</td>
-																<td><?php echo $row->DateReceived ?></td>
+																<td>
+																	<?php echo $row->DateReceived ?><br/>
+																	<small><?php echo $row->Age ?> days ago</small>
+																</td>
 																<td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
 																<td><?php echo $row->Fullname ?></td>
 																<td><?php echo $row->Department ?></td>
@@ -620,7 +623,10 @@
 													<tbody id="tblpurchase">
 														<?php foreach($purchase as $row): ?>
 															<tr>
-																<td><?php echo $row->DateReceived ?></td>
+																<td>
+																	<?php echo $row->DateReceived ?><br/>
+																	<small><?php echo $row->Age ?> days ago</small>
+																</td>
 																<td><?php echo $row->purchaseNumber ?></td>
 																<td><?php echo $row->OrderNo ?></td>
 																<td><?php echo $row->Department ?></td>

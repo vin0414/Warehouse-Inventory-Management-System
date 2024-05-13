@@ -2136,7 +2136,8 @@ class Purchase extends BaseController
         $keyword = "%".$val."%";
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblreview a');
-        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,b.DateNeeded,b.PurchaseType,b.Urgency,c.Fullname');
+        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,b.DateNeeded,
+        b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
         $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
         $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
         $builder->WHERE('a.accountID',$user)->like('a.OrderNo',$keyword);
@@ -2153,7 +2154,10 @@ class Purchase extends BaseController
                         <span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
                     <?php } ?>
                 </td>
-                <td><?php echo $row->DateReceived ?></td>
+                <td>
+                    <?php echo $row->DateReceived ?><br/>
+                    <small><?php echo $row->Age ?> days ago</small>
+                </td>
                 <td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
                 <td><?php echo $row->Fullname ?></td>
                 <td><?php echo $row->Department ?></td>
@@ -2184,7 +2188,8 @@ class Purchase extends BaseController
         $keyword = "%".$val."%";
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblpurchase_review a');
-        $builder->select('a.prID,a.DateReceived,c.Department,a.Status,a.purchaseNumber,a.DateApproved,c.OrderNo');
+        $builder->select('a.prID,a.DateReceived,c.Department,a.Status,a.purchaseNumber,a.DateApproved,c.OrderNo,
+        TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
         $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
         $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
 
@@ -2195,7 +2200,10 @@ class Purchase extends BaseController
         {
             ?>
             <tr>
-                <td><?php echo $row->DateReceived ?></td>
+                <td>
+                    <?php echo $row->DateReceived ?><br/>
+                    <small><?php echo $row->Age ?> days ago</small>
+                </td>
                 <td><?php echo $row->purchaseNumber ?></td>
                 <td><?php echo $row->OrderNo ?></td>
                 <td><?php echo $row->Department ?></td>

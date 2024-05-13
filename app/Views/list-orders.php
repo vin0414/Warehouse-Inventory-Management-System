@@ -498,7 +498,10 @@
 										<tbody>
 											<?php foreach($orders as $row): ?>
 												<tr>
-													<td><?php echo $row->DatePrepared ?></td>
+													<td>
+														<?php echo $row->DatePrepared ?><br/>
+														<small><?php echo $row->Age ?> days ago</small>
+													</td>
 													<td><?php echo $row->PurchaseType ?></td>
 													<td>
 														<?php if($row->Status==2){ ?>
@@ -620,7 +623,10 @@
 										<tbody>
 											<?php foreach($po as $row): ?>
 											<tr>
-												<td><?php echo $row->Date ?></td>
+												<td>
+													<?php echo $row->Date ?><br/>
+													<small><?php echo $row->Age ?> days ago</small>
+												</td>
 												<td><?php echo $row->OrderNo ?></td>
 												<td><?php echo $row->Reference ?></td>
 												<td><?php echo $row->purchaseNumber ?></td>

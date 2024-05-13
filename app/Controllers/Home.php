@@ -1333,7 +1333,7 @@ class Home extends BaseController
     {;
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblprf a');
-        $builder->select('a.*,b.Comment');
+        $builder->select('a.*,b.Comment,TIMESTAMPDIFF(Day, a.DateCreated, CURDATE()) Age');
         $builder->join('(Select Comment,OrderNo from tblreview group by reviewID order by reviewID DESC) b','b.OrderNo=a.OrderNo','LEFT');
         $builder->WHERE('a.accountID',$user);
         $builder->groupBy('a.OrderNo');
@@ -1345,7 +1345,7 @@ class Home extends BaseController
         $canvass = $builder->get()->getResult();
         //po
         $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.Reference,b.purchaseNumber,b.Date,b.Status,a.OrderNo');
+        $builder->select('a.Reference,b.purchaseNumber,b.Date,b.Status,a.OrderNo,TIMESTAMPDIFF(Day, b.Date, CURDATE()) Age');
         $builder->join('tblpurchase_logs b','b.Reference=a.Reference','INNER');
         $builder->WHERE('a.accountID',$user);
         $po = $builder->get()->getResult();
@@ -1440,7 +1440,8 @@ class Home extends BaseController
     {
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblreview a');
-        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,b.DateNeeded,b.PurchaseType,b.Urgency,c.Fullname');
+        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,
+        b.DateNeeded,b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
         $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
         $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
         $builder->WHERE('a.accountID',$user);
@@ -1461,7 +1462,8 @@ class Home extends BaseController
         $account = $builder->get()->getResult();
         //purchase order
         $builder = $this->db->table('tblpurchase_review a');
-        $builder->select('a.prID,a.DateReceived,c.Department,a.Status,a.purchaseNumber,a.DateApproved,c.OrderNo');
+        $builder->select('a.prID,a.DateReceived,c.Department,a.Status,
+        a.purchaseNumber,a.DateApproved,c.OrderNo,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
         $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
         $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
         $builder->WHERE('a.accountID',$user);
