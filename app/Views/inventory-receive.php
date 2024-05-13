@@ -509,11 +509,7 @@
                                 </div>
                             </div>
                             <div class="col-12 form-group">
-                                <h6>Product Details
-									<a href="javascript:void(0);" class="btn-link btn-sm" onclick="addRow()" style="float:right;">
-										<span class="icon-copy dw dw-add"></span>&nbsp;Add
-									</a>
-								</h6>
+                                <h6>Product Details</h6>
                                 <hr/>
 								<table class="table stripe table-bordered hover nowrap">
                                     <thead>

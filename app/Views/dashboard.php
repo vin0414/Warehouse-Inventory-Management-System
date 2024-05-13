@@ -734,7 +734,7 @@
 				var options = {
 				title: '',
 				curveType: 'function',
-				legend: { position: 'bottom' }
+				legend: { position: 'bottom' },
 				};
 				/* Instantiate and draw the chart.*/
 				var chart = new google.visualization.ColumnChart(document.getElementById('chartContainer'));
