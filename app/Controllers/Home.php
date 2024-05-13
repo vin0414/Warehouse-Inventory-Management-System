@@ -2084,7 +2084,7 @@ class Home extends BaseController
             $newValues = ['Reference'=>'','Remarks'=>''];
             $builder = $this->db->table('tblcanvass_sheet');
             $builder->select('canvassID');
-            $builder->WHERE('OrderNo',$canvass['OrderNo']);
+            $builder->WHERE('Reference',$code);
             $data = $builder->get();
             foreach($data->getResult() as $row)
             {

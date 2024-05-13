@@ -1794,7 +1794,7 @@ class Purchase extends BaseController
                     //update the list of vendors status and reference
                     $builder = $this->db->table('tblcanvass_sheet');
                     $builder->select('canvassID');
-                    $builder->WHERE('OrderNo',$OrderNo);
+                    $builder->WHERE('OrderNo',$OrderNo)->WHERE('Reference','');
                     $data = $builder->get();
                     foreach($data->getResult() as $row)
                     {
