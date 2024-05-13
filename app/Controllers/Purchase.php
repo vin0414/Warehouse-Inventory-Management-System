@@ -2055,7 +2055,7 @@ class Purchase extends BaseController
         if($filter=="Reference")
         {
             $builder = $this->db->table('tblcanvass_review a');
-            $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType');
+            $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
             $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
@@ -2066,7 +2066,10 @@ class Purchase extends BaseController
             {
                 ?>
                 <tr>
-                    <td><?php echo $row->DateReceived ?></td>
+                    <td>
+                        <?php echo $row->DateReceived ?><br/>
+                        <small><?php echo $row->Age ?> days ago</small>
+                    </td>
                     <?php if($row->Status==0){ ?>
                     <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                     <?php }else { ?>
@@ -2093,7 +2096,7 @@ class Purchase extends BaseController
         else
         {
             $builder = $this->db->table('tblcanvass_review a');
-            $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType');
+            $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
             $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
@@ -2104,7 +2107,10 @@ class Purchase extends BaseController
             {
                 ?>
                 <tr>
-                    <td><?php echo $row->DateReceived ?></td>
+                    <td>
+                        <?php echo $row->DateReceived ?><br/>
+                        <small><?php echo $row->Age ?> days ago</small>
+                    </td>
                     <?php if($row->Status==0){ ?>
                     <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                     <?php }else { ?>

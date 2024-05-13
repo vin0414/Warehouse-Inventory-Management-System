@@ -490,7 +490,10 @@
 									<tbody id="tbl_list">
 										<?php foreach($list as $row): ?>
 											<tr>
-												<td><?php echo $row->DateReceived ?></td>
+												<td>
+													<?php echo $row->DateReceived ?><br/>
+													<small><?php echo $row->Age ?> days ago</small>
+												</td>
 												<?php if($row->Status==0){ ?>
 												<td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
 												<?php }else { ?>
