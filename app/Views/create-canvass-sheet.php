@@ -453,13 +453,8 @@
 
 		<div class="main-container">
 			<div class="xs-pd-20-10 pd-ltr-20">
-				<?php if(!empty(session()->getFlashdata('fail'))) : ?>
-					<div class="alert alert-danger alert-dismissible fade show" role="alert">
-						<?= session()->getFlashdata('fail'); ?>
-					</div>
-				<?php endif; ?>
                 <div class="card-box">
-                    <div class="card-header"><?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){ ?>Create Quotation<?php }else {?>Create Canvass Sheet<?php }?>
+                    <div class="card-header"><?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){ ?><i class="icon-copy dw dw-clipboard1"></i> Create Quotation<?php }else {?><i class="icon-copy dw dw-clipboard1"></i> Create Canvass Sheet<?php }?>
 					<?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){ ?>
 						<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#addRegularModal" style="float:right;"><i class="icon-copy dw dw-add"></i>&nbsp;Add</a>
 					<?php }else {?>	
@@ -468,7 +463,7 @@
 					</div>
                     <div class="card-body">
                         <?php foreach($prf as $row): ?>
-                        <form method="post" class="row g-3" enctype="multipart/form-data" action="<?=base_url('save-form')?>" id="frmCanvass">
+                        <form method="post" class="row g-3" enctype="multipart/form-data" id="frmCanvass">
 							<input type="hidden" name="requestor" value="<?php echo $row->accountID ?>"/>
 							<input type="hidden" name="type_purchase" value="<?php echo $row->PurchaseType ?>"/>
                             <div class="col-12 form-group">
@@ -751,6 +746,35 @@
 					}
 				});
 			}
+
+			$('#frmCanvass').on('submit',function(e){
+				e.preventDefault();
+				$.ajax({
+                    url:"<?=site_url('save-form')?>",method:"POST",
+                    data:new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function(){
+                        $('#btnSubmit').attr("disabled","disabled");
+                        $('#frmCanvass').css("opacity",".5");
+                    },
+                    success:function(data)
+                    {
+                        if(data==="success")
+                        {
+                            alert("Great! Successfully recorded");
+							window.location.href="/assign";
+                        }
+                        else
+                        {
+                            alert(data);
+                        }
+                        $('#frmTask').css("opacity","");
+                        $("#btnSubmit").removeAttr("disabled");
+                    }
+                });
+			});
 
 			$('#btnSaveEntry').on('click',function(e)
 			{

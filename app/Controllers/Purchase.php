@@ -1705,8 +1705,9 @@ class Purchase extends BaseController
         ]);
         if(!$validation)
         {
-            session()->setFlashdata('fail','Invalid! Please something went wrong. Please try again');
-            return redirect()->to('/create/'.$OrderNo)->withInput();
+            // session()->setFlashdata('fail','Invalid! Please something went wrong. Please try again');
+            // return redirect()->to('/create/'.$OrderNo)->withInput();
+            echo "Invalid! Please something went wrong. Please try again";
         }
         else
         {
@@ -1720,67 +1721,76 @@ class Purchase extends BaseController
             }
             if($type_purchase=="Local Purchase")
             {
-                //save the records
-                $records = [
-                    'Reference'=>$code, 'accountID'=>$requestor,'DatePrepared'=>$datePrepared,
-                    'DateNeeded'=>$dateNeeded,'OrderNo'=>$OrderNo,'Department'=>$department,
-                    'Status'=>0,'createdBy'=>$user,'Attachment'=>$originalName
-                ];
-                $canvassForm->save($records);
-                //update the list of vendors status and reference
-                $builder = $this->db->table('tblcanvass_sheet');
-                $builder->select('canvassID');
-                $builder->WHERE('OrderNo',$OrderNo);
-                $data = $builder->get();
-                foreach($data->getResult() as $row)
+                if(empty($originalName))
                 {
-                    $values = [
-                        'Reference'=>$code
+                    // session()->setFlashdata('fail','Invalid! Please attach required document(s)');
+                    // return redirect()->to('/create/'.$OrderNo)->withInput();
+                    echo "Invalid! Please attach required document(s)";
+                }
+                else
+                {
+                    //save the records
+                    $records = [
+                        'Reference'=>$code, 'accountID'=>$requestor,'DatePrepared'=>$datePrepared,
+                        'DateNeeded'=>$dateNeeded,'OrderNo'=>$OrderNo,'Department'=>$department,
+                        'Status'=>0,'createdBy'=>$user,'Attachment'=>$originalName
                     ];
-                    $canvassModel->update($row->canvassID,$values);
+                    $canvassForm->save($records);
+                    //update the list of vendors status and reference
+                    $builder = $this->db->table('tblcanvass_sheet');
+                    $builder->select('canvassID');
+                    $builder->WHERE('OrderNo',$OrderNo);
+                    $data = $builder->get();
+                    foreach($data->getResult() as $row)
+                    {
+                        $values = [
+                            'Reference'=>$code
+                        ];
+                        $canvassModel->update($row->canvassID,$values);
+                    }
+                    //send to approver
+                    $value = ['accountID'=>$deptHead,'Reference'=>$code,'DateReceived'=>date('Y-m-d'),'Status'=>0,'DateApproved'=>''];
+                    $reviewCanvassModel->save($value);
+                    //send email
+                    $builder = $this->db->table('tblaccount');
+                    $builder->select('*');
+                    $builder->WHERE('accountID',$deptHead);
+                    $datas = $builder->get();
+                    if($rows = $datas->getRow())
+                    {
+                        //email
+                        $email = \Config\Services::email();
+                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setFrom("fastcat.system@gmail.com","FastCat");
+                        $imgURL = "assets/img/fastcat.png";
+                        $email->attach($imgURL);
+                        $cid = $email->setAttachmentCID($imgURL);
+                        $template = "<center>
+                        <img src='cid:". $cid ."' width='100'/>
+                        <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
+                        <tr><td><center><h1>Canvass Sheet Form</h1></center></td></tr>
+                        <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
+                        <tr><td><center>This is from FastCat System, sending you a reminder that requesting for your approval.</center></td></tr>
+                        <tr><td><p><center><b>Reference No : ".$code."</b></center></p></td><tr>
+                        <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
+                        <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
+                        <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
+                        $subject = "Canvass Sheet Form - For Approval";
+                        $email->setSubject($subject);
+                        $email->setMessage($template);
+                        $email->send();
+                    }
+                    $file->move('Canvass/',$originalName);
+                    echo "success";
                 }
-                //send to approver
-                $value = ['accountID'=>$deptHead,'Reference'=>$code,'DateReceived'=>date('Y-m-d'),'Status'=>0,'DateApproved'=>''];
-                $reviewCanvassModel->save($value);
-                //send email
-                $builder = $this->db->table('tblaccount');
-                $builder->select('*');
-                $builder->WHERE('accountID',$deptHead);
-                $datas = $builder->get();
-                if($rows = $datas->getRow())
-                {
-                    //email
-                    $email = \Config\Services::email();
-                    $email->setTo($rows->Email,$rows->Fullname);
-                    $email->setFrom("fastcat.system@gmail.com","FastCat");
-                    $imgURL = "assets/img/fastcat.png";
-                    $email->attach($imgURL);
-                    $cid = $email->setAttachmentCID($imgURL);
-                    $template = "<center>
-                    <img src='cid:". $cid ."' width='100'/>
-                    <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
-                    <tr><td><center><h1>Canvass Sheet Form</h1></center></td></tr>
-                    <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
-                    <tr><td><center>This is from FastCat System, sending you a reminder that requesting for your approval.</center></td></tr>
-                    <tr><td><p><center><b>Reference No : ".$code."</b></center></p></td><tr>
-                    <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
-                    <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
-                    <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
-                    $subject = "Canvass Sheet Form - For Approval";
-                    $email->setSubject($subject);
-                    $email->setMessage($template);
-                    $email->send();
-                }
-                $file->move('Canvass/',$originalName);
-                session()->setFlashdata('success','Great! Successfully submitted to review');
-                return redirect()->to('/list-orders')->withInput();
             }
             else
             {
                 if(empty($originalName))
                 {
-                    session()->setFlashdata('fail','Invalid! Please attach required document(s)');
-                    return redirect()->to('/create/'.$OrderNo)->withInput();
+                    // session()->setFlashdata('fail','Invalid! Please attach required document(s)');
+                    // return redirect()->to('/create/'.$OrderNo)->withInput();
+                    echo "Invalid! Please attach required document(s)";
                 }
                 else
                 {
@@ -1836,8 +1846,7 @@ class Purchase extends BaseController
                         $email->send();
                     }
                     $file->move('Canvass/',$originalName);
-                    session()->setFlashdata('success','Great! Successfully submitted to review');
-                    return redirect()->to('/assign')->withInput();
+                    echo "success";
                 }
             }
         }
