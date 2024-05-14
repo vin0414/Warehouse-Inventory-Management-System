@@ -891,6 +891,7 @@
 			$(document).on('click','.cancel',function(e)
 			{
 				e.preventDefault();
+				var val = $('#reviewID').val();
 				Swal.fire({
 					title: "Are you sure?",
 					text: "Do you want to cancel this selected request?",
@@ -901,7 +902,6 @@
 					confirmButtonText: "Yes!"
 					}).then((result) => {
 					if (result.isConfirmed) {
-						var val = $('#reviewID').val();
 						var message = prompt("Enter your comment to cancel");
 						$.ajax({
 							url:"<?=site_url('cancel')?>",method:"POST",
