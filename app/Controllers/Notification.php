@@ -17,7 +17,7 @@ class Notification extends BaseController
         $builder->select('COUNT(prfID)total');
         $builder->WHERE('Status<>',3)->WHERE('TIMESTAMPDIFF(Day, DateCreated, CURDATE())',5);
         $data = $builder->get();
-        foreach($data->getResult() as $row)
+        if($row = $data->getRow())
         {
             if($row->total==0)
             {
@@ -65,7 +65,7 @@ class Notification extends BaseController
         $builder->select('COUNT(prfID)total');
         $builder->WHERE('Status<>',3)->WHERE('TIMESTAMPDIFF(Day, DateCreated, CURDATE())',10);
         $data = $builder->get();
-        foreach($data->getResult() as $row)
+        if($row = $data->getRow())
         {
             if($row->total==0)
             {
@@ -112,7 +112,7 @@ class Notification extends BaseController
         $builder->select('COUNT(deliveryID)total');
         $builder->WHERE('PaymentStatus',0)->WHERE('TIMESTAMPDIFF(Day, ExpectedDate, CURDATE())',3);
         $data = $builder->get();
-        foreach($data->getResult() as $row)
+        if($row = $data->getRow())
         {
             if($row->total==0)
             {
@@ -163,7 +163,7 @@ class Notification extends BaseController
         $builder->select('COUNT(deliveryID)total');
         $builder->WHERE('PaymentStatus',1)->WHERE('DeliveryStatus','Pending')->WHERE('TIMESTAMPDIFF(Day, ExpectedDate, CURDATE())',5);
         $data = $builder->get();
-        foreach($data->getResult() as $row)
+        if($row = $data->getRow())
         {
             if($row->total==0)
             {
