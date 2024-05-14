@@ -455,7 +455,7 @@
                                 <?= session()->getFlashdata('success'); ?>
                             </div>
                         <?php endif; ?>
-                        <form method="POST" class="row g-3" id="frmReceive" action="<?=base_url('save-entry')?>">
+                        <form method="POST" class="row g-3" id="frmReceive" enctype="multipart/form-data" action="<?=base_url('save-entry')?>">
                             <div class="col-12 form-group">
                                 <div class="row g-3">
                                     <div class="col-lg-3">
@@ -518,12 +518,15 @@
                                         <th class="bg-primary text-white">Unit of Measure</th>
                                         <th class="bg-primary text-white">Product Name</th>
                                         <th class="bg-primary text-white">Specification</th>
-                                        <!-- <th><span class="dw dw-more"></span></th> -->
                                     </thead>
                                     <tbody id="Table">
 
                                     </tbody>
                                 </table>
+							</div>
+							<div class="col-12 form-group">
+								<label>Attachment</label>
+								<input type="file" class="form-control" name="file" accept="application/pdf" required/>
 							</div>
                             <div class="col-12 form-group">
                                 <div class="row g-3">

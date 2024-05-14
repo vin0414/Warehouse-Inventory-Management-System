@@ -1862,6 +1862,9 @@ class Purchase extends BaseController
         $remarks = $this->request->getPost('remarks');
         $receiver = $this->request->getPost('receiver');
         $assign = $this->request->getPost('assignment');
+        //attachment
+        $file = $this->request->getFile('file');
+        $originalName = $file->getClientName();
         //array
         $itemID = $this->request->getPost('itemID');
         $qty = $this->request->getPost('qty');
@@ -1887,9 +1890,11 @@ class Purchase extends BaseController
         {
             $values = ['Date'=>$dateReceive,'OrderNo'=>$job_number,'purchaseNumber'=>$purchase_number,
                         'InvoiceNo'=>$invoiceNo,'InvoiceAmount'=>$invoiceAmt,
-                        'supplierID'=>$shipper,'Remarks'=>$remarks,'Receiver'=>$receiver,'warehouseID'=>$assign];
+                        'supplierID'=>$shipper,'Remarks'=>$remarks,'Receiver'=>$receiver,
+                        'warehouseID'=>$assign,'Attachment'=>$originalName];
             $receiveModel->save($values);
-
+            //save the file to receipts folder
+            $file->move('Receipts/',$originalName);
             //save items
             $count = count($itemID);
             for($i=0;$i<$count;$i++)

@@ -13,7 +13,7 @@ class receiveModel extends Model
     protected $returnType = 'array';
     protected $userSoftDelete = false;
     protected $protectFields = true;
-    protected $allowedFields = ['Date','OrderNo','purchaseNumber','InvoiceNo','InvoiceAmount','supplierID','Remarks','Receiver','warehouseID'];
+    protected $allowedFields = ['Date','OrderNo','purchaseNumber','InvoiceNo','InvoiceAmount','supplierID','Remarks','Receiver','warehouseID','Attachment'];
     protected $validationRules = [];
     protected $validationMessages = [];
     protected $skipValidation = false;
