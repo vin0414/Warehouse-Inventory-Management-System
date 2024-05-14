@@ -32,6 +32,9 @@ $routes->set404Override();
 $routes->get('/', 'Home::index');
 $routes->post('/auth','Auth::check');
 $routes->get('/logout','Auth::logout');
+//notification
+$routes->get('first-notification','Notification::firstAlarm');
+$routes->get('final-notification','Notification::finalAlarm');
 //dashboard
 $routes->get('emergency-level','Dashboard::emergencyPRF');
 $routes->get('urgent-level','Dashboard::urgentPRF');
