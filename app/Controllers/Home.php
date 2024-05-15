@@ -1340,7 +1340,7 @@ class Home extends BaseController
         $orders = $builder->get()->getResult();
         //canvass 
         $builder = $this->db->table('tblcanvass_form');
-        $builder->select('*');
+        $builder->select('*,TIMESTAMPDIFF(Day,DatePrepared, CURDATE()) Age');
         $builder->WHERE('accountID',$user);
         $canvass = $builder->get()->getResult();
         //po

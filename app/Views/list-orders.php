@@ -583,7 +583,10 @@
 										<tbody>
 											<?php foreach($canvass as $row): ?>
 												<tr>
-													<td><?php echo $row->DatePrepared ?></td>
+													<td>
+														<?php echo $row->DatePrepared ?><br/>
+														<small><?php echo $row->Age ?> days ago</small>
+													</td>
 													<td><?php echo $row->Reference ?></td>
 													<td><?php echo $row->OrderNo ?></td>
 													<td><?php echo $row->DateNeeded ?></td>
