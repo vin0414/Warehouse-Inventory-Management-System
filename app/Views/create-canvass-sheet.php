@@ -506,6 +506,10 @@
                                 </table>
                             </div>
 							<div class="col-12 form-group">
+								<label>Delivery Instructions</label> 
+                                <textarea class="form-control" style="height:100px;" name="instructions" required></textarea>
+							</div>
+							<div class="col-12 form-group">
 								<label>Attachment</label> 
                                 <input type="file" class="form-control" name="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" required/>
 							</div>

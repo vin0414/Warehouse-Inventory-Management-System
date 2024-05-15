@@ -1686,6 +1686,7 @@ class Purchase extends BaseController
         $canvassForm = new \App\Models\canvasFormModel();
         $canvassModel = new \App\Models\canvassModel();
         $reviewCanvassModel = new \App\Models\reviewCanvassModel();
+        $commentModel = new \App\Models\commentModel();
         //data
         $user = session()->get('loggedUser');
         $datePrepared = $this->request->getPost('datePrepared');
@@ -1695,6 +1696,7 @@ class Purchase extends BaseController
         $deptHead = $this->request->getPost('approver');
         $requestor = $this->request->getPost('requestor');
         $type_purchase = $this->request->getPost('type_purchase');
+        $message = $this->request->getPost('instructions');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
 
@@ -1719,6 +1721,10 @@ class Purchase extends BaseController
             {
                 $code = "CS".str_pad($row->total, 7, '0', STR_PAD_LEFT);
             }
+            //save the delivery instructions
+            $values = ['Reference'=>$code,'Message'=>$message];
+            $commentModel->save($values);
+            //save 
             if($type_purchase=="Local Purchase")
             {
                 if(empty($originalName))
@@ -1931,36 +1937,6 @@ class Purchase extends BaseController
             $systemLogsModel->save($value);
             session()->setFlashdata('success','Great! Successfully submitted');
             return redirect()->to('/receive-order')->withInput();
-        }
-    }
-
-    public function addComment()
-    {
-        $commentModel = new \App\Models\commentModel();
-        //data
-        $message = $this->request->getPost('message');
-        $val = $this->request->getPost('value');
-
-        $validation = $this->validate([
-            'value'=>'required|is_unique[tblcomment.Reference]'
-        ]);
-
-        if(!$validation)
-        {
-            echo "Invalid! Delivery instruction Already Added";
-        }
-        else
-        {
-            if(empty($message))
-            {
-                echo "Invalid! Please enter your delivery instruction";
-            }
-            else
-            {
-                $values = ['Reference'=>$val,'Message'=>$message];
-                $commentModel->save($values);
-                echo "success";
-            }
         }
     }
 

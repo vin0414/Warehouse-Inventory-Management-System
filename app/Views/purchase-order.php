@@ -547,9 +547,6 @@
 																More
 															</a>
 															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
-																<button type="button" class="dropdown-item comment" value="<?php echo $row->Reference ?>">
-																	<span class="dw dw-add"></span>&nbsp;Add Message
-																</button>
 																<a class="dropdown-item" href="<?=site_url('modify/')?><?php echo $row->Reference ?>">
 																	<span class="dw dw-pencil"></span>&nbsp;Modify
 																</a>
@@ -862,26 +859,6 @@
 					}
 				});
 			}
-			$(document).on('click','.comment',function()
-			{
-				var message = prompt("Please enter delivery instruction");
-				var val = $(this).val();
-				$.ajax({
-					url:"<?=site_url('add-comment')?>",method:"POST",
-					data:{value:val,message:message},
-					success:function(response)
-					{
-						if(response==="success")
-						{
-							alert("Great! Successfully added");
-						}
-						else
-						{
-							alert(response);
-						}
-					}
-				});
-			});
 			$(document).on('click','.generate',function(e)
             {
                 e.preventDefault();

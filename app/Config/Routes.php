@@ -75,7 +75,6 @@ $routes->post('remove-location','Home::removeLocation');
 $routes->post('remove-industry','Home::removeIndustry');
 $routes->post('reset-account','Home::resetAccount');
 $routes->post('save-entry','Purchase::saveEntry');
-$routes->post('add-comment','Purchase::addComment');
 $routes->post('update-orders','Purchase::updateOrder');
 $routes->post('delete-item','Purchase::deleteItem');
 $routes->post('send-item','Purchase::sendItem');
