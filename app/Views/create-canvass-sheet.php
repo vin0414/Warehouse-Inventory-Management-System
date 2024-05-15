@@ -510,17 +510,21 @@
                                 <textarea class="form-control" style="height:100px;" name="instructions" required></textarea>
 							</div>
 							<div class="col-12 form-group">
-								<label>Attachment</label> 
-                                <input type="file" class="form-control" name="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" required/>
-							</div>
-							<div class="col-12 form-group">
-								<label>Material Department Head</label>
-								<select class="form-control custom-select2" name="approver" id="approver" required>
-									<option value="">Choose</option>
-									<?php foreach($approver as $row): ?>
-										<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
-									<?php endforeach; ?>
-								</select>
+								<div class="row g-3">
+									<div class="col-lg-6">
+										<label>Attachment</label> 
+                                		<input type="file" class="form-control" name="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" required/>
+									</div>
+									<div class="col-lg-6">
+										<label>Material Department Head</label>
+										<select class="form-control custom-select2" name="approver" id="approver" required>
+											<option value="">Choose</option>
+											<?php foreach($approver as $row): ?>
+												<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
 							</div>
 							<div class="col-12 form-group">
 								<button type="submit" class="btn btn-primary" id="btnSubmit">Submit Form</button>
