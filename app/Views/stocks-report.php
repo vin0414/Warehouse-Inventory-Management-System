@@ -597,12 +597,12 @@
 								<div class="card-body">
 									<table class="data-table table hover nowrap">
 										<thead>
-											<th>Item Group</th>
-											<th>Product ID</th>
-											<th>Product Name</th>
-											<th>Unit Price</th>
-											<th>Qty</th>
-											<th>Expiration</th>
+											<th class="bg-primary text-white">Item Group</th>
+											<th class="bg-primary text-white">Product ID</th>
+											<th class="bg-primary text-white">Product Name</th>
+											<th class="bg-primary text-white">Unit Price</th>
+											<th class="bg-primary text-white">Qty</th>
+											<th class="bg-primary text-white">Expiration</th>
 										</thead>
 										<tbody>
 											<?php foreach($items as $row): ?>
