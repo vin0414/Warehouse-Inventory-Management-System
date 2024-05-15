@@ -9,7 +9,6 @@ class Notification extends BaseController
     {
         $this->db = db_connect();
     }
-
     //3 days
     public function firstAlarm()
     {
@@ -45,7 +44,7 @@ class Notification extends BaseController
                     <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
                     <tr><td><center><h1>Remaining PRF Approval in System</h1></center></td></tr>
                     <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
-                    <tr><td><center>This is an auto generated email to remind you that there are still pending<br/> PRFs (PRF #) in the system requiring your approval.</center></td></tr>
+                    <tr><td><center>This is an auto generated email to remind you that there are still pending<br/> PRFs in the system requiring your approval.</center></td></tr>
                     <tr><td><p><center>It is crucial to review and approve these PRFs as soon as possible to<br/> ensure timely procurement and smooth operations.</center></p></td><tr>
                     <tr><td><p><center>Your prompt attention to this matter is greatly appreciated.<br/>Please login to your account @ https:fastcat-ims.com.</center></p></td><tr>
                     <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
@@ -53,6 +52,37 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
+
+                    $message = "This is an auto generated message to remind you that there are still pending<br/> PRFs in the system requiring your approval.";
+                    $contact_number = "";
+                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                    $obj = json_decode($json);
+                    foreach($obj as $object)
+                    {
+                        $contact_number=$object->contact_number; 
+                    }  
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                    curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                    \"from\": \"APFC System\",
+                    \"to\": \"$contact_number\",
+                    \"text\": \"$message\"
+                    }");
+
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    "Content-Type: application/json"
+                    ));
+
+                    $response = curl_exec($ch);
+                    curl_close($ch);
                 }
             }
         }
@@ -93,7 +123,7 @@ class Notification extends BaseController
                     <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
                     <tr><td><center><h1>Remaining PRF Approval in System</h1></center></td></tr>
                     <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
-                    <tr><td><center>This is an auto generated email to remind you that there are still pending<br/> PRFs (PRF #) in the system requiring your approval.</center></td></tr>
+                    <tr><td><center>This is an auto generated email to remind you that there are still pending<br/> PRFs in the system requiring your approval.</center></td></tr>
                     <tr><td><p><center>It is crucial to review and approve these PRFs as soon as possible to<br/> ensure timely procurement and smooth operations.</center></p></td><tr>
                     <tr><td><p><center>Your prompt attention to this matter is greatly appreciated.<br/>Please login to your account @ https:fastcat-ims.com.</center></p></td><tr>
                     <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
@@ -101,6 +131,37 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
+
+                    $message = "This is an auto generated message to remind you that there are still pending<br/> PRFs in the system requiring your approval.";
+                    $contact_number = "";
+                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                    $obj = json_decode($json);
+                    foreach($obj as $object)
+                    {
+                        $contact_number=$object->contact_number; 
+                    }
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                    curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                    \"from\": \"APFC System\",
+                    \"to\": \"$contact_number\",
+                    \"text\": \"$message\"
+                    }");
+
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    "Content-Type: application/json"
+                    ));
+
+                    $response = curl_exec($ch);
+                    curl_close($ch);
                 }
             }
         }
@@ -152,6 +213,37 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
+                    //send SMS
+                    $message = "This is an auto generated message to inform you that our system has flagged an outstanding unpaid purchase order.";
+                    $contact_number = "";
+                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                    $obj = json_decode($json);
+                    foreach($obj as $object)
+                    {
+                        $contact_number=$object->contact_number; 
+                    }
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                    curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                    \"from\": \"APFC System\",
+                    \"to\": \"$contact_number\",
+                    \"text\": \"$message\"
+                    }");
+
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    "Content-Type: application/json"
+                    ));
+
+                    $response = curl_exec($ch);
+                    curl_close($ch);
                 }
             }
         }
@@ -204,6 +296,37 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
+
+                    $message = "This is an auto generated message to inform you that our system has identified an outstanding delivery for a purchase order that has already been paid";
+                    $contact_number = "";
+                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                    $obj = json_decode($json);
+                    foreach($obj as $object)
+                    {
+                        $contact_number=$object->contact_number; 
+                    }
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                    curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                    \"from\": \"APFC System\",
+                    \"to\": \"$contact_number\",
+                    \"text\": \"$message\"
+                    }");
+
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    "Content-Type: application/json"
+                    ));
+
+                    $response = curl_exec($ch);
+                    curl_close($ch);
                 }
             }
         }
