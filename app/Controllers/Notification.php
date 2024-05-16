@@ -53,7 +53,7 @@ class Notification extends BaseController
                     $email->setMessage($template);
                     $email->send();
 
-                    $message = "This is an auto generated message to remind you that there are still pending<br/> PRFs in the system requiring your approval.";
+                    $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
                     $contact_number = "";
                     $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
                     $obj = json_decode($json);
@@ -132,7 +132,7 @@ class Notification extends BaseController
                     $email->setMessage($template);
                     $email->send();
 
-                    $message = "This is an auto generated message to remind you that there are still pending<br/> PRFs in the system requiring your approval.";
+                    $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
                     $contact_number = "";
                     $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
                     $obj = json_decode($json);

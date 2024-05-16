@@ -506,7 +506,7 @@
 				</div>
 				<div class="row pb-10">
 					<div class="col-lg-3 mb-20">
-						<div class="card-box height-100-p widget-style3">
+						<div class="card-box">
 							<div class="card-header bg-danger text-white">
 							<i class="icon-copy bi bi-exclamation-triangle"></i>&nbsp;Emergency
 							</div>
@@ -514,12 +514,14 @@
 								<div class="latest-post">
 									<ul id="emergencyList">
 									</ul>
+									<br/>
+									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 mb-20">
-						<div class="card-box height-100-p widget-style3">
+						<div class="card-box">
 							<div class="card-header bg-warning text-white">
 							<i class="icon-copy bi bi-clock"></i>&nbsp;High Priority
 							</div>
@@ -527,12 +529,14 @@
 								<div class="latest-post">
 									<ul id="urgentList">					
 									</ul>
+									<br/>
+									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 mb-20">
-						<div class="card-box height-100-p widget-style3">
+						<div class="card-box">
 							<div class="card-header bg-primary text-white">
 							<i class="icon-copy bi bi-info-circle"></i>&nbsp;Moderate Priority
 							</div>
@@ -540,12 +544,14 @@
 								<div class="latest-post">
 									<ul id="moderateList">
 									</ul>
+									<br/>
+									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-3 mb-20">
-						<div class="card-box height-100-p widget-style3">
+						<div class="card-box">
 							<div class="card-header bg-success text-white">
 							<i class="icon-copy bi bi-info-circle"></i>&nbsp;Low Priority
 							</div>
@@ -553,6 +559,8 @@
 								<div class="latest-post">
 									<ul id="lowList">
 									</ul>
+									<br/>
+									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
 								</div>
 							</div>
 						</div>

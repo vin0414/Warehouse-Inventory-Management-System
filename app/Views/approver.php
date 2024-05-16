@@ -471,6 +471,11 @@
                                 <?= session()->getFlashdata('success'); ?>
                             </div>
                         <?php endif; ?>
+						<div style="float:right;">
+							<small>Legends:</small><br/>
+							<span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i> Emergency</span>
+							<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i> Urgent</span>
+						</div>
 						<div class="tabs">
 							<ul class="nav nav-pills justify-content-left" role="tablist">
 								<li class="nav-item">

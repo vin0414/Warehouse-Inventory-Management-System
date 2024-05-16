@@ -1345,8 +1345,9 @@ class Home extends BaseController
         $canvass = $builder->get()->getResult();
         //po
         $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.Reference,b.purchaseNumber,b.Date,b.Status,a.OrderNo,TIMESTAMPDIFF(Day, b.Date, CURDATE()) Age');
+        $builder->select('a.Reference,b.purchaseNumber,b.Date,b.Status,a.OrderNo,TIMESTAMPDIFF(Day, b.Date, CURDATE()) Age,c.Reason');
         $builder->join('tblpurchase_logs b','b.Reference=a.Reference','INNER');
+        $builder->join('tblprf c','c.OrderNo=a.OrderNo','LEFT');
         $builder->WHERE('a.accountID',$user);
         $po = $builder->get()->getResult();
 
@@ -1633,7 +1634,7 @@ class Home extends BaseController
                         $purchaseReviewModel->save($values);
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($row->Email,$row->Fullname);
+                        $email->setTo($row->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -1668,7 +1669,7 @@ class Home extends BaseController
                         $purchaseReviewModel->save($values);
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($row->Email,$row->Fullname);
+                        $email->setTo($row->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -1814,7 +1815,7 @@ class Home extends BaseController
             {
                 //email
                 $email = \Config\Services::email();
-                $email->setTo($row->Email,$row->Fullname);
+                $email->setTo($row->Email);
                 $email->setFrom("fastcat.system@gmail.com","FastCat");
                 $imgURL = "assets/img/fastcat.png";
                 $email->attach($imgURL);
@@ -1880,7 +1881,7 @@ class Home extends BaseController
                         $reviewCanvassModel->save($values);
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setTo($rows->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -1951,7 +1952,7 @@ class Home extends BaseController
                         $reviewCanvassModel->save($values);
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setTo($rows->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -2032,7 +2033,7 @@ class Home extends BaseController
             $reviewCanvassModel->save($values);
             //email
             $email = \Config\Services::email();
-            $email->setTo($rows->Email,$rows->Fullname);
+            $email->setTo($rows->Email);
             $email->setFrom("fastcat.system@gmail.com","FastCat");
             $imgURL = "assets/img/fastcat.png";
             $email->attach($imgURL);
@@ -2120,7 +2121,7 @@ class Home extends BaseController
         if($row = $data->getRow())
         {
             $email = \Config\Services::email();
-            $email->setTo($row->Email,$row->Fullname);
+            $email->setTo($row->Email);
             $email->setFrom("fastcat.system@gmail.com","FastCat");
             $imgURL = "assets/img/fastcat.png";
             $email->attach($imgURL);
@@ -2173,7 +2174,7 @@ class Home extends BaseController
             if($row = $data->getRow())
             {
                 $email = \Config\Services::email();
-                $email->setTo($row->Email,$row->Fullname);
+                $email->setTo($row->Email);
                 $email->setFrom("fastcat.system@gmail.com","FastCat");
                 $imgURL = "assets/img/fastcat.png";
                 $email->attach($imgURL);

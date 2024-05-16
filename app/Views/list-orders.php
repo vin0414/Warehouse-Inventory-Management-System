@@ -620,6 +620,7 @@
 										<thead>
 											<th>Date Created</th>
 											<th>PRF No</th>
+											<th>Reason</th>
 											<th>Reference</th>
 											<th>Purchase No</th>
 											<th>Status</th>
@@ -633,6 +634,7 @@
 													<small><?php echo $row->Age ?> days ago</small>
 												</td>
 												<td><?php echo $row->OrderNo ?></td>
+												<td><?php echo substr($row->Reason,0,20) ?>...</td>
 												<td><?php echo $row->Reference ?></td>
 												<td><?php echo $row->purchaseNumber ?></td>
 												<td>
