@@ -463,7 +463,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="home6" role="tabpanel">
-                            <div class="pd-20">
+                            <div class="pd-10">
                                 <div class="row g-3">
                                     <div class="col-lg-4 form-group">
                                         <div class="card-box">
@@ -505,7 +505,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="profile6" role="tabpanel">
-                            <div class="pd-20">
+                            <div class="pd-10">
 								<div class="card-box">
 									<div class="card-header"><i class="icon-copy dw dw-user-13"></i>&nbsp;User Accounts
 										<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#accountModal" style="float:right;"><i class="icon-copy dw dw-add-user"></i>&nbsp;Add</a>
@@ -552,7 +552,7 @@
                             </div>
                         </div>
 						<div class="tab-pane fade" id="task6" role="tabpanel">
-							<div class="pd-20">
+							<div class="pd-10">
 								<div class="card-box">
 									<div class="card-header"><i class="icon-copy dw dw-library"></i>&nbsp;Task - Item Group
 									<button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#taskModal" style="float:right;"><i class="icon-copy dw dw-add"></i>&nbsp;Add Task</a>
@@ -582,7 +582,7 @@
 							</div>
 						</div>
                         <div class="tab-pane fade" id="contact6" role="tabpanel">
-                            <div class="pd-20">
+                            <div class="pd-10">
 								<div class="card-box">
 									<div class="card-header"><i class="icon-copy dw dw-list"></i>&nbsp;System Logs</div>
 									<div class="card-body">

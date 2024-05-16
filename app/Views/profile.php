@@ -456,8 +456,8 @@
                 <div class="row g-3">
                     <div class="col-lg-8">
                         <div class="card-box">
-                            <div class="card-header">
-                                Personal Information
+                            <div class="card-header bg-primary text-white">
+								<i class="icon-copy dw dw-user-13"></i>&nbsp;Personal Information
                             </div>
                             <div class="card-body">
 								<?php foreach($account as $row): ?>
@@ -481,17 +481,13 @@
 									</div>
 									<div class="col-12 form-group">
 										<label>Address</label>
-                                    	<input type="text" class="form-control" value="<?php echo $row->Address?>"/>
+                                    	<textarea class="form-control"><?php echo $row->Address?></textarea>
 									</div>
                                     <div class="col-12 form-group">
                                         <div class="row g-3">
                                             <div class="col-lg-6">
                                                 <label>System Role</label>
-                                                <select class="form-control" name="systemRole">
-                                                    <option <?php if($row->systemRole=="Administrator") echo 'selected="selected"'; ?>>Administrator</option>
-                                                    <option <?php if($row->systemRole=="Editor") echo 'selected="selected"'; ?>>Editor</option>
-                                                    <option <?php if($row->systemRole=="Standard User") echo 'selected="selected"'; ?>>Standard User</option>
-                                                </select>
+                                                <input type="text" class="form-control" value="<?php echo $row->systemRole ?>"/>
                                             </div>
                                             <div class="col-lg-6">
                                                 <label>Account Status</label>
@@ -506,8 +502,8 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="card-box">
-                            <div class="card-header">
-                                Account Security
+                            <div class="card-header bg-primary text-white">
+								<i class="icon-copy dw dw-padlock"></i>&nbsp;Account Security
                             </div>
                             <div class="card-body">
                                 <form method="POST" class="row g-2" action="<?=base_url('change-password')?>">
@@ -521,7 +517,7 @@
                                         <input type="password" name="retype_password" id="retype_password" class="form-control" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" required/>
                                     </div>
 									<div class="col-12 form-group">
-									<input type="checkbox" onclick="myFunction()"> Show Password
+									<input type="checkbox" style="height:18px;width:18px;" onclick="myFunction()"> Show Password
 									</div>
                                     <div class="col-12 form-group">
                                         <button type="submit" class="btn btn-primary" id="btnSave">Save Changes</button>
