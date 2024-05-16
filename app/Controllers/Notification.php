@@ -30,11 +30,11 @@ class Notification extends BaseController
                 $builder->select('Email,Fullname');
                 $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
                 $data = $builder->get();
-                foreach($data->getResult() as $row)
+                foreach($data->getResult() as $rows)
                 {
                     //send email
                     $email = \Config\Services::email();
-                    $email->setTo($row->Email,$row->Fullname);
+                    $email->setTo($rows->Email);
                     $email->setFrom("fastcat.system@gmail.com","FastCat PH");
                     $imgURL = "assets/img/fastcat.png";
                     $email->attach($imgURL);
@@ -43,7 +43,7 @@ class Notification extends BaseController
                     <img src='cid:". $cid ."' width='100'/>
                     <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
                     <tr><td><center><h1>Remaining PRF Approval in System</h1></center></td></tr>
-                    <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+                    <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
                     <tr><td><center>This is an auto generated email to remind you that there are still pending<br/> PRFs in the system requiring your approval.</center></td></tr>
                     <tr><td><p><center>It is crucial to review and approve these PRFs as soon as possible to<br/> ensure timely procurement and smooth operations.</center></p></td><tr>
                     <tr><td><p><center>Your prompt attention to this matter is greatly appreciated.<br/>Please login to your account @ https:fastcat-ims.com.</center></p></td><tr>
@@ -109,11 +109,11 @@ class Notification extends BaseController
                 $builder->select('Email,Fullname');
                 $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
                 $data = $builder->get();
-                foreach($data->getResult() as $row)
+                foreach($data->getResult() as $rows)
                 {
                     //send email
                     $email = \Config\Services::email();
-                    $email->setTo($row->Email,$row->Fullname);
+                    $email->setTo($rows->Email);
                     $email->setFrom("fastcat.system@gmail.com","FastCat PH");
                     $imgURL = "assets/img/fastcat.png";
                     $email->attach($imgURL);
@@ -122,7 +122,7 @@ class Notification extends BaseController
                     <img src='cid:". $cid ."' width='100'/>
                     <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
                     <tr><td><center><h1>Remaining PRF Approval in System</h1></center></td></tr>
-                    <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+                    <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
                     <tr><td><center>This is an auto generated email to remind you that there are still pending<br/> PRFs in the system requiring your approval.</center></td></tr>
                     <tr><td><p><center>It is crucial to review and approve these PRFs as soon as possible to<br/> ensure timely procurement and smooth operations.</center></p></td><tr>
                     <tr><td><p><center>Your prompt attention to this matter is greatly appreciated.<br/>Please login to your account @ https:fastcat-ims.com.</center></p></td><tr>
@@ -187,11 +187,11 @@ class Notification extends BaseController
                 $builder->select('Email,Fullname');
                 $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
                 $data = $builder->get();
-                foreach($data->getResult() as $row)
+                foreach($data->getResult() as $rows)
                 {
                     //send email
                     $email = \Config\Services::email();
-                    $email->setTo($row->Email,$row->Fullname);
+                    $email->setTo($rows->Email);
                     $email->setFrom("fastcat.system@gmail.com","FastCat PH");
                     $imgURL = "assets/img/fastcat.png";
                     $email->attach($imgURL);
@@ -200,7 +200,7 @@ class Notification extends BaseController
                     <img src='cid:". $cid ."' width='100'/>
                     <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
                     <tr><td><center><h1>Urgent: Unpaid Purchase Order Alert</h1></center></td></tr>
-                    <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+                    <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
                     <tr><td><center>This is an auto generated email to inform you that our system has flagged an outstanding unpaid purchase order.</center></td></tr>
                     <tr><td><p><center>It seems that the payment for this purchase order has not been processed as expected.</center></p></td><tr>
                     <tr><td><p><center>To avoid any disruption to our business operations and maintain a good relationship with our supplier,</center></p></td><tr>
@@ -269,11 +269,11 @@ class Notification extends BaseController
                 $builder->select('Email,Fullname');
                 $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
                 $data = $builder->get();
-                foreach($data->getResult() as $row)
+                foreach($data->getResult() as $rows)
                 {
                     //send email
                     $email = \Config\Services::email();
-                    $email->setTo($row->Email,$row->Fullname);
+                    $email->setTo($rows->Email);
                     $email->setFrom("fastcat.system@gmail.com","FastCat PH");
                     $imgURL = "assets/img/fastcat.png";
                     $email->attach($imgURL);
@@ -282,7 +282,7 @@ class Notification extends BaseController
                     <img src='cid:". $cid ."' width='100'/>
                     <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
                     <tr><td><center><h1>Urgent: Outstanding Delivery for Paid Purchase Order</h1></center></td></tr>
-                    <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+                    <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
                     <tr><td><center>This is an auto generated email to inform you that our system has identified an outstanding delivery for a purchase order that has already been paid.</center></td></tr>
                     <tr><td><p><center>According to our records, the payment for this purchase order has been successfully processed</center></p></td><tr>
                     <tr><td><p><center>but the delivery of the goods/items has not yet been received at our end.</center></p></td><tr>
