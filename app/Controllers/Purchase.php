@@ -142,7 +142,7 @@ class Purchase extends BaseController
             //send email notification
             $account = $accountModel->WHERE('accountID',$planner)->first();
             $email = \Config\Services::email();
-            $email->setTo($account['Email'],$account['Fullname']);
+            $email->setTo($account['Email']);
             $email->setFrom("fastcat.system@gmail.com","FastCat");
             $imgURL = "assets/img/fastcat.png";
             $email->attach($imgURL);
@@ -293,7 +293,7 @@ class Purchase extends BaseController
             if($row = $data->getRow())
             {
                 $email = \Config\Services::email();
-                $email->setTo($row->Email,$row->Fullname);
+                $email->setTo($row->Email);
                 $email->setFrom("fastcat.system@gmail.com","FastCat");
                 $imgURL = "assets/img/fastcat.png";
                 $email->attach($imgURL);
@@ -431,7 +431,7 @@ class Purchase extends BaseController
                     if($row = $data->getRow())
                     {
                         $email = \Config\Services::email();
-                        $email->setTo($row->Email,$row->Fullname);
+                        $email->setTo($row->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -537,7 +537,7 @@ class Purchase extends BaseController
                 if($row = $data->getRow())
                 {
                     $email = \Config\Services::email();
-                    $email->setTo($row->Email,$row->Fullname);
+                    $email->setTo($row->Email);
                     $email->setFrom("fastcat.system@gmail.com","FastCat");
                     $imgURL = "assets/img/fastcat.png";
                     $email->attach($imgURL);
@@ -1057,7 +1057,7 @@ class Purchase extends BaseController
                             $reviewModel->save($records);
                             //email
                             $email = \Config\Services::email();
-                            $email->setTo($rows->Email,$rows->Fullname);
+                            $email->setTo($rows->Email);
                             $email->setFrom("fastcat.system@gmail.com","FastCat");
                             $imgURL = "assets/img/fastcat.png";
                             $email->attach($imgURL);
@@ -1102,7 +1102,7 @@ class Purchase extends BaseController
                             $reviewModel->save($records);
                             //email
                             $email = \Config\Services::email();
-                            $email->setTo($rows->Email,$rows->Fullname);
+                            $email->setTo($rows->Email);
                             $email->setFrom("fastcat.system@gmail.com","FastCat");
                             $imgURL = "assets/img/fastcat.png";
                             $email->attach($imgURL);
@@ -1176,7 +1176,7 @@ class Purchase extends BaseController
                         $reviewModel->save($records);
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setTo($rows->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -1295,7 +1295,7 @@ class Purchase extends BaseController
             //send an email to the requestor
             $account = $accountModel->WHERE('accountID',$purchase['accountID'])->first();
             $email = \Config\Services::email();
-            $email->setTo($account['Email'],$account['Fullname']);
+            $email->setTo($account['Email']);
             $email->setFrom("fastcat.system@gmail.com","FastCat");
             $imgURL = "assets/img/fastcat.png";
             $email->attach($imgURL);
@@ -1387,7 +1387,7 @@ class Purchase extends BaseController
             {
                 //email
                 $email = \Config\Services::email();
-                $email->setTo($row->Email,$row->Fullname);
+                $email->setTo($row->Email);
                 $email->setFrom("fastcat.system@gmail.com","FastCat");
                 $imgURL = "assets/img/fastcat.png";
                 $email->attach($imgURL);
@@ -1766,7 +1766,7 @@ class Purchase extends BaseController
                     {
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setTo($rows->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -1831,7 +1831,7 @@ class Purchase extends BaseController
                     {
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setTo($rows->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -2014,7 +2014,7 @@ class Purchase extends BaseController
         {
             //email
             $email = \Config\Services::email();
-            $email->setTo($row->Email,$row->Fullname);
+            $email->setTo($row->Email);
             $email->setFrom("fastcat.system@gmail.com","FastCat");
             $imgURL = "assets/img/fastcat.png";
             $email->attach($imgURL);
