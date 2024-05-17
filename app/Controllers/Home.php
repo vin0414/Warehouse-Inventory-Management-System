@@ -199,8 +199,9 @@ class Home extends BaseController
 
     public function storage()
     {
-        $builder = $this->db->table("tblreserved");
-        $builder->select('*');
+        $builder = $this->db->table("tblreserved a");
+        $builder->select('a.*,b.supplierName');
+        $builder->join('tblsupplier b','b.supplierID=a.supplierID','LEFT');
         $reserve = $builder->get()->getResult();
         //product
         $builder = $this->db->table('tblinventory');

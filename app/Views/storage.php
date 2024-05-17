@@ -491,6 +491,7 @@
 									<table class="table data-table table-striped">
 										<thead>
 											<th>Date Received</th>
+											<th>Vendor</th>
 											<th>P.O. No</th>
 											<th>Invoice No</th>
 											<th>Item Unit</th>
@@ -503,10 +504,14 @@
 											<?php foreach($reserve as $row): ?>
 												<tr>
 													<td><?php echo $row->Date ?></td>
+													<td><?php echo $row->supplierName ?></td>
 													<td><?php echo $row->purchaseNumber ?></td>
 													<td><?php echo $row->InvoiceNo ?></td>
 													<td><?php echo $row->ItemUnit ?></td>
-													<td><?php echo $row->productName ?></td>
+													<td>
+														<?php echo $row->productName ?><br/>
+														<small><?php echo $row->Description ?></small>
+													</td>
 													<td><?php echo $row->Qty ?></td>
 													<td><?php echo $row->Available ?></td>
 													<td>
@@ -516,7 +521,7 @@
 														<?php }else { ?>
 														<div class="dropdown">
 															<button type="button" class="btn btn-primary btn-sm line-height-1 dropdown-toggle" role="button" data-toggle="dropdown">
-																Action
+																More
 															</button>
 															<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
 																<button type="button" class="dropdown-item add-stock" value="<?php echo $row->reservedID ?>"><i class="icon-copy dw dw-right-arrow-1"></i> Add as Stock</button>
