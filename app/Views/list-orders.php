@@ -523,7 +523,11 @@
 														<?php }else if($row->Status==2){ ?>
 															<span class="badge bg-danger text-white">Cancelled</span>
 														<?php }else if($row->Status==3){ ?>
+															<?php if(empty($row->Fullname)){ ?>
 															<span class="badge bg-success text-white">Approved</span>
+															<?php }else{ ?>
+															<span class="badge bg-success text-white">Assigned : <?php echo $row->Fullname ?></span>
+															<?php } ?>
 														<?php }else if($row->Status==4){ ?>
 															<span class="badge bg-primary text-white">To Dept Head</span>
 														<?php }else{ ?>

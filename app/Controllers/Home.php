@@ -1333,8 +1333,10 @@ class Home extends BaseController
     {;
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblprf a');
-        $builder->select('a.*,b.Comment,TIMESTAMPDIFF(Day, a.DateCreated, CURDATE()) Age');
+        $builder->select('a.*,b.Comment,TIMESTAMPDIFF(Day, a.DateCreated, CURDATE()) Age,d.Fullname');
         $builder->join('(Select Comment,OrderNo from tblreview group by reviewID order by reviewID DESC) b','b.OrderNo=a.OrderNo','LEFT');
+        $builder->join('tblassignment c','c.prfID=a.prfID','LEFT');
+        $builder->join('tblaccount d','d.accountID=c.accountID','LEFT');
         $builder->WHERE('a.accountID',$user);
         $builder->groupBy('a.OrderNo');
         $orders = $builder->get()->getResult();
