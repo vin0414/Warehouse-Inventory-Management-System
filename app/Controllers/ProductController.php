@@ -509,7 +509,7 @@ class ProductController extends BaseController
                     {
                         //email
                         $email = \Config\Services::email();
-                        $email->setTo($rows->Email,$rows->Fullname);
+                        $email->setTo($rows->Email);
                         $email->setFrom("fastcat.system@gmail.com","FastCat");
                         $imgURL = "assets/img/fastcat.png";
                         $email->attach($imgURL);
@@ -604,7 +604,7 @@ class ProductController extends BaseController
             {
                 //email
                 $email = \Config\Services::email();
-                $email->setTo($rows->Email,$rows->Fullname);
+                $email->setTo($rows->Email);
                 $email->setFrom("fastcat.system@gmail.com","FastCat");
                 $imgURL = "assets/img/fastcat.png";
                 $email->attach($imgURL);
@@ -685,7 +685,7 @@ class ProductController extends BaseController
             {
                 //email
                 $email = \Config\Services::email();
-                $email->setTo($rows->Email,$rows->Fullname);
+                $email->setTo($rows->Email);
                 $email->setFrom("fastcat.system@gmail.com","FastCat");
                 $imgURL = "assets/img/fastcat.png";
                 $email->attach($imgURL);
@@ -831,7 +831,7 @@ class ProductController extends BaseController
                         <tr>
                             <td><?php echo $row->Item_Name ?></td>
                             <td><?php echo $row->Supplier ?></td>
-                            <td><?php echo number_format($row->Price,2) ?></td>
+                            <td><?php echo number_format($row->Price,3) ?></td>
                             <td><?php echo $row->Terms ?></td>
                             <td><?php echo $row->Warranty ?></td>
                             <td>
