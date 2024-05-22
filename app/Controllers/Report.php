@@ -765,7 +765,8 @@ class Report extends BaseController
                     <td style='text-align:right;'>".$rows->Currency." ".number_format($rows->Qty*$rows->Price,2)."</td>
                 </tr>";
             } 
-            $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
+            $template.="</tbody></table></td></tr><tr><td colspan='3'><table style='width:100%;' id='vendor'>"; 
+            
             //total
             $totalAmount=0.00;
             $builder = $this->db->table('tblcanvass_sheet a');
@@ -1070,7 +1071,7 @@ class Report extends BaseController
                     <td style='text-align:right;'>".$rows->Currency." ".number_format($rows->Qty*$rows->Price,2)."</td>
                 </tr>";
             } 
-            $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
+            $template.="</tbody></table></td></tr><tr><td colspan='3'><table style='width:100%;' id='vendor'>"; 
             //total
             $totalAmount=0.00;
             $builder = $this->db->table('tblcanvass_sheet a');
@@ -1375,7 +1376,7 @@ class Report extends BaseController
                     <td style='text-align:right;'>".$rows->Currency." ".number_format($rows->Qty*$rows->Price,2)."</td>
                 </tr>";
             } 
-            $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
+            $template.="</tbody></table></td></tr><tr><td colspan='3'><table style='width:100%;' id='vendor'>"; 
             //total
             $totalAmount=0.00;
             $builder = $this->db->table('tblcanvass_sheet a');
