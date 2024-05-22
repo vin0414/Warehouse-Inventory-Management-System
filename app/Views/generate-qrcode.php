@@ -468,7 +468,7 @@
 								{
 								?>
 								<div class="image-container">
-								<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=".<?php echo $rows->TextValue ?>."' id='qrcode' style="border:3px solid #000;" />
+								<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo $rows->TextValue ?>' id='qrcode' style="border:3px solid #000;" />
 								<div class="overlay-text"><?php echo $rows->TextValue ?></div>
 								</div>
 								<?php
