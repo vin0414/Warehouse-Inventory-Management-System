@@ -761,7 +761,7 @@ class Purchase extends BaseController
     public function viewQuotation()
     {
         $reference = $this->request->getGet('value');
-        $file="";$orderNo="";
+        $file="";$refNo = "";
         //fetch
         $builder = $this->db->table('tblcanvass_form a');
         $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment,d.Status,d.prID');
@@ -774,11 +774,12 @@ class Purchase extends BaseController
         {
             $file = $rowx->Attachment;
             $quotation = $rowx->quotation;
+            $refNo  = $rowx->Reference;
             ?>
         <div class="tab">
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Ordered Items</a>
+                    <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Canvass Sheet</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#prf" role="tab" aria-selected="true">PRF Attachment</a>
@@ -798,37 +799,65 @@ class Purchase extends BaseController
         ?>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="items" role="tabpanel">
-                    <br/>
-                    <div class="form-group table-responsive">
-                        <table class="table table-bordered table-striped">
-                            <thead>
-                                <th class="bg-primary text-white">Item(s)</th>
-                                <th class="bg-primary text-white">Qty</th>
-                                <th class="bg-primary text-white">Unit Price</th>
-                                <th class="bg-primary text-white">Total Price</th>
-                                <th class="bg-primary text-white">Specification</th>
-                                <th class="bg-primary text-white">Vendor(s)</th>
-                                <th class="bg-primary text-white">Terms</th>
-                            </thead>
-                            <tbody>
-                    <?php
-                    foreach($data->getResult() as $row)
-                    {
-                        ?>
-                        <tr>
-                            <td><?php echo $row->Item_Name ?></td>
-                            <td><?php echo $row->Qty ?></td>
-                            <td style="text-align:right;"><?php echo number_format($row->Price,2) ?></td>
-                            <td style="text-align:right;"><?php echo number_format($row->Qty*$row->Price,2) ?></td>
-                            <td><?php echo $row->Specification ?></td>
-                            <td><?php echo $row->Supplier ?></td>
-                            <td><?php echo $row->Terms ?></td>
-                        </tr>
-                        <?php
-                    }
-                    ?>
-                            </tbody>
-                        </table>
+                    <div class="row g-2">
+                        <div class="col-12 form-group"> 
+                            <div class="row g-1">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4 text-center"><b><h5>Canvass Sheet Form</h5></b></div>
+                                <div class="col-lg-4"><label style="float:right;">Reference No. <span style="color:red;"><?php echo $refNo ?></span></label></div>
+                            </div>
+                        </div>
+                        <div class="col-12 form-group table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <th class="bg-primary text-white">Item(s)</th>
+                                    <th class="bg-primary text-white">Qty</th>
+                                    <th class="bg-primary text-white">Unit Price</th>
+                                    <th class="bg-primary text-white">Total Price</th>
+                                    <th class="bg-primary text-white">Specification</th>
+                                    <th class="bg-primary text-white">Vendor(s)</th>
+                                    <th class="bg-primary text-white">Contact #</th>
+                                    <th class="bg-primary text-white">Terms</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    foreach($data->getResult() as $row)
+                                    {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $row->Item_Name ?></td>
+                                            <td><?php echo $row->Qty ?></td>
+                                            <td style="text-align:right;"><?php echo number_format($row->Price,2) ?></td>
+                                            <td style="text-align:right;"><?php echo number_format($row->Qty*$row->Price,2) ?></td>
+                                            <td><?php echo $row->Specification ?></td>
+                                            <td><?php echo $row->Supplier ?></td>
+                                            <td><?php echo $row->ContactNumber ?></td>
+                                            <td><?php echo $row->Terms ?></td>
+                                        </tr>
+                                        <?php
+                                    }
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 form-group">
+                            <div class="row g-3">
+                            <?php
+                            $builder = $this->db->table('tblcanvass_review a');
+                            $builder->select('b.Fullname,b.Department,b.Signatures');
+                            $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
+                            $builder->WHERE('a.Reference',$refNo);
+                            $data = $builder->get();
+                            foreach($data->getResult() as $row){
+                            ?>
+                            <div class="col-lg-4">
+                            <center><img src="/Signatures/<?php echo $row->Signatures ?>" width="150"/></center>
+                            <center><b><u><?php echo $row->Fullname ?></u></b></center>
+                            <center><?php echo $row->Department ?></center>
+                            </div>
+                            <?php } ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="tab-pane fade show" id="prf" role="tabpanel">

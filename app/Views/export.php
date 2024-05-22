@@ -445,6 +445,23 @@
                         <button id="download" type="button" class="btn btn-primary text-white shadow btn-sm"><span class="dw dw-download"></span>&nbsp;Download</button>
                         <br/><br/>
                         <div class="row g-3" id="pdf">
+							<div class="col-12 form-group"> 
+								<div class="row g-1">
+									<div class="col-lg-1">
+										<img src="/assets/img/apfc.png" width="150"/>
+									</div>
+									<div class="col-lg-11" style="margin-left:-50px;">
+										<h4 class="text-center">ARCHIPELAGO PHILIPPINE FERRIES CORPORATION</h4>
+										<p class="text-center">6th Flr, Unioil Center Building, Commerce Ave.<br/>
+								Madrigal Business Park, Ayala Alabang, Muntinlupa City, 1780</p>
+									</div>
+								</div>
+								<div class="row g-1">
+									<div class="col-lg-4"></div>
+									<div class="col-lg-4 text-center"><b><h5>Canvass Sheet Form</h5></b></div>
+									<div class="col-lg-4"><label style="float:right;">No. <span style="color:red;"><?=$form['Reference'] ?></span></label></div>
+								</div>
+							</div>
 							<div class="col-12">
 								<b>Requestor : </b><?php foreach($requestor as $row): ?><?php echo $row->Fullname ?><?php endforeach; ?>
 							</div>
@@ -478,6 +495,7 @@
                                         <th>Total Price</th>
                                         <th>Specification</th>
                                         <th>Vendor</th>
+										<th>Contact No</th>
                                         <th>Terms</th>
                                         <th>Warranty</th>
                                     </thead>
@@ -491,6 +509,7 @@
                                                 <td style='text-align:right;'><?php echo number_format($row->Qty*$row->Price,2) ?></td>
                                                 <td><?php echo $row->Specification ?></td>
                                                 <td><?php echo $row->Supplier ?></td>
+												<td><?php echo $row->ContactNumber ?></td>
                                                 <td><?php echo $row->Terms ?></td>
                                                 <td><?php echo $row->Warranty ?></td>
                                             </tr>
