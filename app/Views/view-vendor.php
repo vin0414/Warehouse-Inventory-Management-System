@@ -487,6 +487,7 @@
                                     <thead>
                                         <th>#</th>
                                         <th>Product Name</th>
+										<th>Unit</th>
                                         <th>Qty</th>
                                         <th>Specification</th>
                                         <th>Vendors</th>
@@ -499,6 +500,7 @@
                                             <tr>
                                                 <td><input type="checkbox" style="height:15px;width:15px;" onclick="check()" class="checkbox" value="<?php echo $row->canvassID ?>" name="itemID[]" id="itemID"/></td>
                                                 <td><?php echo $row->Item_Name ?></td>
+												<td><?php echo $row->ItemUnit ?></td>
                                                 <td><?php echo $row->Qty ?></td>
                                                 <td><?php echo $row->Specification ?></td>
                                                 <td><?php echo $row->Supplier ?></td>

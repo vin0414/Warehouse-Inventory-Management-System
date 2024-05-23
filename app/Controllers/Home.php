@@ -1512,7 +1512,7 @@ class Home extends BaseController
     {
         //vendor
         $builder = $this->db->table('tblcanvass_sheet a');
-        $builder->select('a.*,b.Item_Name,b.Qty,b.Specification');
+        $builder->select('a.*,b.Item_Name,b.Qty,b.Specification,b.ItemUnit');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
         $builder->WHERE('a.Reference',$id);
         $list = $builder->get()->getResult();
