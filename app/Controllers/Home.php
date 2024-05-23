@@ -1529,7 +1529,7 @@ class Home extends BaseController
     public function purchaseOrder()
     {
         $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.DateNeeded,a.DatePrepared,a.Department,a.OrderNo,a.Reference,a.Attachment as file,b.Status,b.Comment,c.PurchaseType,c.Attachment');
+        $builder->select('a.DateNeeded,a.DatePrepared,a.Department,a.OrderNo,a.Reference,a.Attachment as file,b.Status,c.PurchaseType,c.Attachment');
         $builder->join('tblpurchase_logs b','b.Reference=a.Reference','LEFT');
         $builder->join('tblprf c','c.OrderNo=a.OrderNo','LEFT');
         $builder->WHERE('a.Status',4);
@@ -1555,7 +1555,8 @@ class Home extends BaseController
         $builder = $this->db->table('tblcanvass_sheet a');
         $builder->select('a.*,b.Item_Name,b.ItemUnit,b.Qty,b.Specification');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
-        $builder->WHERE('a.Remarks','Selected')->WHERE('a.Reference',$id);
+        $builder->join('tblpurchase_logs c','c.purchaseLogID=a.purchaseLogID','LEFT');
+        $builder->WHERE('c.purchaseNumber',$id);
         $record = $builder->get()->getResult();
         //get the file
         $builder = $this->db->table('tblcanvass_form');

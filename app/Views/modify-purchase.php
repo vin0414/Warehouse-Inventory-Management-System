@@ -444,7 +444,7 @@
                     <div class="card-body">
                         <form method="POST" class="row g-3" enctype="multipart/form-data" action="<?=base_url('save-changes')?>">
                             <div class="col-12 form-group">
-                                <h3><b>Reference #</b> : <?=$Reference?>
+                                <h3><b>P.O. # : </b> : <?=$Reference?>
 								<?php foreach($attach as $row): ?>
 								<a href="/Canvass/<?php echo $row->Attachment ?>" target="_blank" class="btn btn-primary btn-sm" style="float:right;"><span class="dw dw-download"></span>&nbsp;Download Files</a>
 								<?php endforeach;?>

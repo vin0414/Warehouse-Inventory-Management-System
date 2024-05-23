@@ -51,14 +51,12 @@ class Purchase extends BaseController
             $canvassModel->update($canvass['canvassID'],$values);
         }
         //update the attachment
-        if(empty($originalName))
+        if(!empty($originalName))
         {
-            //do nothing
-        }
-        else
-        {
+            //get the reference number
+            $purchase = $purchaseOrderModel->WHERE('purchaseNumber',$reference)->first();
             //get the ID
-            $form = $canvassFormModel->WHERE('Reference',$reference)->first();
+            $form = $canvassFormModel->WHERE('Reference',$purchase['Reference'])->first();
             $values = ['Attachment'=>$originalName];
             $file->move('Attachment/',$originalName);
             $canvassFormModel->update($form['formID'],$values);
@@ -67,7 +65,7 @@ class Purchase extends BaseController
         //update the status of PO
         $builder = $this->db->table('tblpurchase_logs');
         $builder->select('purchaseLogID,purchaseNumber');
-        $builder->WHERE('Reference',$reference);
+        $builder->WHERE('purchaseNumber',$reference);
         $data = $builder->get();
         foreach($data->getResult() as $row)
         {
@@ -839,24 +837,6 @@ class Purchase extends BaseController
                                     ?>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="col-12 form-group">
-                            <div class="row g-3">
-                            <?php
-                            $builder = $this->db->table('tblcanvass_review a');
-                            $builder->select('b.Fullname,b.Department,b.Signatures');
-                            $builder->join('tblaccount b','b.accountID=a.accountID','LEFT');
-                            $builder->WHERE('a.Reference',$refNo);
-                            $data = $builder->get();
-                            foreach($data->getResult() as $row){
-                            ?>
-                            <div class="col-lg-4">
-                            <center><img src="/Signatures/<?php echo $row->Signatures ?>" width="150"/></center>
-                            <center><b><u><?php echo $row->Fullname ?></u></b></center>
-                            <center><?php echo $row->Department ?></center>
-                            </div>
-                            <?php } ?>
-                            </div>
                         </div>
                     </div>
                 </div>

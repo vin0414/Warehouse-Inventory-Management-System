@@ -575,8 +575,8 @@
 								</div>
 								<div class="tab-pane fade" id="addstock" role="tabpanel">
 									<br/>
-									<div class="table-responsive">
-										<table class="data-table table stripe hover nowrap">
+									<div class="table-responsive tableFixHead">
+										<table class="data-table table hover nowrap">
 											<thead>
 												<th>Date Created</th>
 												<th>PRF No</th>
