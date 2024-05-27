@@ -454,12 +454,13 @@
 				<div class="container">
 					<div class="card-box">
 						<div class="card-header"><span class="icon-copy bi bi-qr-code"></span>&nbsp;QR Code
-						<a href="" style="float:right;" onclick="Print()" id="btnPrint"><span class="bi bi-printer"></span>&nbsp;Print</a>
+						<a href="javascript:void(0);" style="float:right;" onclick="Print()" id="btnPrint"><span class="bi bi-printer"></span>&nbsp;Print</a>
 						</div>
 						<div class="card-body" id="pdf">
-							<?php $db = db_connect();
+							<?php 
 								//do nothing, just generate the code
 								//display all
+								$db = db_connect();
 								$builder = $db->table('tblqrcode');
 								$builder->select('TextValue');
 								$builder->WHERE('inventID',$items['inventID']);
@@ -468,7 +469,7 @@
 								{
 								?>
 								<div class="image-container">
-								<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=<?php echo $rows->TextValue ?>' id='qrcode' style="border:3px solid #000;" />
+								<img src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="<?php echo $rows->TextValue ?>' id='qrcode' style="border:3px solid #000;" />
 								<div class="overlay-text"><?php echo $rows->TextValue ?></div>
 								</div>
 								<?php
@@ -490,12 +491,19 @@
 		<script src="/assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script src="/assets/vendors/scripts/datatable-setting.js"></script>
         <script>
-            function Print() {
-            var printContents = document.getElementById("pdf").innerHTML;
-            var originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
+        function Print() 
+		{
+            var printContent = document.getElementById("pdf").innerHTML;
+            // var originalContents = document.body.innerHTML;
+            // document.body.innerHTML = printContents;
+            // window.print();
+            // document.body.innerHTML = originalContents;
+			var WinPrint = window.open('', '', 'width=1000,height=650');
+			WinPrint.document.write(printContent);
+			WinPrint.document.close();
+			WinPrint.focus();
+			WinPrint.print();
+			WinPrint.close();
         }
         </script>
 	</body>
