@@ -18,11 +18,7 @@ class Notification extends BaseController
         $data = $builder->get();
         if($row = $data->getRow())
         {
-            if($row->total==0)
-            {
-                //do nothing
-            }
-            else
+            if($row->total>0)
             {
                 //get all editors account except MIS
                 $role = ['Administrator','Editor'];
@@ -97,11 +93,7 @@ class Notification extends BaseController
         $data = $builder->get();
         if($row = $data->getRow())
         {
-            if($row->total==0)
-            {
-                //do nothing
-            }
-            else
+            if($row->total>0)
             {
                 //get all editors account except MIS
                 $role = ['Administrator','Editor'];
@@ -175,11 +167,7 @@ class Notification extends BaseController
         $data = $builder->get();
         if($row = $data->getRow())
         {
-            if($row->total==0)
-            {
-                //do nothing
-            }
-            else
+            if($row->total>0)
             {
                 //get all editors account except MIS
                 $role = ['Administrator','Editor'];
@@ -257,11 +245,7 @@ class Notification extends BaseController
         $data = $builder->get();
         if($row = $data->getRow())
         {
-            if($row->total==0)
-            {
-                //do nothing
-            }
-            else
+            if($row->total>0)
             {
                 //get all editors account except MIS
                 $role = ['Administrator','Editor'];
