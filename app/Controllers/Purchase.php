@@ -1033,6 +1033,7 @@ class Purchase extends BaseController
         $typePurchase = $this->request->getPost('purchase_type');
         $deptHead = $this->request->getPost('departmentHead');
         $location = $this->request->getPost('location');
+        $level = $this->request->getPost('urgencyLevel');
         $user = session()->get('loggedUser');
         
         if(str_contains($location, 'FCM'))
@@ -1099,7 +1100,7 @@ class Purchase extends BaseController
                     else if($row->Status==4)
                     {
                         $purchase = $purchaseModel->WHERE('OrderNo',$row->OrderNo)->first();
-                        $value = ['Status'=>1];
+                        $value = ['Status'=>1,'Urgency'=>$level];
                         $purchaseModel->update($purchase['prfID'],$value);
                         //save logs
                         $values = [
@@ -1173,7 +1174,7 @@ class Purchase extends BaseController
                 if($row->Status==0)
                 {
                     $purchase = $purchaseModel->WHERE('OrderNo',$row->OrderNo)->first();
-                    $value = ['Status'=>1];
+                    $value = ['Status'=>1,'Urgency'=>$level];
                     $purchaseModel->update($purchase['prfID'],$value);
                     //save logs
                     $values = [
