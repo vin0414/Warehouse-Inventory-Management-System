@@ -324,7 +324,7 @@ class Purchase extends BaseController
         $reviewModel = new \App\Models\reviewModel();
         //datas
         $user = session()->get('loggedUser');
-        $urgency = $this->request->getPost('urgencyLevel');
+        $urgency = 0;
         $datePrepared = $this->request->getPost('datePrepared');
         $itemGroup = $this->request->getPost('item_group');
         $tomorrow = date("Y-m-d", time() + 86400);
@@ -894,6 +894,15 @@ class Purchase extends BaseController
                         <form method="post" class="row g-3" id="frmReview">
                             <input type="hidden" name="reviewID" id="reviewID" value="<?php echo $row->reviewID ?>"/>
                             <input type="hidden" name="location" id="location" value="<?php echo $row->warehouseName ?>"/>
+                            <?php if(session()->get('role')=="Editor" && session()->get('location')=="Head Office"){ ?>
+                            <div class="col-12 form-group">
+								<b><label>Priority Level : </label></b>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="1" required/>&nbsp;<label>Emergency</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="2"/>&nbsp;<label>Urgent</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="3"/>&nbsp;<label>Medium</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="4"/>&nbsp;<label>Low</label>
+							</div>
+                            <?php } ?>
                             <div class="col-12 form-group">
                                 <div class="row g-3">
                                     <div class="col-12 form-group">

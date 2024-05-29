@@ -468,13 +468,13 @@
                             </div>
                         <?php endif; ?>
                         <form method="POST" class="row g-3" id="frmPurchase" enctype="multipart/form-data" action="<?=base_url('save-order')?>">
-							<div class="col-12 form-group">
+							<!-- <div class="col-12 form-group">
 								<b><label>Priority Level : </label></b>
 								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="1" required/>&nbsp;<label>Emergency</label>
 								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="2"/>&nbsp;<label>Urgent</label>
 								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="3"/>&nbsp;<label>Medium</label>
 								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="4"/>&nbsp;<label>Low</label>
-							</div>
+							</div> -->
 							<div class="col-12 form-group">
                                 <div class="row g-3">
 									<div class="col-lg-2">
@@ -562,54 +562,54 @@
                     $(this).closest('tr').remove();
                 });
 			});
-			$('input:radio[name="urgencyLevel"]').change(function(){
-				if($(this).val()==1||$(this).val()==2)
-				{
-					$('#dateNeeded').val("<?php echo date('Y-m-d') ?>");
-            		$('#dateNeeded').attr('min',"<?php echo date('Y-m-d') ?>");
-				}
-				else if($(this).val()==3)
-				{
-					var date = new Date();
-					var startDate = new Date(); 
-					startDate = new Date(startDate);
-					var endDate = "", count = 0;
-					var noOfDaysToAdd = 3;
-					while(count < noOfDaysToAdd){
-						endDate = new Date(startDate.setDate(startDate.getDate() + 1));
-						if(endDate.getDay() != 0 && endDate.getDay() != 6){
-						//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
-						count++;
-						}
-					}
-					$('#dateNeeded').val(convert(endDate));
-            		$('#dateNeeded').attr('min',convert(endDate));
-				}
-				else if($(this).val()==4)
-				{
-					var date = new Date();
-					var startDate = new Date(); 
-					startDate = new Date(startDate);
-					var endDate = "", count = 0;
-					var noOfDaysToAdd = 5;
-					while(count < noOfDaysToAdd){
-						endDate = new Date(startDate.setDate(startDate.getDate() + 1));
-						if(endDate.getDay() != 0 && endDate.getDay() != 6){
-						//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
-						count++;
-						}
-					}
-					$('#dateNeeded').val(convert(endDate));
-            		$('#dateNeeded').attr('min',convert(endDate));
-				}
-			});
+			// $('input:radio[name="urgencyLevel"]').change(function(){
+			// 	if($(this).val()==1||$(this).val()==2)
+			// 	{
+			// 		$('#dateNeeded').val("<?php echo date('Y-m-d') ?>");
+            // 		$('#dateNeeded').attr('min',"<?php echo date('Y-m-d') ?>");
+			// 	}
+			// 	else if($(this).val()==3)
+			// 	{
+			// 		var date = new Date();
+			// 		var startDate = new Date(); 
+			// 		startDate = new Date(startDate);
+			// 		var endDate = "", count = 0;
+			// 		var noOfDaysToAdd = 3;
+			// 		while(count < noOfDaysToAdd){
+			// 			endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+			// 			if(endDate.getDay() != 0 && endDate.getDay() != 6){
+			// 			//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
+			// 			count++;
+			// 			}
+			// 		}
+			// 		$('#dateNeeded').val(convert(endDate));
+            // 		$('#dateNeeded').attr('min',convert(endDate));
+			// 	}
+			// 	else if($(this).val()==4)
+			// 	{
+			// 		var date = new Date();
+			// 		var startDate = new Date(); 
+			// 		startDate = new Date(startDate);
+			// 		var endDate = "", count = 0;
+			// 		var noOfDaysToAdd = 5;
+			// 		while(count < noOfDaysToAdd){
+			// 			endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+			// 			if(endDate.getDay() != 0 && endDate.getDay() != 6){
+			// 			//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
+			// 			count++;
+			// 			}
+			// 		}
+			// 		$('#dateNeeded').val(convert(endDate));
+            // 		$('#dateNeeded').attr('min',convert(endDate));
+			// 	}
+			// });
 
-			function convert(str) {
-				var date = new Date(str),
-				mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-				day = ("0" + date.getDate()).slice(-2);
-				return [date.getFullYear(), mnth, day].join("-");
-			}
+			// function convert(str) {
+			// 	var date = new Date(str),
+			// 	mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+			// 	day = ("0" + date.getDate()).slice(-2);
+			// 	return [date.getFullYear(), mnth, day].join("-");
+			// }
         
 			function notify()
 			{
