@@ -9,6 +9,82 @@ class Notification extends BaseController
     {
         $this->db = db_connect();
     }
+
+    //float approved PRF
+    public function quotationNotification()
+    {
+        $sql = "Select COUNT(a.prfID)total from tblprf a WHERE a.Status=3 
+        AND NOT EXISTS(Select b.OrderNo from tblcanvass_form b WHERE b.OrderNo=a.OrderNo) 
+        AND TIMESTAMPDIFF(Day, a.DateCreated, CURDATE())=>10";
+        $query = $this->db->query($sql);
+        if($row = $query->getRow())
+        {
+            if($row->total>0)
+            {
+                //get all editors account except MIS
+                $role = ['Administrator','Editor'];
+                $builder = $this->db->table('tblaccount');
+                $builder->select('Email,Fullname');
+                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
+                $data = $builder->get();
+                foreach($data->getResult() as $rows)
+                {
+                    //send email
+                    $email = \Config\Services::email();
+                    $email->setTo($rows->Email);
+                    $email->setFrom("fastcat.system@gmail.com","FastCat PH");
+                    $imgURL = "assets/img/fastcat.png";
+                    $email->attach($imgURL);
+                    $cid = $email->setAttachmentCID($imgURL);
+                    $template = "<center>
+                    <img src='cid:". $cid ."' width='100'/>
+                    <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
+                    <tr><td><center><h1>Remaining PRF Approval in System</h1></center></td></tr>
+                    <tr><td><center>Hi, ".$rows->Fullname."</center></td></tr>
+                    <tr><td><center>This is an auto generated email to remind you that there are still number of<br/> PRFs in the system requiring quotations.</center></td></tr>
+                    <tr><td><p><center>It is crucial to review and approve these PRFs as soon as possible to<br/> ensure timely procurement and smooth operations.</center></p></td><tr>
+                    <tr><td><p><center>Your prompt attention to this matter is greatly appreciated.<br/>Please login to your account @ https:fastcat-ims.com.</center></p></td><tr>
+                    <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
+                    $subject = "Action Required: Remaining PRF Approval in System";
+                    $email->setSubject($subject);
+                    $email->setMessage($template);
+                    $email->send();
+
+                    $message = "This is an auto generated message to remind you that there are still number of PRFs in the system requiring quotations.";
+                    $contact_number = "";
+                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                    $obj = json_decode($json);
+                    foreach($obj as $object)
+                    {
+                        $contact_number=$object->contact_number; 
+                    }  
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                    curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                    \"from\": \"APFC System\",
+                    \"to\": \"$contact_number\",
+                    \"text\": \"$message\"
+                    }");
+
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    "Content-Type: application/json"
+                    ));
+
+                    $response = curl_exec($ch);
+                    curl_close($ch);
+                }
+            }
+        }
+    }
+
     //3 days
     public function firstAlarm()
     {
