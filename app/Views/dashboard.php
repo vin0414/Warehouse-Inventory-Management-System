@@ -504,7 +504,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="row pb-10">
+				<!-- <div class="row pb-10">
 					<div class="col-lg-3 mb-20">
 						<div class="card-box">
 							<div class="card-header bg-danger text-white">
@@ -565,21 +565,34 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 				<div class="row pb-10">
-					<div class="col-lg-8 mb-20">
-						<div class="card-box height-100-p widget-style3">
+					<div class="col-lg-4 mb-20">
+						<div class="card-box">
 							<div class="card-body">
-								<div class="card-title">PRF Request Per Day</div>	
-								<div id="chartContainer" style="width:100%;height:300px;"></div>
+								<div class="card-title">Purchase Requisition Form</div>	
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-4 mb-20">
-						<div class="card-box height-100-p widget-style3">
+						<div class="card-box">
+							<div class="card-body">
+								<div class="card-title">P.O. Delivery Dates</div>	
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 mb-20">
+						<div class="card-box">
 							<div class="card-body">
 								<div class="card-title">Total Request Per Category</div>	
 								<div id="categoryContainer" style="width:100%;height:300px;"></div>
+							</div>
+						</div>
+						<br/>
+						<div class="card-box">
+							<div class="card-body">
+								<div class="card-title">PRF Request Per Day</div>	
+								<div id="chartContainer" style="width:100%;height:300px;"></div>
 							</div>
 						</div>
 					</div>
@@ -596,7 +609,7 @@
 		<script src="assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
-			$(document).ready(function(){notify();emergencyList();ugentList();moderateList();lowList();});
+			$(document).ready(function(){notify();});
 			google.charts.setOnLoadCallback(requestChart);google.charts.setOnLoadCallback(categoryChart);
 			function emergencyList()
 			{
