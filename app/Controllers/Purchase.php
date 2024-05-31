@@ -2318,4 +2318,14 @@ class Purchase extends BaseController
         $deliveryModel->update($id,$values);
         echo "success";
     }
+
+    public function paidDelivery()
+    {
+        $deliveryModel = new \App\Models\deliveryModel();
+        //data
+        $id = $this->request->getPost('id');
+        $values = ['PaymentStatus'=>1,'DeliveryStatus'=>"Delivered",'ActualDate'=>date('Y-m-d')];
+        $deliveryModel->update($id,$values);
+        echo "success";
+    }
 }

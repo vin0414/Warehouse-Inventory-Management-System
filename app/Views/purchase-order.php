@@ -687,12 +687,15 @@
 															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 																<?php if($row['PaymentStatus']==0){ ?>
 																<button type="button" class="dropdown-item tagAsPaid" value="<?php echo $row['deliveryID'] ?>">
-																	<i class="icon-copy dw dw-checked"></i>&nbsp;Tag as Paid
+																	<i class="icon-copy dw dw-checked"></i>&nbsp;Paid
 																</button>
 																<?php } ?>
 																<?php if($row['DeliveryStatus']=="Pending"){ ?>
 																<button type="button" class="dropdown-item tagAsDelivered" value="<?php echo $row['deliveryID'] ?>">
-																	<i class="icon-copy dw dw-checked"></i>&nbsp;Tag as Delivered
+																	<i class="icon-copy dw dw-checked"></i>&nbsp;Delivered
+																</button>
+																<button type="button" class="dropdown-item paidDelivered" value="<?php echo $row['deliveryID'] ?>">
+																	<i class="icon-copy dw dw-checked"></i>&nbsp;Paid & Delivered
 																</button>
 																<button type="button" class="dropdown-item cancelDelivery" value="<?php echo $row['deliveryID'] ?>">
 																	<i class="icon-copy dw dw-cancel"></i>&nbsp;Cancelled
@@ -792,6 +795,25 @@
 				{
 					$.ajax({
 						url:"<?=site_url('delivered')?>",method:"POST",
+						data:{id:$(this).val()},
+						success:function(response)
+						{
+							if(response==="success"){
+								location.reload();
+							}else{
+								alert(response);
+							}
+						}
+					});
+				}
+			});
+
+			$(document).on('click','.paidDelivered',function(){
+				var confirmation = confirm('Do you want to tag this as Paid and Delivered?');
+				if(confirmation)
+				{
+					$.ajax({
+						url:"<?=site_url('paid-delivery')?>",method:"POST",
 						data:{id:$(this).val()},
 						success:function(response)
 						{

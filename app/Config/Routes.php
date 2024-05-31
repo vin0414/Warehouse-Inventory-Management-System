@@ -169,6 +169,7 @@ $routes->post('delivery','Purchase::deliveryDate');
 $routes->post('cancel-delivery','Purchase::cancelDelivery');
 $routes->post('delivered','Purchase::successDelivery');
 $routes->post('tag-as-paid','Purchase::tagAsPaid');
+$routes->post('paid-delivery','Purchase::paidDelivery');
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {
