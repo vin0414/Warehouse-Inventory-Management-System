@@ -37,6 +37,7 @@ $routes->get('first-notification','Notification::firstAlarm');
 $routes->get('final-notification','Notification::finalAlarm');
 $routes->get('payment-notification','Notification::paymentNotification');
 $routes->get('delivery-notification','Notification::deliveryNotification');
+$routes->get('quotation-notification','Notification::quotationNotification');
 //dashboard
 $routes->get('emergency-level','Dashboard::emergencyPRF');
 $routes->get('urgent-level','Dashboard::urgentPRF');
