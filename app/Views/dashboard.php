@@ -571,13 +571,21 @@
 						<div class="card-box">
 							<div class="card-body">
 								<div class="card-title">Purchase Requisition Form</div>	
+								<div class="latest-post">
+									<ul id="allPRF">
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-lg-4 mb-20">
 						<div class="card-box">
 							<div class="card-body">
-								<div class="card-title">P.O. Delivery Dates</div>	
+								<div class="card-title">P.O. Deliveries</div>	
+								<div class="latest-post">
+									<ul id="allPO">
+									</ul>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -609,8 +617,27 @@
 		<script src="assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
-			$(document).ready(function(){notify();});
+			$(document).ready(function(){notify();allPRF();});
 			google.charts.setOnLoadCallback(requestChart);google.charts.setOnLoadCallback(categoryChart);
+
+			function allPRF()
+			{
+				$.ajax({
+					url:"<?=site_url('all-prf')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#allPRF').html("<li><h4><a href='javascript:void(0);'>No Record(s)</a></h4></li>");
+						}
+						else
+						{
+							$('#allPRF').html(response);
+						}
+					}
+				});
+			}
+
 			function emergencyList()
 			{
 				$.ajax({

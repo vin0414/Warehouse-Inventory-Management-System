@@ -11,6 +11,34 @@ class Dashboard extends BaseController
         $this->db = db_connect();
     }
 
+    public function allPRF()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('OrderNo,DateNeeded');
+        $builder->WHERE('Status<>',3);
+        $builder->orderBy('prfID','DESC');
+        $builder->limit(10);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <li>
+                <h4>
+                    <a href="javascript:void(0);">
+                        <?php echo $row->OrderNo ?>
+                    </a>
+                </h4>
+                <span>Date Needed : <?php echo $row->DateNeeded ?></span><span style="float:right;"></span>
+            </li>
+            <?php
+        }
+    }
+
+    public function allPO()
+    {
+
+    }
+
     public function emergencyPRF()
     {
         $builder = $this->db->table('tblprf');
