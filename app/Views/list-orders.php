@@ -625,9 +625,9 @@
 											<th>Date Created</th>
 											<th>PRF No</th>
 											<th>Reason</th>
-											<th>Reference</th>
 											<th>Purchase No</th>
 											<th>Status</th>
+											<th>Delivery Date</th>
 											<th>Action </th>
 										</thead>
 										<tbody>
@@ -639,7 +639,6 @@
 												</td>
 												<td><?php echo $row->OrderNo ?></td>
 												<td><?php echo substr($row->Reason,0,20) ?>...</td>
-												<td><?php echo $row->Reference ?></td>
 												<td><?php echo $row->purchaseNumber ?></td>
 												<td>
 													<?php if($row->Status==0){ ?>
@@ -650,6 +649,7 @@
 														<span class="badge bg-danger text-white">Cancelled</span>
 													<?php }?>
 												</td>
+												<td><?php echo $row->ExpectedDate ?></td>
 												<td>
 													<?php if($row->Status==1){?>
 													<a class="btn btn-primary btn-sm" href="<?=site_url('file-download/')?><?php echo $row->purchaseNumber ?>">

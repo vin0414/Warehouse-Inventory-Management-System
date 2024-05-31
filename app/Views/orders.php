@@ -654,7 +654,31 @@
 				var cell4 = row.insertCell(3);
 				var cell5 = row.insertCell(4);
 				cell1.innerHTML = "<input type='text' class='form-control' id='qty' name='qty[]'/>";
-				cell2.innerHTML = "<input type='text' class='form-control' id='item' name='item[]'/>";
+				cell2.innerHTML = "<select class='form-control' id='item' name='item[]'>"
+									+"<option value=''>Choose</option>"
+									+"<option>AVG</option>"
+									+"<option>BAG</option><option>BLK</option><option>BOT</option><option>BOX</option><option>BK</option><option>BND</option>"
+									+"<option>CAN</option><option>CRD</option><option>CTN</option><option>CG</option><option>CSE</option><option>CEN</option><option>COI</option><option>CON</option><option>CFT</option><option>CYD</option><option>CUR</option><option>CYL</option>"
+									+"<option>DAY</option><option>DZ</option><option>DRM</option>"
+									+"<option>EA</option><option>FT</option>"
+									+"<option>GAL</option><option>GA</option><option>GRN</option><option>GRM</option><option>GMC</option><option>GRS</option>"
+									+"<option>HR</option><option>CW</option>"
+									+"<option>IN</option><option>INS</option>"
+									+"<option>JAR</option><option>JOB</option>"
+									+"<option>KG</option><option>KW</option><option>KIT</option>"
+									+"<option>LNG</option><option>LFT</option><option>LTR</option><option>LOT</option>"
+									+"<option>MET</option><option>MTN</option><option>MC</option><option>UL</option><option>MU</option><option>MGR</option><option>MLT</option><option>MOL</option><option>MON</option>"
+									+"<option>TN</option><option>N/A</option>"
+									+"<option>ORD</option><option>OZ</option>"
+									+"<option>PK</option><option>PKT</option><option>PAD</option><option>PAL</option><option>PR</option><option>PLT</option><option>C</option><option>M</option><option>PC</option><option>PT</option><option>PP</option><option>LB</option>"
+									+"<option>QT</option>"
+									+"<option>RCK</option><option>RM</option><option>RE</option><option>ROD</option><option>RL</option>"
+									+"<option>SAC</option><option>SVC</option><option>ST</option><option>SHT</option><option>SLV</option><option>SFT</option><option>SYD</option><option>STK</option>"
+									+"<option>TST</option><option>THR</option><option>TON</option><option>TRP</option><option>TUB</option><option>TB</option>"
+									+"<option>UNT</option>"
+									+"<option>VIL</option>"
+									+"<option>WK</option><option>YD</option><option>YR</option>"
+									+"</select>";
 				cell3.innerHTML = "<input type='text' class='form-control' id='item_name' name='item_name[]'/>";
 				cell4.innerHTML = "<input type='text' class='form-control' id='specification' name='specification[]'/>";
 				cell5.innerHTML = "<button type='button' class='btn btn-danger btnDelete'><span class='dw dw-trash'></span></button>";
