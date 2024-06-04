@@ -762,7 +762,7 @@ class Purchase extends BaseController
         $file="";$refNo = "";
         //fetch
         $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment,d.Status,d.prID');
+        $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DatePrepared,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment,d.Status,d.prID');
         $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
         $builder->join('tblpurchase_logs c','a.Reference=c.Reference','LEFT');
         $builder->join('tblpurchase_review d','d.purchaseNumber=c.purchaseNumber','LEFT');
@@ -778,6 +778,9 @@ class Purchase extends BaseController
             <ul class="nav nav-pills" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Canvass Sheet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-blue" data-toggle="tab" href="#approvedPRF" role="tab" aria-selected="true">PRF</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-blue" data-toggle="tab" href="#prf" role="tab" aria-selected="true">PRF Attachment</a>
@@ -837,6 +840,69 @@ class Purchase extends BaseController
                                     ?>
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="approvedPRF" role="tabpanel">
+                    <div class="row g-1">
+                        <div class="col-lg-1">
+                            <img src="/assets/img/apfc.png" width="150"/>
+                        </div>
+                        <div class="col-lg-11" style="margin-left:-50px;">
+                            <h4 class="text-center">ARCHIPELAGO PHILIPPINE FERRIES CORPORATION</h4>
+                            <p class="text-center">6th Flr, Unioil Center Building, Commerce Ave.<br/>
+                    Madrigal Business Park, Ayala Alabang, Muntinlupa City, 1780</p>
+                        </div>
+                    </div>
+                    <div class="row g-1">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4 text-center"><b><h5>PURCHASE ORDER FORM (PRF)</h5></b></div>
+                        <div class="col-lg-4"><label style="float:right;">No. <span style="color:red;"><?php echo $row->OrderNo ?></span></label></div>
+                    </div>
+                    <div class="row g-1">
+                        <div class="col-lg-6">
+                            <label><b>Vessel/Port/Department :</b><u><?php echo $rowx->Department ?></u></label> 
+                        </div>
+                        <div class="col-lg-3 text-center">
+                            <label><b>Date Prepared :</b><u><?php echo $rowx->DatePrepared ?></u></label> 
+                        </div>
+                        <div class="col-lg-3">
+                            <label style="float:right;"><b>Date Needed :</b><u><?php echo $rowx->DateNeeded ?></u></label> 
+                        </div>
+                    </div>
+                    <div class="row g-1">
+                        <div class="col-12 form-group">
+                            <table class="table table-bordered nowrap">
+                                <thead>
+                                    <th>Qty</th>
+                                    <th>Unit</th>
+                                    <th>Product Name</th>
+                                    <th>Specification</th>
+                                </thead>
+                                <tbody>
+                                <?php 
+                                $builder = $this->db->table('tbl_order_item');
+                                $builder->select('*');
+                                $builder->WHERE('OrderNo',$rowx->OrderNo);
+                                $data = $builder->get();
+                                foreach($data->getResult() as $row)
+                                {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $row->Qty ?></td>
+                                        <td><?php echo $row->ItemUnit ?></td>
+                                        <td><?php echo $row->Item_Name ?></td>
+                                        <td><?php echo $row->Specification ?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 form-group">
+                            <label><b>Reason/Remarks</b></label>
+                            <textarea class="form-control"><?php echo $rowx->Reason ?></textarea>
                         </div>
                     </div>
                 </div>
