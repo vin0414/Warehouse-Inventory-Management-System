@@ -761,11 +761,11 @@
 							</div>
 							<div class="col-12 form-group">
 								<div class="row g-3">
-									<div class="col-lg-8">
+									<div class="col-lg-6">
 										<label>Username</label>
 										<input type="text" class="form-control" name="username" required/>
 									</div>
-									<div class="col-lg-4">
+									<div class="col-lg-6">
 										<label>System Role</label>
 										<select class="form-control" name="systemRole">
 											<option value="">Choose</option>

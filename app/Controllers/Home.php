@@ -2299,8 +2299,15 @@ class Home extends BaseController
         $builder->WHERE('Status',1);
         $builder->groupBy('Date');
         $po = $builder->get()->getResult();
+        //per staff
+        $sql = "Select a.Fullname,IFNULL(b.total,0)totalPRF,IFNULL(c.total,0)totalPO from tblaccount a 
+        LEFT JOIN (Select accountID,COUNT(prfID)total from tblassignment GROUP BY accountID)b ON b.accountID=a.accountID
+        LEFT JOIN (Select accountID,COUNT(purchaseLogID)total from tblpurchase_logs GROUP BY accountID)c ON c.accountID=a.accountID
+        WHERE a.systemRole IN ('Staff','Administrator') AND a.Department NOT IN ('MIS','') GROUP BY a.accountID";
+        $query = $this->db->query($sql);
+        $report = $query->getResult();
 
-        $data = ['total'=>$total,'release'=>$release,'unrelease'=>$unrelease,'cost'=>$cost,'vendor'=>$vendor,'po'=>$po];
+        $data = ['total'=>$total,'release'=>$release,'unrelease'=>$unrelease,'cost'=>$cost,'vendor'=>$vendor,'po'=>$po,'report'=>$report];
         return view('overall-report',$data);
     }
 

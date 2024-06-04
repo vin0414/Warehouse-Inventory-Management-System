@@ -494,8 +494,31 @@
                     </div>
                     <div class="col-12 form-group">
                         <div class="row g-3">
+                            <div class="col-lg-8 form-group">
+								<div class="card-box">
+									<div class="card-body">
+										<div class="card-title">Assigned PRF/Generate PO</div>
+										<table class="table table-bordered" style="font-size:13px;">
+											<thead>
+												<th class="bg-primary text-white">Staff</th>
+												<th class="bg-primary text-white">Total PRF</th>
+												<th class="bg-primary text-white">Total PO</th>
+											</thead>
+											<tbody>
+											<?php foreach($report as $row): ?>
+												<tr>
+													<td><?php echo $row->Fullname ?></td>
+													<td><?php echo $row->totalPRF ?></td>
+													<td><?php echo $row->totalPO ?></td>
+												</tr>
+											<?php endforeach; ?>
+											</tbody>
+										</table>
+									</div>
+								</div>
+                            </div>
                             <div class="col-lg-4 form-group">
-                                <div class="card-box">
+								<div class="card-box">
                                     <div class="card-body">
                                         <div class="card-title">Top 20 Vendor</div>
 										<div class="user-list">
@@ -514,14 +537,6 @@
 												<?php endforeach; ?>
 											</ul>
 										</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-8 form-group">
-                                <div class="card-box">
-                                    <div class="card-body">
-                                        <div class="card-title">Daily Cost for Purchase Order</div>
-										<div id="chartContainer" style="height:400px;"></div>
                                     </div>
                                 </div>
                             </div>
@@ -545,7 +560,7 @@
 			{
 				notify();
 			});
-			google.charts.setOnLoadCallback(Chart);
+			//google.charts.setOnLoadCallback(Chart);
 			function Chart() 
 			{
 	
