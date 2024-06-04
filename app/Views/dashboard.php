@@ -617,7 +617,7 @@
 		<script src="assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script>
-			$(document).ready(function(){notify();allPRF();});
+			$(document).ready(function(){notify();allPRF();allPO();});
 			google.charts.setOnLoadCallback(requestChart);google.charts.setOnLoadCallback(categoryChart);
 
 			function allPRF()
@@ -633,6 +633,24 @@
 						else
 						{
 							$('#allPRF').html(response);
+						}
+					}
+				});
+			}
+
+			function allPO()
+			{
+				$.ajax({
+					url:"<?=site_url('all-po')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#allPO').html("<li><h4><a href='javascript:void(0);'>No Record(s)</a></h4></li>");
+						}
+						else
+						{
+							$('#allPO').html(response);
 						}
 					}
 				});

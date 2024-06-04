@@ -25,7 +25,7 @@ class Dashboard extends BaseController
             <li>
                 <h4>
                     <a href="javascript:void(0);">
-                        <?php echo $row->OrderNo ?>
+                        PRF No : <?php echo $row->OrderNo ?>
                     </a>
                 </h4>
                 <span>Date Needed : <?php echo $row->DateNeeded ?></span><span style="float:right;"></span>
@@ -36,7 +36,24 @@ class Dashboard extends BaseController
 
     public function allPO()
     {
-
+        $builder = $this->db->table('tbldelivery_info');
+        $builder->select('purchaseNumber,ExpectedDate');
+        $builder->WHERE('DeliveryStatus','For Delivery');
+        $builder->limit(10);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <li>
+                <h4>
+                    <a href="javascript:void(0);">
+                        P.O. No : <?php echo $row->purchaseNumber ?>
+                    </a>
+                </h4>
+                <span>Delivery Date : <?php echo $row->ExpectedDate ?></span><span style="float:right;"></span>
+            </li>
+            <?php
+        }
     }
 
     public function emergencyPRF()
