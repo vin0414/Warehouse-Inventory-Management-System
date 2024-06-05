@@ -11,6 +11,11 @@ class Report extends BaseController
         $this->db = db_connect();
     }
 
+    public function generateReport()
+    {
+        
+    }
+
     public function removeTask()
     {
         $val = $this->request->getPost('value'); 

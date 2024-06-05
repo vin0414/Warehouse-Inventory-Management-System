@@ -75,6 +75,11 @@
                 border: 1px solid #d5d5d5;
               }
 
+			.tableFixHead thead th { position: sticky; top: 0; z-index: 1;color:#fff;background-color:#0275d8;}
+			table  { border-collapse: collapse; width: 100%; }
+			th, td { padding: 8px 16px;color:#000; }
+			tbody{color:#000;}
+
 			  .loading-spinner{
 				width:30px;
 				height:30px;
@@ -496,6 +501,16 @@
 										>For Deliveries</a
 									>
 								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link text-blue"
+										data-toggle="tab"
+										href="#report6"
+										role="tab"
+										aria-selected="true"
+										>Approved P.O.</a
+									>
+								</li>
 							</ul> 
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="home6" role="tabpanel">
@@ -708,6 +723,39 @@
 											<?php endforeach; ?>
 										</tbody>
 									</table>
+								</div>
+								<div class="tab-pane fade" id="report6" role="tabpanel">
+									<br/>
+									<div class="row g-3">
+										<div class="col-lg-12 form-group">
+											<form method="GET" class="row g-3" id="frmReport">
+												<div class="col-lg-2">
+													<input type="date" class="form-control" name="from"/>
+												</div>
+												<div class="col-lg-2">
+													<input type="date" class="form-control" name="to"/>
+												</div>
+												<div class="col-lg-8">
+													<input type="submit" class="btn btn-primary text-white" id="btnGenerate" value="Generate"/>
+													<a href="javascript:void(0);" class="btn btn-outline-primary" onclick="exportf(this)"><span class="bi bi-download"></span>Export</a>
+												</div>
+											</form>
+										</div>
+										<div class="col-lg-12 form-group tableFixHead" style="height:400px;overflow-y:auto;font-size:13px;">
+											<table class="table-bordered table-striped" id="table">
+												<thead>
+													<th>P.O. No</th>
+													<th>Total Price</th>
+													<th>Vendor</th>
+													<th>Contact Person</th>
+													<th>Contact No</th>
+													<th>Terms</th>
+													<th>Warranty</th>
+												</thead>
+												<tbody id="output"></tbody>
+											</table>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -952,6 +1000,35 @@
 					}
 				});
 			});
+
+			$('#btnGenerate').on('click',function(e){
+				e.preventDefault();
+				var data = $('#frmReport').serialize();
+				$('#output').html("<tr><td colspan='7'><center>Loading...</center></td></tr>");
+				$.ajax({
+					url:"<?=site_url('generate-report')?>",method:"GET",
+					data:data,success:function(response)
+					{
+						if(response==="")
+						{
+							$('#output').html("<tr><td colspan='7'><center>No Record(s)</center></td></tr>");
+						}
+						else
+						{
+							$('#output').html(response);
+						}
+					}
+				});
+			});
+
+			function exportf(elem) {
+			var table = document.getElementById("table");
+			var html = table.outerHTML;
+			var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+			elem.setAttribute("href", url);
+			elem.setAttribute("download","purchase-order-report.xls"); // Choose the file name
+			return false;
+			}
 		</script>
 	</body>
 </html>
