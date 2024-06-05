@@ -726,7 +726,7 @@
 								</div>
 								<div class="tab-pane fade" id="report6" role="tabpanel">
 									<br/>
-									<div class="row g-3">
+									<div class="row g-1">
 										<div class="col-lg-12 form-group">
 											<form method="GET" class="row g-3" id="frmReport">
 												<div class="col-lg-2">
@@ -745,7 +745,7 @@
 											<table class="table-bordered table-striped" id="table">
 												<thead>
 													<th>P.O. No</th>
-													<th>Total Price</th>
+													<th>Unit Price</th>
 													<th>Vendor</th>
 													<th>Contact Person</th>
 													<th>Contact No</th>

@@ -13,7 +13,27 @@ class Report extends BaseController
 
     public function generateReport()
     {
-        
+        $from = $this->request->getGet("from");
+        $to = $this->request->getGet("to");
+        $builder = $this->db->table("tblpurchase_logs a");
+        $builder->select("a.purchaseNumber,b.Supplier,b.ContactPerson,b.ContactNumber,b.Terms,b.Warranty,b.Price");
+        $builder->join("tblcanvass_sheet b","b.purchaseLogID=a.purchaseLogID","LEFT");
+        $builder->WHERE('a.Date>=',$from)->WHERE('a.Date<=',$to)->WHERE('a.Status',1);
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <tr>
+                <td><?php echo $row->purchaseNumber ?></td>
+                <td style="text-align:right;"><?php echo number_format($row->Price,2) ?></td>
+                <td><?php echo $row->Supplier ?></td>
+                <td><?php echo $row->ContactPerson ?></td>
+                <td><?php echo $row->ContactNumber ?></td>
+                <td><?php echo $row->Terms ?></td>
+                <td><?php echo $row->Warranty ?></td>
+            </tr>
+            <?php
+        }
     }
 
     public function removeTask()
