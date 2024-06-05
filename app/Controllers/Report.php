@@ -11,6 +11,28 @@ class Report extends BaseController
         $this->db = db_connect();
     }
 
+    public function staffReport()
+    {
+        $from = $this->request->getGet("from");
+        $to = $this->request->getGet("to");
+
+        $sql = "Select a.Fullname,IFNULL(b.total,0)totalPRF,IFNULL(c.total,0)totalPO from tblaccount a 
+        LEFT JOIN (Select accountID,COUNT(prfID)total from tblassignment WHERE Date BETWEEN :from: AND :to: GROUP BY accountID)b ON b.accountID=a.accountID
+        LEFT JOIN (Select accountID,COUNT(purchaseLogID)total from tblpurchase_logs WHERE Date BETWEEN :from: AND :to: GROUP BY accountID)c ON c.accountID=a.accountID
+        WHERE a.systemRole IN ('Staff','Administrator') AND a.Department NOT IN ('MIS','') GROUP BY a.accountID";
+        $query = $this->db->query($sql,['from'=>$from,'to'=>$to]);
+        foreach($query->getResult()as $row)
+        {
+            ?>
+            <tr>
+                <td><?php echo $row->Fullname ?></td>
+                <td><?php echo $row->totalPRF ?></td>
+				<td><?php echo $row->totalPO ?></td>
+            </tr>
+            <?php
+        }
+    }
+
     public function generateReport()
     {
         $from = $this->request->getGet("from");

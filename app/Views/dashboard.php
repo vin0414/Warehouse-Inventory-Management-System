@@ -569,9 +569,9 @@
 				<div class="row pb-10">
 					<div class="col-lg-4 mb-20">
 						<div class="card-box">
-							<div class="card-body">
-								<div class="card-title">Purchase Requisition Form</div>	
-								<div class="latest-post">
+							<div class="card-header bg-primary text-white"><i class="icon-copy dw dw-shopping-cart"></i>&nbsp;Pending PRF</div>
+							<div class="card-body">	
+								<div class="latest-post" style="height:500px;overflow-y:auto;">
 									<ul id="allPRF">
 									</ul>
 								</div>
@@ -580,9 +580,9 @@
 					</div>
 					<div class="col-lg-4 mb-20">
 						<div class="card-box">
+							<div class="card-header bg-primary text-white"><i class="icon-copy dw dw-delivery-truck"></i>&nbsp;P.O. (For Deliveries)</div>	
 							<div class="card-body">
-								<div class="card-title">P.O. Deliveries</div>	
-								<div class="latest-post">
+								<div class="latest-post" style="height:500px;overflow-y:auto;">
 									<ul id="allPO">
 									</ul>
 								</div>

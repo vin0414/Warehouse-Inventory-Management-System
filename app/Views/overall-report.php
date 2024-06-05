@@ -498,22 +498,39 @@
 								<div class="card-box">
 									<div class="card-body">
 										<div class="card-title">Assigned PRF/Generate PO</div>
-										<table class="table table-bordered" style="font-size:13px;">
-											<thead>
-												<th class="bg-primary text-white">Staff</th>
-												<th class="bg-primary text-white">Total PRF</th>
-												<th class="bg-primary text-white">Total PO</th>
-											</thead>
-											<tbody>
-											<?php foreach($report as $row): ?>
-												<tr>
-													<td><?php echo $row->Fullname ?></td>
-													<td><?php echo $row->totalPRF ?></td>
-													<td><?php echo $row->totalPO ?></td>
-												</tr>
-											<?php endforeach; ?>
-											</tbody>
-										</table>
+										<div class="row g-3">
+											<div class="col-lg-12 form-group">
+												<form method="GEt" class="row g-2" id="frmReport">
+													<div class="col-lg-3">
+														<input type="date" class="form-control" name="from"/>
+													</div>
+													<div class="col-lg-3">
+														<input type="date" class="form-control" name="to"/>
+													</div>
+													<div class="col-lg-6">
+														<button type="submit" class="btn btn-primary" id="btnGenerate"><span class="bi bi-search"></span>&nbsp;Search</button>
+													</div>
+												</form>
+											</div>
+											<div class="col-lg-12 form-group">
+												<table class="table table-bordered" style="font-size:13px;">
+													<thead>
+														<th class="bg-primary text-white">Staff</th>
+														<th class="bg-primary text-white">Total PRF</th>
+														<th class="bg-primary text-white">Total PO</th>
+													</thead>
+													<tbody id="tblreport">
+													<?php foreach($report as $row): ?>
+														<tr>
+															<td><?php echo $row->Fullname ?></td>
+															<td><?php echo $row->totalPRF ?></td>
+															<td><?php echo $row->totalPO ?></td>
+														</tr>
+													<?php endforeach; ?>
+													</tbody>
+												</table>
+											</div>
+										</div>
 									</div>
 								</div>
                             </div>
@@ -559,6 +576,28 @@
 			$(document).ready(function()
 			{
 				notify();
+			});
+
+			$('#btnGenerate').on('click',function(e)
+			{
+				e.preventDefault();
+				var data = $('#frmReport').serialize();
+				$('#tblreport').html("<tr><td colspan='3'><center>Loading...</center></td></tr>");
+				$.ajax({
+					url:"<?=site_url('staff-report')?>",method:"GET",
+					data:data,
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#tblreport').html("<tr><td colspan='3'><center>No Data(s)</center></td></tr>");
+						}
+						else
+						{
+							$('#tblreport').html(response);
+						}
+					}
+				});
 			});
 			//google.charts.setOnLoadCallback(Chart);
 			function Chart() 

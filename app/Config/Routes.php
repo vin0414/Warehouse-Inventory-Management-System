@@ -164,6 +164,7 @@ $routes->get('library','Report::Library');
 $routes->post('save-task','Report::saveTask');
 $routes->post('remove-task','Report::removeTask');
 $routes->get('generate-report','Report::generateReport');
+$routes->get('staff-report','Report::staffReport');
 $routes->get('fetch-items','Purchase::fetchItems');
 $routes->get('search-request','Purchase::searchRequest');
 $routes->get('search-order','Purchase::searchOrder');
