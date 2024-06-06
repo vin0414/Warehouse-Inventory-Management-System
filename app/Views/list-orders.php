@@ -517,7 +517,7 @@
 													<td><?php echo $row->DateNeeded ?></td>
 													<td>
 														<?php if($row->Status==0){ ?>
-															<span class="badge bg-warning text-white">To Dept Head/Master</span>
+															<span class="badge bg-warning text-white">To Dept Head/Tech Support</span>
 														<?php }else if($row->Status==1){?>
 															<span class="badge bg-info text-white">To Materials Manager</span>
 														<?php }else if($row->Status==2){ ?>

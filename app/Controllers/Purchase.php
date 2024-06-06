@@ -633,7 +633,7 @@ class Purchase extends BaseController
         {
             $builder = $this->db->table('tblaccount');
             $builder->select('*');
-            $builder->WHERE('Status',1)->WHERE('systemRole','Editor')->WHERE('warehouseID',session()->get('assignment'));
+            $builder->WHERE('Status',1)->WHERE('systemRole','Editor')->WHERE('Department','Technical Support');
             $data = $builder->get();
             foreach($data->getResult() as $row)
             {
