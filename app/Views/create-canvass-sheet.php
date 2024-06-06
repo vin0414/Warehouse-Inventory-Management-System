@@ -772,7 +772,6 @@
                         if(data==="success")
                         {
                             alert("Great! Successfully recorded");
-							window.location.href="/assign";
                         }
                         else
                         {
