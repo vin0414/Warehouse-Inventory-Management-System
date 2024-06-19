@@ -34,10 +34,15 @@ $routes->post('/auth','Auth::check');
 $routes->get('/logout','Auth::logout');
 //notification
 $routes->get('first-notification','Notification::firstAlarm');
+$routes->get('first-sms','Notification::firstSMSAlarm');
 $routes->get('final-notification','Notification::finalAlarm');
+$routes->get('final-sms','Notification::finalSMSAlarm');
 $routes->get('payment-notification','Notification::paymentNotification');
+$routes->get('payment-sms','Notification::paymentSMSNotification');
 $routes->get('delivery-notification','Notification::deliveryNotification');
+$routes->get('delivery-sms','Notification::deliverySMSNotification');
 $routes->get('quotation-notification','Notification::quotationNotification');
+$routes->get('sms-notification','Notification::smsNotification');
 //dashboard
 $routes->get('all-prf','Dashboard::allPRF');
 $routes->get('all-po','Dashboard::allPO');

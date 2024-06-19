@@ -15,7 +15,7 @@ class Notification extends BaseController
     {
         $sql = "Select COUNT(a.prfID)total from tblprf a WHERE a.Status=3 
         AND NOT EXISTS(Select b.OrderNo from tblcanvass_form b WHERE b.OrderNo=a.OrderNo) 
-        AND TIMESTAMPDIFF(Day, a.DateCreated, CURDATE())=>10";
+        AND TIMESTAMPDIFF(Day, a.DateCreated, CURDATE())>=10";
         $query = $this->db->query($sql);
         if($row = $query->getRow())
         {
@@ -49,38 +49,51 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
-
-                    $message = "This is an auto generated message to remind you that there are still number of PRFs in the system requiring quotations.";
-                    $contact_number = "";
-                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                    $obj = json_decode($json);
-                    foreach($obj as $object)
-                    {
-                        $contact_number=$object->contact_number; 
-                    }  
-                    $ch = curl_init();
-
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-
-                    $response = curl_exec($ch);
-                    curl_close($ch);
                 }
+            }
+        }
+    }
+    
+    public function smsNotification()
+    {
+        $sql = "Select COUNT(a.prfID)total from tblprf a WHERE a.Status=3 
+        AND NOT EXISTS(Select b.OrderNo from tblcanvass_form b WHERE b.OrderNo=a.OrderNo) 
+        AND TIMESTAMPDIFF(Day, a.DateCreated, CURDATE())>=10";
+        $query = $this->db->query($sql);
+        if($row = $query->getRow())
+        {
+            if($row->total>0)
+            {
+                $message = "This is an auto generated message to remind you that there are still number of PRFs in the system requiring quotations.";
+                $contact_number = "";
+                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                $obj = json_decode($json);
+                foreach($obj as $object)
+                {
+                    $contact_number=$object->contact_number; 
+                }  
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                \"from\": \"APFC System\",
+                \"to\": \"$contact_number\",
+                \"text\": \"$message\"
+                }");
+
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json"
+                ));
+
+                $response = curl_exec($ch);
+                curl_close($ch);
             }
         }
     }
@@ -124,38 +137,51 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
-
-                    $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
-                    $contact_number = "";
-                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                    $obj = json_decode($json);
-                    foreach($obj as $object)
-                    {
-                        $contact_number=$object->contact_number; 
-                    }  
-                    $ch = curl_init();
-
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-
-                    $response = curl_exec($ch);
-                    curl_close($ch);
                 }
+            }
+        }
+    }
+    
+    public function firstSMSAlarm()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('COUNT(prfID)total');
+        $builder->WHERE('Status<>',3)->WHERE('TIMESTAMPDIFF(Day, DateCreated, CURDATE())',5);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            if($row->total>0)
+            {
+                $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
+                $contact_number = "";
+                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                $obj = json_decode($json);
+                foreach($obj as $object)
+                {
+                    $contact_number=$object->contact_number; 
+                }  
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                \"from\": \"APFC System\",
+                \"to\": \"$contact_number\",
+                \"text\": \"$message\"
+                }");
+
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json"
+                ));
+
+                $response = curl_exec($ch);
+                curl_close($ch);
             }
         }
     }
@@ -199,38 +225,51 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
-
-                    $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
-                    $contact_number = "";
-                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                    $obj = json_decode($json);
-                    foreach($obj as $object)
-                    {
-                        $contact_number=$object->contact_number; 
-                    }
-                    $ch = curl_init();
-
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-
-                    $response = curl_exec($ch);
-                    curl_close($ch);
                 }
+            }
+        }
+    }
+    
+    public function finalSMSAlarm()
+    {
+        $builder = $this->db->table('tblprf');
+        $builder->select('COUNT(prfID)total');
+        $builder->WHERE('Status<>',3)->WHERE('TIMESTAMPDIFF(Day, DateCreated, CURDATE())',10);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            if($row->total>0)
+            {
+                $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
+                $contact_number = "";
+                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                $obj = json_decode($json);
+                foreach($obj as $object)
+                {
+                    $contact_number=$object->contact_number; 
+                }
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                \"from\": \"APFC System\",
+                \"to\": \"$contact_number\",
+                \"text\": \"$message\"
+                }");
+
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json"
+                ));
+
+                $response = curl_exec($ch);
+                curl_close($ch);
             }
         }
     }
@@ -277,38 +316,52 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
-                    //send SMS
-                    $message = "This is an auto generated message to inform you that our system has flagged an outstanding unpaid purchase order.";
-                    $contact_number = "";
-                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                    $obj = json_decode($json);
-                    foreach($obj as $object)
-                    {
-                        $contact_number=$object->contact_number; 
-                    }
-                    $ch = curl_init();
-
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-
-                    $response = curl_exec($ch);
-                    curl_close($ch);
                 }
+            }
+        }
+    }
+    
+    public function paymentSMSNotification()
+    {
+        $builder = $this->db->table('tbldelivery_info');
+        $builder->select('COUNT(deliveryID)total');
+        $builder->WHERE('PaymentStatus',0)->WHERE('TIMESTAMPDIFF(Day, ExpectedDate, CURDATE())',3);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            if($row->total>0)
+            {
+                //send SMS
+                $message = "This is an auto generated message to inform you that our system has flagged an outstanding unpaid purchase order.";
+                $contact_number = "";
+                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                $obj = json_decode($json);
+                foreach($obj as $object)
+                {
+                    $contact_number=$object->contact_number; 
+                }
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                \"from\": \"APFC System\",
+                \"to\": \"$contact_number\",
+                \"text\": \"$message\"
+                }");
+
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json"
+                ));
+
+                $response = curl_exec($ch);
+                curl_close($ch);
             }
         }
     }
@@ -356,38 +409,51 @@ class Notification extends BaseController
                     $email->setSubject($subject);
                     $email->setMessage($template);
                     $email->send();
-
-                    $message = "This is an auto generated message to inform you that our system has identified an outstanding delivery for a purchase order that has already been paid";
-                    $contact_number = "";
-                    $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                    $obj = json_decode($json);
-                    foreach($obj as $object)
-                    {
-                        $contact_number=$object->contact_number; 
-                    }
-                    $ch = curl_init();
-
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-
-                    $response = curl_exec($ch);
-                    curl_close($ch);
                 }
+            }
+        }
+    }
+    
+    public function deliverySMSNotification()
+    {
+        $builder = $this->db->table('tbldelivery_info');
+        $builder->select('COUNT(deliveryID)total');
+        $builder->WHERE('PaymentStatus',1)->WHERE('DeliveryStatus','Pending')->WHERE('TIMESTAMPDIFF(Day, ExpectedDate, CURDATE())',5);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            if($row->total>0)
+            {
+                $message = "This is an auto generated message to inform you that our system has identified an outstanding delivery for a purchase order that has already been paid";
+                $contact_number = "";
+                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
+                $obj = json_decode($json);
+                foreach($obj as $object)
+                {
+                    $contact_number=$object->contact_number; 
+                }
+                $ch = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($ch, CURLOPT_HEADER, FALSE);
+
+                curl_setopt($ch, CURLOPT_POST, TRUE);
+
+                curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                \"from\": \"APFC System\",
+                \"to\": \"$contact_number\",
+                \"text\": \"$message\"
+                }");
+
+                curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                "Content-Type: application/json"
+                ));
+
+                $response = curl_exec($ch);
+                curl_close($ch);
             }
         }
     }
