@@ -1025,7 +1025,7 @@ class Purchase extends BaseController
                                     </tbody>
                                 </table>
                             </div>`
-                            <?php if(str_contains(session()->get('location'), 'FCM')){ ?>
+                            <?php if(session()->get('department')=="Technical Support"){ ?>
                             <div class="col-12 form-group">
                                 <label>Department Head</label>
                                 <select class="form-control" name="departmentHead" id="departmentHead">
@@ -1105,7 +1105,7 @@ class Purchase extends BaseController
         
         if(str_contains($location, 'FCM'))
         {
-            if(empty($deptHead) && str_contains(session()->get('location'), 'FCM'))
+            if(empty($deptHead) && session()->get('department')=="Technical Support")
             {
                 echo "Invalid! Please select Department Head for next approval";
             }
