@@ -630,6 +630,11 @@
 															<a class="dropdown-item" href="<?=site_url('open-file/')?><?php echo $row->purchaseNumber ?>" target="_blank">
 																<i class="icon-copy dw dw-view"></i>&nbsp;View
 															</a>
+															<?php if(session()->get('role')=="Administrator"){ ?>
+															<button type="button" class="dropdown-item cancel" value="<?php echo $row->purchaseNumber ?>">
+																<i class="icon-copy dw dw-trash"></i>&nbsp;Cancel
+															</button>
+															<?php }?>
 															<?php if($row->Status==1){ ?>
 															<button type="button" class="dropdown-item sendEmail" value="<?php echo $row->purchaseNumber ?>">
 																<i class="icon-copy dw dw-mail"></i>&nbsp;Send via Email
@@ -969,6 +974,40 @@
 						$('#modal-loading').modal('show');
 						$.ajax({
 							url:"<?=site_url('send-email')?>",method:"POST",
+							data:{value:val},success:function(response)
+							{
+								if(response==="success")
+								{
+									location.reload();
+								}
+								else
+								{
+									alert(response);
+								}
+								$('#modal-loading').modal('hide');
+							}
+						});
+					}
+				});
+            });
+
+			$(document).on('click','.cancel',function(e)
+            {
+                e.preventDefault();
+                Swal.fire({
+					title: "Are you sure?",
+					text: "Do you want to cancel this P.O.?",
+					icon: "question",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Yes!"
+					}).then((result) => {
+					if (result.isConfirmed) {
+						var val = $(this).val();
+						$('#modal-loading').modal('show');
+						$.ajax({
+							url:"<?=site_url('cancel-purchase-order')?>",method:"POST",
 							data:{value:val},success:function(response)
 							{
 								if(response==="success")
