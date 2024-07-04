@@ -514,8 +514,16 @@
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="others6" role="tabpanel">
 									<br/>
-									<div class="row g-3">
-										<div class="col-12 form-group">
+									<div class="row g-1">
+										<div class="col-lg-3 form-group">
+											<select class="form-control custom-select2" id="searchType">
+												<option value="1">Search By PRF No</option>
+												<option value="2">Search By Name</option>
+												<option value="3">Search By Date</option>
+												<option value="4">Search By Department</option>
+											</select>
+										</div>
+										<div class="col-lg-9 form-group">
 											<input type="search" class="form-control" id="search" placeholder="Search here..."/>
 										</div>
 										<div class="col-12 form-group">
@@ -766,10 +774,11 @@
 			$('#search').keyup(function()
 			{
 				var val = $(this).val(); 
+				var searchType = $('#searchType').val();
 				$('#tblreview').html("<tr><td colspan='8'><center>Searching....</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('search-order')?>",method:"GET",
-					data:{values:val},
+					data:{value:val,search:searchType},
 					success:function(response)
 					{
 						if(response==="")
