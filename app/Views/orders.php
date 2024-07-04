@@ -97,6 +97,13 @@
 			<div class="header-right">
 				<div class="dashboard-setting user-notification">
 					<div class="dropdown">
+						<a class="dropdown-toggle no-arrow" title="PRF Diagram" href="assets/img/prf_diagram.png" target="_BLANK">
+							<i class="icon-copy dw dw-light-bulb"></i>
+						</a>
+					</div>
+				</div>
+				<div class="dashboard-setting user-notification">
+					<div class="dropdown">
 						<a
 							class="dropdown-toggle no-arrow"
 							href="javascript:;"
@@ -448,11 +455,11 @@
 						<span class="icon-copy dw dw-add"></span>&nbsp;Add
 					</a>
 					<div class="dropdown" style="float:right;">
-						<a class="btn btn-link btn-sm no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="icon-copy dw dw-idea-1"></i>&nbsp;Catalogs</a>
+						<a class="btn btn-link btn-sm no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="icon-copy dw dw-notebook"></i>&nbsp;Catalogs</a>
 						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
-							<a class="dropdown-item" href="Manuals/CUMMINS PARTS CATALOG 6BT5.9-DM.pdf" target="_blank"><i class="icon-copy dw dw-right-arrow-1"></i> Cummins Part</a>
-							<a class="dropdown-item" href="Manuals/0CG10-M34301_en.pdf" target="_blank"><i class="icon-copy dw dw-right-arrow-1"></i> Yanmar Part</a>
-							<a class="dropdown-item" href="Manuals/0A6AY-EN0046_2023.04.pdf" target="_blank"><i class="icon-copy dw dw-right-arrow-1"></i> Operation Manual</a>
+							<a class="dropdown-item" href="Manuals/CUMMINS PARTS CATALOG 6BT5.9-DM.pdf" target="_blank"><i class="icon-copy dw dw-right-chevron"></i> Cummins Part</a>
+							<a class="dropdown-item" href="Manuals/0CG10-M34301_en.pdf" target="_blank"><i class="icon-copy dw dw-right-chevron"></i> Yanmar Part</a>
+							<a class="dropdown-item" href="Manuals/0A6AY-EN0046_2023.04.pdf" target="_blank"><i class="icon-copy dw dw-right-chevron"></i> Operation Manual</a>
 						</div>
 					</div>
 				</div>

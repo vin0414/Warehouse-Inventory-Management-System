@@ -504,74 +504,12 @@
 						</div>
 					</div>
 				</div>
-				<!-- <div class="row pb-10">
-					<div class="col-lg-3 mb-20">
-						<div class="card-box">
-							<div class="card-header bg-danger text-white">
-							<i class="icon-copy bi bi-exclamation-triangle"></i>&nbsp;Emergency
-							</div>
-							<div class="card-body">
-								<div class="latest-post">
-									<ul id="emergencyList">
-									</ul>
-									<br/>
-									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 mb-20">
-						<div class="card-box">
-							<div class="card-header bg-warning text-white">
-							<i class="icon-copy bi bi-clock"></i>&nbsp;High Priority
-							</div>
-							<div class="card-body">
-								<div class="latest-post">
-									<ul id="urgentList">					
-									</ul>
-									<br/>
-									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 mb-20">
-						<div class="card-box">
-							<div class="card-header bg-primary text-white">
-							<i class="icon-copy bi bi-info-circle"></i>&nbsp;Moderate Priority
-							</div>
-							<div class="card-body">
-								<div class="latest-post">
-									<ul id="moderateList">
-									</ul>
-									<br/>
-									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-3 mb-20">
-						<div class="card-box">
-							<div class="card-header bg-success text-white">
-							<i class="icon-copy bi bi-info-circle"></i>&nbsp;Low Priority
-							</div>
-							<div class="card-body">
-								<div class="latest-post">
-									<ul id="lowList">
-									</ul>
-									<br/>
-									<a href="<?=site_url('list-orders')?>" class="btn btn-primary btn-sm">View All <i class="icon-copy dw dw-right-chevron"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div> -->
 				<div class="row pb-10">
 					<div class="col-lg-4 mb-20">
 						<div class="card-box">
 							<div class="card-header bg-primary text-white"><i class="icon-copy dw dw-shopping-cart"></i>&nbsp;Pending PRF</div>
 							<div class="card-body">	
-								<div class="latest-post" style="height:500px;overflow-y:auto;">
+								<div class="latest-post" style="height:600px;overflow-y:auto;">
 									<ul id="allPRF">
 									</ul>
 								</div>
@@ -582,7 +520,7 @@
 						<div class="card-box">
 							<div class="card-header bg-primary text-white"><i class="icon-copy dw dw-delivery-truck"></i>&nbsp;P.O. (For Deliveries)</div>	
 							<div class="card-body">
-								<div class="latest-post" style="height:500px;overflow-y:auto;">
+								<div class="latest-post" style="height:600px;overflow-y:auto;">
 									<ul id="allPO">
 									</ul>
 								</div>
@@ -593,14 +531,14 @@
 						<div class="card-box">
 							<div class="card-body">
 								<div class="card-title">Total Request Per Category</div>	
-								<div id="categoryContainer" style="width:100%;height:300px;"></div>
+								<div id="categoryContainer" style="width:100%;height:250px;"></div>
 							</div>
 						</div>
 						<br/>
 						<div class="card-box">
 							<div class="card-body">
 								<div class="card-title">PRF Request Per Day</div>	
-								<div id="chartContainer" style="width:100%;height:300px;"></div>
+								<div id="chartContainer" style="width:100%;height:250px;"></div>
 							</div>
 						</div>
 					</div>
