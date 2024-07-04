@@ -1354,6 +1354,23 @@ class Purchase extends BaseController
         echo "success";
     }
 
+    public function cancelPO()
+    {
+        $purchaseOrderModel = new \App\Models\purchaseOrderModel();
+        $systemLogsModel = new \App\Models\systemLogsModel();
+        $val = $this->request->getPost('value');
+        $user = session()->get('loggedUser');
+        $values = ['Status'=>2,'Remarks'=>'CLOSE','Comment'=>'Cancelled'];
+        $purchaseOrderModel->update($val,$values);
+        //system logs
+        $purchase = $purchaseOrderModel->WHERE('purchaseLogID',$val)->first();
+        $value= [
+            'accountID'=>$user,'Date'=>date('Y-m-d H:i:s a'),'Activity'=>'Cancelled '.$purchase['purchaseNumber']
+        ];
+        $systemLogsModel->save($value);
+        echo "success";
+    }
+
     public function CancelPurchase()
     {
         $systemLogsModel = new \App\Models\systemLogsModel();

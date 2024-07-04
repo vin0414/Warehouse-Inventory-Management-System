@@ -136,6 +136,7 @@ $routes->post('cancel','Purchase::Cancel');
 $routes->post('cancel-purchase','Purchase::CancelPurchase');
 $routes->post('cancel-transfer','Purchase::cancelTransfer');
 $routes->post('close-purchase','Purchase::archivePurchase');
+$routes->post('cancel-purchase-order','Purchase::cancelPO');
 $routes->get('fetch-added-supplier','Purchase::fetchSupplier');
 $routes->post('add-entry','Purchase::addEntry');
 $routes->post('remove-item','Purchase::removeItem');
