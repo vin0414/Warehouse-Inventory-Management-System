@@ -599,7 +599,7 @@
 														<?php if($row->Status==0){ ?>
 															<span class="badge bg-warning text-white">To Dept Head</span>
 														<?php }else if($row->Status==1){?>
-															<span class="badge bg-info text-white">To Negotiator</span>
+															<span class="badge bg-info text-white">Negotiator : <?php echo $row->Fullname ?></span>
 														<?php }else if($row->Status==3){?>
 															<span class="badge bg-primary text-white">To Materials Manager</span>
 														<?php }else if($row->Status==4){?>

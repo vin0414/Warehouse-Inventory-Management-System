@@ -2027,13 +2027,20 @@ class Purchase extends BaseController
             
             if($remarks=="Full Delivery")
             {
-                $purchase = $purchaseOrderModel->WHERE('purchaseNumber',$purchase_number)->first();
-                $values = ['Remarks'=>'CLOSE'];
-                $purchaseOrderModel->update($purchase['purchaseLogID'],$values);
                 //PRF
                 $prf = $purchaseModel->WHERE('OrderNo',$job_number)->first();
                 $new_values = ['Status'=>5,'Remarks'=>'CLOSE'];
                 $purchaseModel->update($prf['prfID'],$new_values);
+                //close All PO
+                $builder = $this->db->table('tblpurchase_logs');
+                $builder->select('purchaseLogID');
+                $builder->WHERE('OrderNo',$job_number);
+                $data = $builder->get();
+                foreach($data->getResult() as $row)
+                {
+                    $values = ['Remarks'=>'CLOSE'];
+                    $purchaseOrderModel->update($row->purchaseLogID,$values);
+                }
             }
             //system logs
             $value = ['accountID'=>session()->get('loggedUser'),'Date'=>date('Y-m-d H:i:s a'),'Activity'=>'Received Order of '.$invoiceNo];

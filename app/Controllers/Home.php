@@ -1342,9 +1342,11 @@ class Home extends BaseController
         $builder->groupBy('a.OrderNo');
         $orders = $builder->get()->getResult();
         //canvass 
-        $builder = $this->db->table('tblcanvass_form');
-        $builder->select('*,TIMESTAMPDIFF(Day,DatePrepared, CURDATE()) Age');
-        $builder->WHERE('accountID',$user);
+        $builder = $this->db->table('tblcanvass_form a');
+        $builder->select('a.*,TIMESTAMPDIFF(Day,a.DatePrepared, CURDATE()) Age,b.PurchaseType,c.Fullname');
+        $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
+        $builder->join('(Select t1.Reference,t2.Fullname from tblcanvass_review t1 LEFT JOIN tblaccount t2 ON t1.accountID=t2.accountID WHERE t2.systemRole="Staff") c','c.Reference=a.Reference','LEFT');
+        $builder->WHERE('a.accountID',$user);
         $canvass = $builder->get()->getResult();
         //po
         $builder = $this->db->table('tblcanvass_form a');
