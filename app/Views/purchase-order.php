@@ -630,12 +630,12 @@
 															<a class="dropdown-item" href="<?=site_url('open-file/')?><?php echo $row->purchaseNumber ?>" target="_blank">
 																<i class="icon-copy dw dw-view"></i>&nbsp;View
 															</a>
+															<?php if($row->Status==1){ ?>
 															<?php if(session()->get('role')=="Administrator"){ ?>
 															<button type="button" class="dropdown-item cancel" value="<?php echo $row->purchaseNumber ?>">
 																<i class="icon-copy dw dw-trash"></i>&nbsp;Cancel
 															</button>
 															<?php }?>
-															<?php if($row->Status==1){ ?>
 															<button type="button" class="dropdown-item sendEmail" value="<?php echo $row->purchaseNumber ?>">
 																<i class="icon-copy dw dw-mail"></i>&nbsp;Send via Email
 															</button>
