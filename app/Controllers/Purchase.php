@@ -58,7 +58,7 @@ class Purchase extends BaseController
             //get the ID
             $form = $canvassFormModel->WHERE('Reference',$purchase['Reference'])->first();
             $values = ['Attachment'=>$originalName];
-            $file->move('Attachment/',$originalName);
+            $file->move('Canvass/',$originalName);
             $canvassFormModel->update($form['formID'],$values);
         }
 
