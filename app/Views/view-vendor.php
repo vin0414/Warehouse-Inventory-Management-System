@@ -483,34 +483,28 @@
                                 </div>
                             </div>
                             <div class="col-12 form-group">
-                                <table class="table table-bordered hover nowrap">
+							<?php foreach($list as $row): ?>
+								<h3><?php echo $row->Item_Name ?></h3>
+								<p><span><?php echo $row->Qty ?> Qty</span> | <span><?php echo $row->Specification ?></span></p>
+								<table class="table table-bordered hover nowrap">
                                     <thead>
                                         <th>#</th>
-                                        <th>Product Name</th>
-										<th>Unit</th>
-                                        <th>Qty</th>
-                                        <th>Specification</th>
                                         <th>Vendors</th>
                                         <th>Unit Price</th>
                                         <th>Terms</th>
                                         <th>Warranty</th>
                                     </thead>
                                     <tbody>
-                                        <?php foreach($list as $row): ?>
-                                            <tr>
-                                                <td><input type="checkbox" style="height:15px;width:15px;" onclick="check()" class="checkbox" value="<?php echo $row->canvassID ?>" name="itemID[]" id="itemID"/></td>
-                                                <td><?php echo $row->Item_Name ?></td>
-												<td><?php echo $row->ItemUnit ?></td>
-                                                <td><?php echo $row->Qty ?></td>
-                                                <td><?php echo $row->Specification ?></td>
-                                                <td><?php echo $row->Supplier ?></td>
-                                                <td><?php echo number_format($row->Price,2) ?></td>
-                                                <td><?php echo $row->Terms ?></td>
-                                                <td><?php echo $row->Warranty ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
+										<tr>
+											<td><input type="checkbox" style="height:15px;width:15px;" onclick="check()" class="checkbox" value="<?php echo $row->canvassID ?>" name="itemID[]" id="itemID"/></td>
+											<td><?php echo $row->Supplier ?></td>
+											<td><?php echo number_format($row->Price,2) ?></td>
+											<td><?php echo $row->Terms ?></td>
+											<td><?php echo $row->Warranty ?></td>
+										</tr>
                                     </tbody>
                                 </table>
+							<?php endforeach; ?>
                             </div>
                             <div class="col-12 form-group">
                                 <button type="submit" class="btn btn-primary btn-sm accept" disabled>

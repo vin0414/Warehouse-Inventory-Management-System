@@ -769,16 +769,17 @@
                     },
                     success:function(data)
                     {
+						$('#frmCanvass').css("opacity","");
+                        $("#btnSubmit").removeAttr("disabled");
                         if(data==="success")
                         {
                             alert("Great! Successfully recorded");
+							location.reload();
                         }
                         else
                         {
                             alert(data);
                         }
-                        $('#frmTask').css("opacity","");
-                        $("#btnSubmit").removeAttr("disabled");
                     }
                 });
 			});

@@ -1517,7 +1517,7 @@ class Home extends BaseController
         $builder = $this->db->table('tblcanvass_sheet a');
         $builder->select('a.*,b.Item_Name,b.Qty,b.Specification,b.ItemUnit');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
-        $builder->WHERE('a.Reference',$id);
+        $builder->WHERE('a.Reference',$id)->groupBy('a.Supplier')->groupBy('b.Item_Name');
         $list = $builder->get()->getResult();
         //canvass form
         $builder = $this->db->table('tblcanvass_form');
