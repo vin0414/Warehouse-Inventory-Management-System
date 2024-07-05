@@ -116,7 +116,7 @@ $routes->post('save-request','ProductController::saveRequest');
 $routes->post('accept-transfer-request','ProductController::acceptRequest');
 $routes->post('submit-return-order','ProductController::submitReturnOrder');
 $routes->post('accept-return-order','ProductController::acceptReturnOrder');
-//report
+//other functions
 $routes->get('search-stocks','Report::searchStockReport');
 $routes->get('search-inventory','Report::searchInventory');
 $routes->post('save-order','Purchase::saveOrder');
@@ -181,6 +181,7 @@ $routes->post('cancel-delivery','Purchase::cancelDelivery');
 $routes->post('delivered','Purchase::successDelivery');
 $routes->post('tag-as-paid','Purchase::tagAsPaid');
 $routes->post('paid-delivery','Purchase::paidDelivery');
+$routes->post('transfer-prf','Purchase::transferPRF');
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {

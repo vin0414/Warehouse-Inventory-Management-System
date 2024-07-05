@@ -2571,4 +2571,40 @@ class Purchase extends BaseController
         $deliveryModel->update($id,$values);
         echo "success";
     }
+
+    public function transferPRF()
+    {
+        $systemLogsModel = new \App\Models\systemLogsModel();
+        $purchaseModel = new \App\Models\purchaseModel();
+        //data
+        $old_user = $this->request->getPost('user');
+        $new_user = $this->request->getPost('new_user');
+        //validate
+        $validation = $this->validate([
+            'user'=>'required','new_user'=>'required'
+        ]);
+        if(!$validation)
+        {
+            echo "Please fill in the form";
+        }
+        else
+        {
+            //get the pending PRF from original requestor
+            $status = [2,3];
+            $builder = $this->db->table('tblprf');
+            $builder->select('prfID');
+            $builder->WHERE('accountID',$old_user)->WHERENOTIN('Status',$status);
+            $data = $builder->get();
+            foreach($data->getResult() as $row)
+            {
+                $values = ['accountID'=>$new_user];
+                $purchaseModel->update($row->prfID,$values);
+            }
+
+            //system logs
+            $value = ['accountID'=>session()->get('loggedUser'),'Date'=>date('Y-m-d H:i:s a'),'Activity'=>'Transferred PRF to new Requestor'];
+            $systemLogsModel->save($value);
+            echo "success";
+        }
+    }
 }

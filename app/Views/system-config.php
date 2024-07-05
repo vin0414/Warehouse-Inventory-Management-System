@@ -422,6 +422,12 @@
 							</a>
 						</li>
 						<?php } ?>
+						<li>
+							<a href="" class="dropdown-toggle no-arrow" data-toggle="modal" data-target="#newRequestorModal">
+								<span class="micon dw dw-folder-3"></span
+								><span class="mtext">Transfer PRF</span>
+							</a>
+						</li>
                         <li>
 							<a href="<?=site_url('profile')?>" class="dropdown-toggle no-arrow">
 								<span class="micon dw dw-user1"></span
@@ -467,7 +473,7 @@
                                 <div class="row g-3">
                                     <div class="col-lg-4 form-group">
                                         <div class="card-box">
-                                            <div class="card-header"><i class="icon-copy dw dw-building1"></i>&nbsp;Industry</div>
+                                            <div class="card-header"><i class="icon-copy dw dw-building"></i>&nbsp;Industry</div>
                                             <div class="card-body">
                                                 <div class="user-list" style="height:400px;overflow-y:auto;">
                                                     <ul id="listindustry"></ul>
@@ -491,7 +497,7 @@
                                     </div>
                                     <div class="col-lg-4 form-group">
                                         <div class="card-box">
-                                            <div class="card-header"><i class="icon-copy dw dw-house-11"></i>&nbsp;Assignment</div>
+                                            <div class="card-header"><i class="icon-copy dw dw-map2"></i>&nbsp;Assignment</div>
                                             <div class="card-body">
                                                 <div class="user-list" style="height:400px;overflow-y:auto;">
                                                     <ul id="listwarehouse"></ul>
@@ -584,7 +590,7 @@
                         <div class="tab-pane fade" id="contact6" role="tabpanel">
                             <div class="pd-10">
 								<div class="card-box">
-									<div class="card-header"><i class="icon-copy dw dw-list"></i>&nbsp;System Logs</div>
+									<div class="card-header"><i class="icon-copy dw dw-notepad-2"></i>&nbsp;System Logs</div>
 									<div class="card-body">
 										<table class="data-table table hover nowrap">
 											<thead>
@@ -838,6 +844,44 @@
                 </div>
             </div>
         </div>
+
+		<div class="modal fade" id="newRequestorModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">
+                            Transfer PRF
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3" id="frmNewUser">
+                            <div class="col-12 form-group">
+                                <label>Original Requestor</label>
+                                <select class="form-control custom-select2" name="user" style="width:100%;">
+									<option value="">Choose</option>
+									<?php foreach($account as $row): ?>
+										<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
+									<?php endforeach; ?>
+								</select>
+                            </div>
+							<div class="col-12 form-group">
+                                <label>New Requestor</label>
+                                <select class="form-control custom-select2" name="new_user" style="width:100%;">
+									<option value="">Choose</option>
+									<?php foreach($account as $row): ?>
+										<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
+									<?php endforeach; ?>
+								</select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <input type="submit" class="btn btn-primary" value="Save Changes" id="btnTransfer"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<!-- js -->
 		<script src="assets/vendors/scripts/core.js"></script>
 		<script src="assets/vendors/scripts/script.min.js"></script>
@@ -935,6 +979,38 @@
                     }
                 });
             });
+
+			$('#frmNewUser').on('submit',function(e){
+				e.preventDefault();
+				$.ajax({
+					url:"<?=site_url('transfer-prf')?>",method:"POST",
+					data:new FormData(this),
+					contentType: false,
+					cache: false,
+					processData:false,
+					beforeSend: function(){
+						$('#btnTransfer').attr("value","Saving. Please wait");
+					},
+					success:function(data)
+					{
+						if(data==="success")
+						{
+							Swal.fire(
+								'Great',
+								'Successfully applied changes',
+								'success'
+							);
+							$('#newRequestorModal').modal('hide');
+						}
+						else
+						{
+							alert(data);
+						}
+						$('#btnTransfer').attr("value","Save Changes");
+					}
+				});
+			});
+
 			$('#frmAccount').on('submit',function(evt)
 			{
 				evt.preventDefault();
@@ -955,11 +1031,10 @@
 						{
 							Swal.fire(
 								'Great',
-								'Successfully added',
+								'Successfully added. Please reload the page',
 								'success'
 							);
 							$('#frmAccount')[0].reset();
-							location.reload();
 						}
 						else
 						{
