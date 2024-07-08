@@ -91,6 +91,63 @@
 				100%{
 					transform:rotate(360deg)
 				}
+			}
+			.checkbox.style-e {
+				display: inline-block;
+				position: relative;
+				padding-left: 50px;
+				cursor: pointer;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				}
+				.checkbox.style-e input {
+				position: absolute;
+				opacity: 0;
+				cursor: pointer;
+				height: 0;
+				width: 0;
+				}
+				.checkbox.style-e input:checked ~ .checkbox__checkmark {
+				background-color: #f7cb15;
+				}
+				.checkbox.style-e input:checked ~ .checkbox__checkmark:after {
+				left: 21px;
+				}
+				.checkbox.style-e:hover input ~ .checkbox__checkmark {
+				background-color: #eee;
+				}
+				.checkbox.style-e:hover input:checked ~ .checkbox__checkmark {
+				background-color: #f7cb15;
+				}
+				.checkbox.style-e .checkbox__checkmark {
+				position: absolute;
+				top: 1px;
+				left: 0;
+				height: 22px;
+				width: 40px;
+				background-color: #eee;
+				transition: background-color 0.25s ease;
+				border-radius: 11px;
+				}
+				.checkbox.style-e .checkbox__checkmark:after {
+				content: "";
+				position: absolute;
+				left: 3px;
+				top: 3px;
+				width: 16px;
+				height: 16px;
+				display: block;
+				background-color: #fff;
+				border-radius: 50%;
+				transition: left 0.25s ease;
+				}
+				.checkbox.style-e .checkbox__body {
+				color: #333;
+				line-height: 1.4;
+				font-size: 16px;
+				transition: color 0.25s ease;
 				}
             
         </style>
@@ -486,24 +543,45 @@
 							<?php foreach($list as $row): ?>
 								<h3><?php echo $row->Item_Name ?></h3>
 								<p><span><?php echo $row->Qty ?> Qty</span> | <span><?php echo $row->Specification ?></span></p>
-								<table class="table table-bordered hover nowrap">
-                                    <thead>
-                                        <th>#</th>
-                                        <th>Vendors</th>
-                                        <th>Unit Price</th>
-                                        <th>Terms</th>
-                                        <th>Warranty</th>
-                                    </thead>
-                                    <tbody>
+								<table class="table table-bordered">
+									<thead>
+										<th class="bg-primary text-white">#</th>
+										<th class="bg-primary text-white">Vendor's Name</th>
+										<th class="bg-primary text-white">Unit Price</th>
+										<th class="bg-primary text-white">Warranty</th>
+										<th class="bg-primary text-white">Terms</th>
+									</thead>
+									<tbody>
+									<?php
+									$db = db_connect();
+									$builder = $db->table("tblcanvass_sheet");
+									$builder->select('canvassID,Supplier,Address,Price,Warranty,Terms');
+									$builder->WHERE('orderID',$row->orderID);
+									$data = $builder->get();
+									foreach($data->getResult() as $rows)
+									{
+										?>
 										<tr>
-											<td><input type="checkbox" style="height:15px;width:15px;" onclick="check()" class="checkbox" value="<?php echo $row->canvassID ?>" name="itemID[]" id="itemID"/></td>
-											<td><?php echo $row->Supplier ?></td>
-											<td><?php echo number_format($row->Price,2) ?></td>
-											<td><?php echo $row->Terms ?></td>
-											<td><?php echo $row->Warranty ?></td>
+											<td>
+												<label class="checkbox style-e">
+													<input type="checkbox" onclick="check()" value="<?php echo $rows->canvassID ?>" name="itemID[]" id="itemID"/>
+													<div class="checkbox__checkmark"></div>
+													<div class="checkbox__body" id="checkbox_body">Select</div>
+												</label>
+											</td>
+											<td>
+												<?php echo $rows->Supplier ?><br/>
+												<small><?php echo $rows->Address ?></small>
+											</td>
+											<td><?php echo number_format($rows->Price,2) ?></td>
+											<td><?php echo $rows->Warranty ?></td>
+											<td><?php echo $rows->Terms ?></td>
 										</tr>
-                                    </tbody>
-                                </table>
+										<?php
+									}
+									?>
+									</tbody>
+								</table>
 							<?php endforeach; ?>
                             </div>
                             <div class="col-12 form-group">
@@ -543,12 +621,13 @@
             function check()
             {
                 var checkbox = $('input:checkbox').is(':checked')
-                if(checkbox){
-                $('.accept').attr("disabled",false);
+                if(checkbox)
+				{
+                	$('.accept').attr("disabled",false);
                 }
                 else
                 {
-                $('.accept').attr("disabled",true);
+                	$('.accept').attr("disabled",true);
                 }
             }
             $(document).on('click','.accept',function(e)
