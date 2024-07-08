@@ -2245,6 +2245,11 @@ class Home extends BaseController
         return view('ledger',$data);
     }
 
+    public function monitoring()
+    {
+        return view('monitoring');
+    }
+
     public function overAllReport()
     {
         $cost=0;

@@ -389,6 +389,7 @@
 							<?php if(session()->get('role')=="Administrator"||session()->get('role')=="Editor"){ ?>
 							<ul class="submenu">
 								<li><a href="<?=site_url('overall-report')?>">Main Report</a></li>
+								<li><a href="<?=site_url('monitoring')?>">PRF/PO Monitoring</a></li>
                                 <li><a href="<?=site_url('report-stocks')?>">Stocks Report</a></li>
 								<li><a href="<?=site_url('ledger')?>">Vendor's Ledger</a></li>
 								<li><a href="<?=site_url('return-order-summary')?>">Return Order Report</a></li>
