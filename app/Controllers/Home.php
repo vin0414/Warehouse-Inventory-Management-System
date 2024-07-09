@@ -2247,7 +2247,12 @@ class Home extends BaseController
 
     public function monitoring()
     {
-        return view('monitoring');
+        $builder = $this->db->table('tblprf');
+        $builder->select('Department');
+        $builder->groupBy('Department');
+        $list = $builder->get()->getResult();
+        $data = ['list'=>$list];
+        return view('monitoring',$data);
     }
 
     public function overAllReport()

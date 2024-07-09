@@ -74,7 +74,7 @@
                 width: 4px;               /* width of vertical scrollbar */
                 border: 1px solid #d5d5d5;
               }
-            .tableFixHead thead th { position: sticky; top: 0; z-index: 1;color:#fff;background-color:#0275d8;}
+            .tableFixHead thead th { position: sticky; top: 0; z-index: 1;color:#fff;background-color:blue;}
 
             /* Just common table stuff. Really. */
             table  { border-collapse: collapse; width: 100%; }
@@ -596,7 +596,7 @@
 							<div class="card-box">
 								<div class="card-header">Items/Equipment - Nearly Expired</div>
 								<div class="card-body">
-									<table class="data-table table hover nowrap">
+									<table class="data-table table table-bordered hover nowrap">
 										<thead>
 											<th class="bg-primary text-white">Item Group</th>
 											<th class="bg-primary text-white">Product ID</th>

@@ -74,7 +74,7 @@
                 width: 0px;               /* width of vertical scrollbar */
                 border: 1px solid #d5d5d5;
               }
-            .tableFixHead thead th { position: sticky; top: 0; z-index: 1;color:#fff;background-color:#0275d8;}
+            .tableFixHead thead th { position: sticky; top: 0; z-index: 1;color:#fff;background-color:blue;}
 
             /* Just common table stuff. Really. */
             table  { border-collapse: collapse; width: 100%;font-size:12px; }
@@ -139,11 +139,6 @@
 							>
 						</div>
 					</div>
-				</div>
-				<div class="github-link">
-					<a href="https://github.com/dropways/deskapp" target="_blank"
-						><img src="vendors/images/github.svg" alt=""
-					/></a>
 				</div>
 			</div>
 		</div>
@@ -450,29 +445,32 @@
                 <div class="row g-1">
                     <div class="col-lg-12 form-group">
                         <form method="GET" class="row g-1" id="frmSearch">
-                            <div class="col-lg-2">
+                            <div class="col-lg-2 form-group">
                                 <input type="date" class="form-control" name="from"/>
                             </div>
-                            <div class="col-lg-2">
+                            <div class="col-lg-2 form-group">
                                 <input type="date" class="form-control" name="to"/>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 form-group">
                                 <select class="form-control custom-select2" name="department">
                                     <option value="">Choose</option>
+									<?php foreach($list as $row): ?>
+										<option><?php echo $row->Department ?></option>
+									<?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-4 form-group">
                                 <button type="submit" class="btn btn-primary" id="btnSearch">
                                     <i class="icon-copy dw dw-search"></i> Search
                                 </button>&nbsp;
-                                <button type="button" class="btn btn-outline-primary" id="btnExport">
+                                <a href="javascript:void(0);" class="btn btn-outline-primary" onclick="exportf(this)" id="btnExport">
                                     <i class="icon-copy dw dw-download"></i> Export
-                                </button>
+                                </a>
                             </div>
                         </form>
                     </div>
                     <div class="col-lg-12 form-group table-responsive tableFixHead" style="height:500px;overflow-y:auto;">
-                        <table class="table-bordered" id="table1">
+                        <table class="table-bordered" id="table">
                             <thead>
                                 <th>PRF #</th>
                                 <th>Date Prepared</th>
@@ -486,13 +484,13 @@
                                 <th>UOM</th>
                                 <th>Amount</th>
                                 <th>Terms</th>
-                                <th>Update</th>
+								<th>Usage</th>
                                 <th>Served</th>
                                 <th>Assignee</th>
                                 <th>Status</th>
                                 <th>Remarks</th>
                             </thead>
-                            <tbody>
+                            <tbody id="result">
                                 <tr><td colspan="17"><center>No Data</center></td></tr>
                             </tbody>
                         </table>
@@ -514,8 +512,30 @@
             $('#frmSearch').on('submit',function(e){
                 e.preventDefault();
                 var data = $(this).serialize();
-                alert(data);
+                $('#result').html("<tr><td colspan='17'><center>Loading...</center></td></tr>");
+				$.ajax({
+					url:"<?=site_url('monitoring-report')?>",method:"GET",
+					data:data,success:function(response)
+					{
+						if(response==="")
+						{
+							$('#result').html("<tr><td colspan='17'><center>No Record(s)</center></td></tr>");
+						}
+						else
+						{
+							$('#result').html(response);
+						}
+					}
+				});
             });
+			function exportf(elem) {
+			var table = document.getElementById("table");
+			var html = table.outerHTML;
+			var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+			elem.setAttribute("href", url);
+			elem.setAttribute("download","pr-po-monitoring.xls"); // Choose the file name
+			return false;
+			}
         </script>
 	</body>
 </html>
