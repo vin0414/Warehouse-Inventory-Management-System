@@ -469,7 +469,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-lg-12 form-group table-responsive tableFixHead" style="height:500px;overflow-y:auto;">
+                    <div class="col-lg-12 form-group tableFixHead" style="height:500px;overflow-y:auto;overflow-x:hidden;">
                         <table class="table-bordered" id="table">
                             <thead>
                                 <th>PRF #</th>
@@ -483,6 +483,7 @@
                                 <th>Qty</th>
                                 <th>UOM</th>
                                 <th>Amount</th>
+								<th>Total Amount</th>
                                 <th>Terms</th>
 								<th>Usage</th>
                                 <th>Served</th>
@@ -491,7 +492,7 @@
                                 <th>Remarks</th>
                             </thead>
                             <tbody id="result">
-                                <tr><td colspan="17"><center>No Data</center></td></tr>
+                                <tr><td colspan="18"><center>No Data</center></td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -512,14 +513,14 @@
             $('#frmSearch').on('submit',function(e){
                 e.preventDefault();
                 var data = $(this).serialize();
-                $('#result').html("<tr><td colspan='17'><center>Loading...</center></td></tr>");
+                $('#result').html("<tr><td colspan='18'><center>Loading...</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('monitoring-report')?>",method:"GET",
 					data:data,success:function(response)
 					{
 						if(response==="")
 						{
-							$('#result').html("<tr><td colspan='17'><center>No Record(s)</center></td></tr>");
+							$('#result').html("<tr><td colspan='18'><center>No Record(s)</center></td></tr>");
 						}
 						else
 						{

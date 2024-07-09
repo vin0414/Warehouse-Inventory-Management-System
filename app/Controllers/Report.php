@@ -40,6 +40,7 @@ class Report extends BaseController
                     <td><?php echo $row->Qty ?></td>
                     <td><?php echo $row->ItemUnit ?></td>
                     <td><?php echo number_format($row->Price,2) ?></td>
+                    <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
                     <td><?php echo $row->Terms ?></td>
                     <td><?php echo $row->Department ?></td>
                     <td>
@@ -115,6 +116,7 @@ class Report extends BaseController
                     <td><?php echo $row->Qty ?></td>
                     <td><?php echo $row->ItemUnit ?></td>
                     <td><?php echo number_format($row->Price,2) ?></td>
+                    <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
                     <td><?php echo $row->Terms ?></td>
                     <td><?php echo $row->Department ?></td>
                     <td>
