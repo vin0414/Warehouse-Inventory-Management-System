@@ -23,7 +23,7 @@ class Report extends BaseController
             LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
             LEFT JOIN tblassignment e ON e.prfID=a.prfID
             LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to:
-            group by a.OrderNo,b.purchaseLogID";
+            group by a.OrderNo,b.purchaseLogID,c.orderID";
             $query = $this->db->query($sql,['from'=>$from,'to'=>$to]);
             foreach ($query->getResult() as $row) 
             {
@@ -99,7 +99,7 @@ class Report extends BaseController
             LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
             LEFT JOIN tblassignment e ON e.prfID=a.prfID
             LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to: AND a.Department=:department:
-            group by a.OrderNo,b.purchaseLogID";
+            group by a.OrderNo,b.purchaseLogID,c.orderID";
             $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'department'=>$dept]);
             foreach ($query->getResult() as $row) 
             {
