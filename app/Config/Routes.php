@@ -156,6 +156,7 @@ $routes->post('approve','Home::approve');
 $routes->post('decline','Home::decline');
 $routes->get('search-vendor','Home::searchVendor');
 $routes->get('vendor-information','Home::vendorInformation');
+$routes->post('save-new-vendor','Home::updateVendor');
 $routes->get('download/(:any)','Report::Download/$1');
 $routes->get('download-file/(:any)','Report::DownloadFile/$1');
 $routes->get('file-download/(:any)','Report::fileDownload/$1');
@@ -232,6 +233,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/generate/(:any)','Home::generatePRF/$1');
     $routes->get('/issuance','Home::Issuance');
     $routes->get('/monitoring','Home::monitoring');
+    $routes->get('/change/(:any)','Home::changeVendor/$1');
 });
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

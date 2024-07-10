@@ -2499,7 +2499,7 @@ class Purchase extends BaseController
 
     public function sendEmail()
     {
-
+        echo "Please contact IT Department to activate this feature";
     }
 
     public function deliveryDate()

@@ -2235,6 +2235,95 @@ class Home extends BaseController
         }
     }
 
+    public function changeVendor($id)
+    {
+        $purchaseOrderModel = new \App\Models\purchaseOrderModel();
+        $purchase = $purchaseOrderModel->WHERE('purchaseNumber',$id)->first();
+
+        $builder = $this->db->table('tblpurchase_logs a');
+        $builder->select('b.canvassID,b.Reference,b.Supplier,b.Price,c.Item_Name,c.Qty,c.ItemUnit,b.Terms,b.Warranty,b.ContactPerson,b.ContactNumber,b.Address,b.purchaseLogID');
+        $builder->join('tblcanvass_sheet b','b.purchaseLogID=a.purchaseLogID','LEFT');
+        $builder->join('tbl_order_item c','c.orderID=b.orderID','LEFT');
+        $builder->WHERE('a.purchaseNumber',$id);
+        $list = $builder->get()->getResult();
+        $data = ['list'=>$list,'code'=>$id,'reference'=>$purchase['Reference']];
+        return view('change-vendor',$data);
+    }
+
+    public function updateVendor()
+    {
+        $canvassModel = new \App\Models\canvassModel();
+        $canvassFormModel = new \App\Models\canvasFormModel();
+        $purchaseOrderModel = new \App\Models\purchaseOrderModel();
+        $purchaseReviewModel = new \App\Models\purchaseReviewModel();
+        //data
+        $code = $this->request->getPost('code');
+        $reference = $this->request->getPost('reference');
+        $itemID = $this->request->getPost('itemID');
+        $supplier = $this->request->getPost('supplier');
+        $price = $this->request->getPost('price');
+        $terms = $this->request->getPost('terms');
+        $contact = $this->request->getPost('contact');
+        $address = $this->request->getPost('address');
+        $file = $this->request->getFile('file');
+        $originalName = $file->getClientName();
+        //save the file to the canvass folder
+        if(!empty($originalName))
+        {
+            $canvassForm = $canvassFormModel->WHERE('Reference',$reference)->first();
+            $values = ['Attachment'=>$originalName];
+            $canvassFormModel->update($canvassForm['formID'],$values);
+            $file->move('Canvass/',$originalName);
+        }
+        //update the canvass Model
+        $count = count($itemID);
+        for($i=0;$i<$count;$i++)
+        {
+            $canvass = $canvassModel->WHERE('canvassID',$itemID[$i])->first();
+            $values =  ['Supplier'=>$supplier[$i],'Price'=>$price[$i],'ContactPerson'=>$contact[$i],'ContactNumber'=>'N/A','Address'=>$address[$i],'Terms'=>$terms[$i]];
+            $canvassModel->update($canvass['canvassID'],$values);
+        }
+        //update the P.O.
+        $purchase_order = $purchaseOrderModel->WHERE('purchaseNumber',$code)->first();
+        $values = ['Status'=>0,'Date'=>date('Y-m-d'),'Comment'=>''];
+        $purchaseOrderModel->update($purchase_order['purchaseLogID'],$values);
+        //update the status of purchase approval
+        $purchaseReview = $purchaseReviewModel->WHERE('purchaseNumber',$code)->first();
+        $values = ['DateReceived'=>date('Y-m-d'),'Status'=>0];
+        $purchaseReviewModel->update($purchaseReview['prID'],$values);
+        //send email
+        $builder = $this->db->table('tblaccount');
+        $builder->select('Fullname,Email');
+        $builder->WHERE('accountID',$purchaseReview['accountID']);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            //email
+            $email = \Config\Services::email();
+            $email->setTo($row->Email);
+            $email->setFrom("fastcat.system@gmail.com","FastCat");
+            $imgURL = "assets/img/fastcat.png";
+            $email->attach($imgURL);
+            $cid = $email->setAttachmentCID($imgURL);
+            $template = "<center>
+            <img src='cid:". $cid ."' width='100'/>
+            <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
+            <tr><td><center><h1>Purchase Order Form</h1></center></td></tr>
+            <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+            <tr><td><center>This is from FastCat System, sending you a reminder that requesting for your approval of the generated Purchase Order.</center></td></tr>
+            <tr><td><center>Purchase Order No</center></td></tr>
+            <tr><td><center><h2>".$code."</h2></center></td></tr>
+            <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
+            <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
+            <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
+            $subject = "Purchase Order Form - For Approval";
+            $email->setSubject($subject);
+            $email->setMessage($template);
+            $email->send();
+        }
+        echo "success";
+    }
+
     public function ledger()
     {
         $builder = $this->db->table('tblsupplier');

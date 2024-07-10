@@ -631,6 +631,9 @@
 															<a class="dropdown-item" href="<?=site_url('open-file/')?><?php echo $row->purchaseNumber ?>" target="_blank">
 																<i class="icon-copy dw dw-view"></i>&nbsp;View
 															</a>
+															<a class="dropdown-item" href="<?=site_url('change/')?><?php echo $row->purchaseNumber ?>">
+																<i class="icon-copy dw dw-repeat-1"></i>&nbsp;Change Vendor
+															</a>
 															<?php if($row->Status==1){ ?>
 															<?php if(session()->get('role')=="Administrator"){ ?>
 															<button type="button" class="dropdown-item cancel" value="<?php echo $row->purchaseLogID ?>">
