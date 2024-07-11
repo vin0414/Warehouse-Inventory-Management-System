@@ -512,11 +512,15 @@
                             </div>
                             <div class="col-12 form-group">
                                 <div class="row g-3">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label>Username</label>
                                         <input type="text" name="username" class="form-control" value="<?=$account['username']?>" required/>
                                     </div>
-                                    <div class="col-lg-4">
+									<div class="col-lg-3">
+										<label>Contact Number</label>
+										<input type="phone" class="form-control" name="phone" minlength="11" maxlength="11" value="<?=$account['ContactNumber']?>" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
+									</div>
+                                    <div class="col-lg-3">
                                         <label>Status</label>
                                         <select class="form-control" name="status">
                                             <option value="">Choose</option>
@@ -524,7 +528,7 @@
                                             <option <?php if($account['Status']==0) echo 'selected="selected"'; ?> value="0">Inactive</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-3">
                                         <label>System Role</label>
                                         <select class="form-control" name="systemRole" required>
                                             <option value="">Choose</option>

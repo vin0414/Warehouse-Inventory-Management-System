@@ -22,10 +22,10 @@ class Notification extends BaseController
             if($row->total>0)
             {
                 //get all editors account except MIS
-                $role = ['Administrator','Editor'];
-                $builder = $this->db->table('tblaccount');
-                $builder->select('Email,Fullname');
-                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
+                $builder = $this->db->table('tblaccount a');
+                $builder->select('a.Email,a.Fullname');
+                $builder->join('tblcanvass_review b','b.accountID=a.accountID','LEFT');
+                $builder->WHERE('b.Status',0);
                 $data = $builder->get();
                 foreach($data->getResult() as $rows)
                 {
@@ -65,11 +65,16 @@ class Notification extends BaseController
             if($row->total>0)
             {
                 $message = "This is an auto generated message to remind you that there are still number of PRFs in the system requiring quotations.";
-                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                $obj = json_decode($json);
-                foreach($obj as $object)
+                $builder = $this->db->table('tblaccount a');
+                $builder->select('a.ContactNumber');
+                $builder->join('tblcanvass_review b','b.accountID=a.accountID','LEFT');
+                $builder->WHERE('b.Status',0);
+                $data = $builder->get();
+                foreach($data->getResult() as $rows)
                 {
-                    $contact_number=$object->contact_number; 
+                    $contact_number=$rows->ContactNumber; 
+                    $builder = $this->db->table('tblcanvass_review a');
+                    $builder->select('b.Email');
                     $ch = curl_init();
     
                     curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
@@ -110,10 +115,10 @@ class Notification extends BaseController
             if($row->total>0)
             {
                 //get all editors account except MIS
-                $role = ['Administrator','Editor'];
-                $builder = $this->db->table('tblaccount');
-                $builder->select('Email,Fullname');
-                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
+                $builder = $this->db->table('tblaccount a');
+                $builder->select('a.Email,a.Fullname');
+                $builder->join('tblreview b','b.accountID=a.accountID','LEFT');
+                $builder->WHERE('b.Status',0);
                 $data = $builder->get();
                 foreach($data->getResult() as $rows)
                 {
@@ -153,11 +158,14 @@ class Notification extends BaseController
             if($row->total>0)
             {
                 $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
-                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                $obj = json_decode($json);
-                foreach($obj as $object)
+                $builder = $this->db->table('tblaccount a');
+                $builder->select('a.ContactNumber');
+                $builder->join('tblreview b','b.accountID=a.accountID','LEFT');
+                $builder->WHERE('b.Status',0);
+                $data = $builder->get();
+                foreach($data->getResult() as $rows)
                 {
-                    $contact_number=$object->contact_number; 
+                    $contact_number=$rows->ContactNumber; 
                     $ch = curl_init();
     
                     curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
@@ -198,10 +206,10 @@ class Notification extends BaseController
             if($row->total>0)
             {
                 //get all editors account except MIS
-                $role = ['Administrator','Editor'];
-                $builder = $this->db->table('tblaccount');
-                $builder->select('Email,Fullname');
-                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
+                $builder = $this->db->table('tblaccount a');
+                $builder->select('a.Email,a.Fullname');
+                $builder->join('tblreview b','b.accountID=a.accountID','LEFT');
+                $builder->WHERE('b.Status',0);
                 $data = $builder->get();
                 foreach($data->getResult() as $rows)
                 {
@@ -241,11 +249,14 @@ class Notification extends BaseController
             if($row->total>0)
             {
                 $message = "This is an auto generated message to remind you that there are still pending PRFs in the system requiring your approval.";
-                $json = file_get_contents("https://fastcat-system.com/api-breakpoint.php");
-                $obj = json_decode($json);
-                foreach($obj as $object)
+                $builder = $this->db->table('tblaccount a');
+                $builder->select('a.ContactNumber');
+                $builder->join('tblreview b','b.accountID=a.accountID','LEFT');
+                $builder->WHERE('b.Status',0);
+                $data = $builder->get();
+                foreach($data->getResult() as $rows)
                 {
-                    $contact_number=$object->contact_number; 
+                    $contact_number=$rows->ContactNumber; 
                     $ch = curl_init();
     
                     curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
@@ -288,7 +299,7 @@ class Notification extends BaseController
                 $role = ['Administrator','Editor'];
                 $builder = $this->db->table('tblaccount');
                 $builder->select('Email,Fullname');
-                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
+                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department=','Procurement');
                 $data = $builder->get();
                 foreach($data->getResult() as $rows)
                 {
@@ -338,29 +349,33 @@ class Notification extends BaseController
                 foreach($obj as $object)
                 {
                     $contact_number=$object->contact_number; 
-                    $ch = curl_init();
-    
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-    
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-    
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-    
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-    
-                    $response = curl_exec($ch);
-                    curl_close($ch);
-                    var_dump($response);
+                    $users = $object->Username;
+                    if($users=="kit.vesorio")
+                    {
+                        $ch = curl_init();
+        
+                        curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        
+                        curl_setopt($ch, CURLOPT_POST, TRUE);
+        
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                        \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                        \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                        \"from\": \"APFC System\",
+                        \"to\": \"$contact_number\",
+                        \"text\": \"$message\"
+                        }");
+        
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                        "Content-Type: application/json"
+                        ));
+        
+                        $response = curl_exec($ch);
+                        curl_close($ch);
+                        var_dump($response);
+                    }
                 }
             }
         }
@@ -380,7 +395,7 @@ class Notification extends BaseController
                 $role = ['Administrator','Editor'];
                 $builder = $this->db->table('tblaccount');
                 $builder->select('Email,Fullname');
-                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department!=','MIS');
+                $builder->WHEREIN('systemRole',$role)->WHERE('Status',1)->WHERE('Department=','Procurement');
                 $data = $builder->get();
                 foreach($data->getResult() as $rows)
                 {
@@ -430,29 +445,33 @@ class Notification extends BaseController
                 foreach($obj as $object)
                 {
                     $contact_number=$object->contact_number; 
-                    $ch = curl_init();
-    
-                    curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-                    curl_setopt($ch, CURLOPT_HEADER, FALSE);
-    
-                    curl_setopt($ch, CURLOPT_POST, TRUE);
-    
-                    curl_setopt($ch, CURLOPT_POSTFIELDS, "{
-                    \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
-                    \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
-                    \"from\": \"APFC System\",
-                    \"to\": \"$contact_number\",
-                    \"text\": \"$message\"
-                    }");
-    
-                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-                    "Content-Type: application/json"
-                    ));
-    
-                    $response = curl_exec($ch);
-                    curl_close($ch);
-                    var_dump($response);
+                    $users = $object->Username;
+                    if($users=="kit.vesorio")
+                    {
+                        $ch = curl_init();
+        
+                        curl_setopt($ch, CURLOPT_URL, "https://api.promotexter.com/sms/send");
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+                        curl_setopt($ch, CURLOPT_HEADER, FALSE);
+        
+                        curl_setopt($ch, CURLOPT_POST, TRUE);
+        
+                        curl_setopt($ch, CURLOPT_POSTFIELDS, "{
+                        \"apiKey\": \"cppe303PeONM3T2wsznINHOVb7AdGvGl\",
+                        \"apiSecret\": \"9wrgfVmAXpEegoEqDxBdfepa_2d8MO\",
+                        \"from\": \"APFC System\",
+                        \"to\": \"$contact_number\",
+                        \"text\": \"$message\"
+                        }");
+        
+                        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                        "Content-Type: application/json"
+                        ));
+        
+                        $response = curl_exec($ch);
+                        curl_close($ch);
+                        var_dump($response);
+                    }
                 }
             }
         }

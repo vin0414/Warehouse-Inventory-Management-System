@@ -786,6 +786,10 @@
 								</div>
 							</div>
 							<div class="col-12 form-group">
+								<label>Contact Number</label>
+								<input type="phone" class="form-control" name="phone" minlength="11" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
+							</div>
+							<div class="col-12 form-group">
 								<label>Assignment</label>
 								<select class="form-control" name="assignment" id="assignment">
 									<option value="">Choose</option>

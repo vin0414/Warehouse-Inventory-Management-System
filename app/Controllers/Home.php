@@ -1029,6 +1029,7 @@ class Home extends BaseController
         $role = $this->request->getPost('systemRole');
         $assign = $this->request->getPost('assignment');
         $dept = $this->request->getPost('department');
+        $phone = $this->request->getPost('phone');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
         $status = 1;
@@ -1039,7 +1040,8 @@ class Home extends BaseController
             'username'=>'required|is_unique[tblaccount.username]',
             'email'=>'required|valid_email',
             'assignment'=>'required',
-            'systemRole'=>'required'
+            'systemRole'=>'required',
+            'phone'=>'required'
         ]);
         if(!$validation)
         {
@@ -1049,7 +1051,7 @@ class Home extends BaseController
             $values = 
             ['username'=>$username, 'password'=>$defaultPassword,'Fullname'=>$fullname,'Email'=>$email,
             'Status'=>$status,'systemRole'=>$role,'warehouseID'=>$assign,'Department'=>$dept,
-            'DateCreated'=>$dateCreated,'Signatures'=>$originalName];
+            'DateCreated'=>$dateCreated,'Signatures'=>$originalName,'ContactNumber'=>$phone];
             $accountModel->save($values);
             $file->move('Signatures/',$originalName);
             //create logs
@@ -1069,19 +1071,20 @@ class Home extends BaseController
         $email = $this->request->getPost('email');
         $username = $this->request->getPost('username');
         $role = $this->request->getPost('systemRole');
+        $phone = $this->request->getPost('phone');
         $status = $this->request->getPost('status');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
         if(empty($originalName))
         {
             $values = 
-                ['username'=>$username,'Fullname'=>$fullname,'Email'=>$email,'Status'=>$status,'systemRole'=>$role];
+                ['username'=>$username,'Fullname'=>$fullname,'Email'=>$email,'Status'=>$status,'systemRole'=>$role,'ContactNumber'=>$phone];
             $accountModel->update($id,$values);
         }
         else
         {
             $values = 
-                ['username'=>$username,'Fullname'=>$fullname,'Email'=>$email,'Status'=>$status,'systemRole'=>$role,'Signatures'=>$originalName];
+                ['username'=>$username,'Fullname'=>$fullname,'Email'=>$email,'Status'=>$status,'systemRole'=>$role,'Signatures'=>$originalName,'ContactNumber'=>$phone];
             $accountModel->update($id,$values);
             $file->move('Signatures/',$originalName);
         }
