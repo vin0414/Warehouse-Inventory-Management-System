@@ -442,49 +442,74 @@
 		<div class="main-container">
 			<div class="xs-pd-20-10 pd-ltr-20">
                 <div class="card-box">
-                    <div class="card-header"><i class="icon-copy dw dw-deal"></i>&nbsp;Change Vendor
+                    <div class="card-header">P.O. # : <?=$code ?>
                     <a href="<?=site_url('purchase-order')?>" style="float:right;"><i class="icon-copy dw dw-left-arrow1"></i>&nbsp;Back</a>
                     </div>
                     <div class="card-body">
                         <form method="POST" class="row g-3" enctype="multipart/form-data" id="frmChange">
                             <input type="hidden" name="code" value="<?=$code?>"/>
                             <input type="hidden" name="reference" value="<?=$reference?>"/>
+							<div class="col-lg-12 form-group">
+								<h4>Vendor Information</h4>		
+								<label>Supplier's/Vendor's Name</label>
+								<input type="text" class="form-control" name="supplier" required/>
+							</div>
+							<div class="col-lg-12 form-group">
+								<div class="row g-3">
+									<div class="col-lg-6 form-group">
+										<label>Contact Person</label>
+										<input type="text" class="form-control" name="contact" required/>
+									</div>
+									<div class="col-lg-6 form-group">
+										<label>Contact Number</label>
+										<input type="phone" class="form-control" name="phone" required/>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-12 form-group">
+								<label>Vendor's Address</label>
+								<textarea class="form-control" name="address" required></textarea>
+							</div>
+							<div class="col-lg-12 form-group">
+								<div class="row g-3">
+									<div class="col-lg-6 form-group">
+										<label>Terms</label>
+										<input type="text" class="form-control" name="terms" required/>
+									</div>
+									<div class="col-lg-6 form-group">
+										<label>Warranty</label>
+										<input type="text" class="form-control" name="warranty" required/>
+									</div>
+								</div>
+							</div>
                             <div class="col-lg-12 form-group">
-                                <span><small>P.O. Number : </small></span>
-                                <h4><?=$code ?></h4>
+                                <label>Attachment</label>
+                                <input type="file" class="form-control" name="file"/>
                             </div>
-                            <div class="col-lg-12 form-group">
+							<div class="col-lg-12 form-group">
+								<h4>Product List</h4>
                                 <table class="table table-bordered">
                                     <thead>
-                                        <th>#</th>
-                                        <th>Item</th>
-                                        <th>Vendor's Name</th>
-                                        <th>Unit Price</th>
-                                        <th>Terms</th>
-                                        <th>Contact</th>
-                                        <th>Address</th>
+										<th>#</th>
+                                        <th>Product(s)/Item(s)</th>
+                                        <th>UOM</th>
+                                        <th>Qty</th>
+                                        <th>Specifications</th>
+										<th>Unit Price</th>
                                     </thead>
                                     <tbody>
                                         <?php foreach($list as $row): ?>
                                             <tr>
-                                                <td><input type="checkbox" style="height:18px;width:18px;" value="<?php echo $row->canvassID ?>" name="itemID[]" id="itemID" checked/></td>
-                                                <td>
-                                                    <?php echo $row->Item_Name ?><br/>
-                                                    <small><?php echo $row->Qty ?>&nbsp;<?php echo $row->ItemUnit ?></small>
-                                                </td>
-                                                <td><input type='text' class='form-control' value="<?php echo $row->Supplier ?>" name='supplier[]'/></td>
-                                                <td><input type='text' class='form-control' value="<?php echo $row->Price ?>" name='price[]'/></td>
-                                                <td><input type='text' class='form-control' value="<?php echo $row->Terms ?>" name='terms[]'/></td>
-                                                <td><input type='text' class='form-control' value="<?php echo $row->ContactPerson ?>" name='contact[]'/></td>
-                                                <td><input type='text' class='form-control' value="<?php echo $row->Address ?>" name='address[]'/></td>
+												<td><input type="checkbox" style="height:18px;width:18px;" value="<?php echo $row->orderID ?>" name="itemID[]" id="itemID" checked/></td>
+                                                <td><?php echo $row->Item_Name ?></td>
+												<td><?php echo $row->ItemUnit ?></td>
+												<td><?php echo $row->Qty ?></td>
+												<td><?php echo $row->Specification ?></td>
+												<td><input type='text' class='form-control' name='price[]'/></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>
-                            </div>
-                            <div class="col-lg-12 form-group">
-                                <label>Attachment</label>
-                                <input type="file" class="form-control" name="file"/>
                             </div>
                             <div class="col-lg-12 form-group">
                                 <button type="submit" class="btn btn-primary" id="btnSave">Save Changes</button>
