@@ -451,15 +451,23 @@
                             <div class="col-lg-2 form-group">
                                 <input type="date" class="form-control" name="to"/>
                             </div>
-                            <div class="col-lg-4 form-group">
+                            <div class="col-lg-3 form-group">
                                 <select class="form-control custom-select2" name="department">
-                                    <option value="">Choose</option>
+                                    <option value="">-Choose Department-</option>
 									<?php foreach($list as $row): ?>
 										<option><?php echo $row->Department ?></option>
 									<?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="col-lg-4 form-group">
+							<div class="col-lg-2 form-group">
+                                <select class="form-control custom-select2" name="items">
+                                    <option value="">-Choose Item-</option>
+									<?php foreach($item as $row): ?>
+										<option><?php echo $row->Item_Name ?></option>
+									<?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 form-group">
                                 <button type="submit" class="btn btn-primary" id="btnSearch">
                                     <i class="icon-copy dw dw-search"></i> Search
                                 </button>&nbsp;

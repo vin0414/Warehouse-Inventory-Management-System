@@ -16,156 +16,316 @@ class Report extends BaseController
         $from  = $this->request->getGet('from');
         $to = $this->request->getGet('to');
         $dept = $this->request->getGet('department');
+        $item = $this->request->getGet('items');
         if(empty($dept))
         {
-            $sql = "Select a.OrderNo,a.DatePrepared,a.DateNeeded,e.Date as DateReceived,d.purchaseNumber,d.Date,b.Supplier,c.Item_Name,c.Specification,c.Qty,c.ItemUnit,b.Price,b.Terms,a.Department,IFNULL(e.Status,'N/A') as Served,f.Fullname,IFNULL(d.Status,'N/A')Status from tblprf a LEFT JOIN tblcanvass_sheet b ON b.OrderNo=a.OrderNo
-            LEFT JOIN tbl_order_item c ON c.orderID=b.orderID
-            LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
-            LEFT JOIN tblassignment e ON e.prfID=a.prfID
-            LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to:
-            group by a.OrderNo,b.purchaseLogID,c.orderID";
-            $query = $this->db->query($sql,['from'=>$from,'to'=>$to]);
-            foreach ($query->getResult() as $row) 
+            //add filtering by items
+            if(empty($item))
             {
-                ?>
-                <tr>
-                    <td><?php echo $row->OrderNo ?></td>
-                    <td><?php echo $row->DatePrepared ?></td>
-                    <td><?php echo $row->DateNeeded ?></td>
-                    <td><?php echo $row->DateReceived ?></td>
-                    <td><?php echo $row->purchaseNumber ?></td>
-                    <td><?php echo $row->Date ?></td>
-                    <td><?php echo $row->Supplier ?></td>
-                    <td><?php echo $row->Item_Name ?><?php echo $row->Specification ?></td>
-                    <td><?php echo $row->Qty ?></td>
-                    <td><?php echo $row->ItemUnit ?></td>
-                    <td><?php echo number_format($row->Price,2) ?></td>
-                    <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
-                    <td><?php echo $row->Terms ?></td>
-                    <td><?php echo $row->Department ?></td>
-                    <td>
-                        <?php if($row->Served=="N/A")
-                        {
-                            ?>-<?php
-                        } 
-                        else if($row->Served=="1")
-                        {
+                $sql = "Select a.OrderNo,a.DatePrepared,a.DateNeeded,e.Date as DateReceived,d.purchaseNumber,d.Date,b.Supplier,c.Item_Name,c.Specification,c.Qty,c.ItemUnit,b.Price,b.Terms,a.Department,IFNULL(e.Status,'N/A') as Served,f.Fullname,IFNULL(d.Status,'N/A')Status from tblprf a LEFT JOIN tblcanvass_sheet b ON b.OrderNo=a.OrderNo
+                LEFT JOIN tbl_order_item c ON c.orderID=b.orderID
+                LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
+                LEFT JOIN tblassignment e ON e.prfID=a.prfID
+                LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to:
+                group by a.OrderNo,b.purchaseLogID,c.orderID";
+                $query = $this->db->query($sql,['from'=>$from,'to'=>$to]);
+                foreach ($query->getResult() as $row) 
+                {
+                    ?>
+                    <tr>
+                        <td><?php echo $row->OrderNo ?></td>
+                        <td><?php echo $row->DatePrepared ?></td>
+                        <td><?php echo $row->DateNeeded ?></td>
+                        <td><?php echo $row->DateReceived ?></td>
+                        <td><?php echo $row->purchaseNumber ?></td>
+                        <td><?php echo $row->Date ?></td>
+                        <td><?php echo $row->Supplier ?></td>
+                        <td><?php echo $row->Item_Name ?><?php echo $row->Specification ?></td>
+                        <td><?php echo $row->Qty ?></td>
+                        <td><?php echo $row->ItemUnit ?></td>
+                        <td><?php echo number_format($row->Price,2) ?></td>
+                        <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
+                        <td><?php echo $row->Terms ?></td>
+                        <td><?php echo $row->Department ?></td>
+                        <td>
+                            <?php if($row->Served=="N/A")
+                            {
+                                ?>-<?php
+                            } 
+                            else if($row->Served=="1")
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">YES</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?><span class="badge bg-warning text-white">NO</span><?php
+                            }
                             ?>
-                            <span class="badge bg-success text-white">YES</span>
-                            <?php
-                        }
-                        else
-                        {
-                            ?><span class="badge bg-warning text-white">NO</span><?php
-                        }
-                        ?>
-                    </td>
-                    <td><?php echo $row->Fullname ?></td>
-                    <td>
-                        <?php 
-                        if($row->Status==0)
-                        {
+                        </td>
+                        <td><?php echo $row->Fullname ?></td>
+                        <td>
+                            <?php 
+                            if($row->Status==0)
+                            {
+                                ?>
+                                <span class="badge bg-warning text-white">PENDING</span>
+                                <?php
+                            }
+                            else if($row->Status==1)
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">APPROVED</span>
+                                <?php
+                            }
+                            else if($row->Status==2)
+                            {
+                                ?>
+                                <span class="badge bg-danger text-white">CANCELLED</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>-<?php
+                            }
                             ?>
-                            <span class="badge bg-warning text-white">PENDING</span>
-                            <?php
-                        }
-                        else if($row->Status==1)
-                        {
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php
+                }
+            }
+            else
+            {
+                $sql = "Select a.OrderNo,a.DatePrepared,a.DateNeeded,e.Date as DateReceived,d.purchaseNumber,d.Date,b.Supplier,c.Item_Name,c.Specification,c.Qty,c.ItemUnit,b.Price,b.Terms,a.Department,IFNULL(e.Status,'N/A') as Served,f.Fullname,IFNULL(d.Status,'N/A')Status from tblprf a LEFT JOIN tblcanvass_sheet b ON b.OrderNo=a.OrderNo
+                LEFT JOIN tbl_order_item c ON c.orderID=b.orderID
+                LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
+                LEFT JOIN tblassignment e ON e.prfID=a.prfID
+                LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to: AND c.Item_Name=:item:
+                group by a.OrderNo,b.purchaseLogID,c.orderID";
+                $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'item'=>$item]);
+                foreach ($query->getResult() as $row) 
+                {
+                    ?>
+                    <tr>
+                        <td><?php echo $row->OrderNo ?></td>
+                        <td><?php echo $row->DatePrepared ?></td>
+                        <td><?php echo $row->DateNeeded ?></td>
+                        <td><?php echo $row->DateReceived ?></td>
+                        <td><?php echo $row->purchaseNumber ?></td>
+                        <td><?php echo $row->Date ?></td>
+                        <td><?php echo $row->Supplier ?></td>
+                        <td><?php echo $row->Item_Name ?><?php echo $row->Specification ?></td>
+                        <td><?php echo $row->Qty ?></td>
+                        <td><?php echo $row->ItemUnit ?></td>
+                        <td><?php echo number_format($row->Price,2) ?></td>
+                        <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
+                        <td><?php echo $row->Terms ?></td>
+                        <td><?php echo $row->Department ?></td>
+                        <td>
+                            <?php if($row->Served=="N/A")
+                            {
+                                ?>-<?php
+                            } 
+                            else if($row->Served=="1")
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">YES</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?><span class="badge bg-warning text-white">NO</span><?php
+                            }
                             ?>
-                            <span class="badge bg-success text-white">APPROVED</span>
-                            <?php
-                        }
-                        else if($row->Status==2)
-                        {
+                        </td>
+                        <td><?php echo $row->Fullname ?></td>
+                        <td>
+                            <?php 
+                            if($row->Status==0)
+                            {
+                                ?>
+                                <span class="badge bg-warning text-white">PENDING</span>
+                                <?php
+                            }
+                            else if($row->Status==1)
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">APPROVED</span>
+                                <?php
+                            }
+                            else if($row->Status==2)
+                            {
+                                ?>
+                                <span class="badge bg-danger text-white">CANCELLED</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>-<?php
+                            }
                             ?>
-                            <span class="badge bg-danger text-white">CANCELLED</span>
-                            <?php
-                        }
-                        else
-                        {
-                            ?>-<?php
-                        }
-                        ?>
-                    </td>
-                    <td></td>
-                </tr>
-                <?php
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php
+                }
             }
         }
         else
         {
-            $sql = "Select a.OrderNo,a.DatePrepared,a.DateNeeded,e.Date as DateReceived,d.purchaseNumber,d.Date,b.Supplier,c.Item_Name,c.Specification,c.Qty,c.ItemUnit,b.Price,b.Terms,a.Department,IFNULL(e.Status,'N/A') as Served,f.Fullname,IFNULL(d.Status,'N/A')Status from tblprf a LEFT JOIN tblcanvass_sheet b ON b.OrderNo=a.OrderNo
-            LEFT JOIN tbl_order_item c ON c.orderID=b.orderID
-            LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
-            LEFT JOIN tblassignment e ON e.prfID=a.prfID
-            LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to: AND a.Department=:department:
-            group by a.OrderNo,b.purchaseLogID,c.orderID";
-            $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'department'=>$dept]);
-            foreach ($query->getResult() as $row) 
+            if(empty($item))
             {
-                ?>
-                <tr>
-                    <td><?php echo $row->OrderNo ?></td>
-                    <td><?php echo $row->DatePrepared ?></td>
-                    <td><?php echo $row->DateNeeded ?></td>
-                    <td><?php echo $row->DateReceived ?></td>
-                    <td><?php echo $row->purchaseNumber ?></td>
-                    <td><?php echo $row->Date ?></td>
-                    <td><?php echo $row->Supplier ?></td>
-                    <td><?php echo $row->Item_Name ?><?php echo $row->Specification ?></td>
-                    <td><?php echo $row->Qty ?></td>
-                    <td><?php echo $row->ItemUnit ?></td>
-                    <td><?php echo number_format($row->Price,2) ?></td>
-                    <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
-                    <td><?php echo $row->Terms ?></td>
-                    <td><?php echo $row->Department ?></td>
-                    <td>
-                        <?php if($row->Served=="N/A")
-                        {
-                            ?>-<?php
-                        } 
-                        else if($row->Served=="1")
-                        {
+                $sql = "Select a.OrderNo,a.DatePrepared,a.DateNeeded,e.Date as DateReceived,d.purchaseNumber,d.Date,b.Supplier,c.Item_Name,c.Specification,c.Qty,c.ItemUnit,b.Price,b.Terms,a.Department,IFNULL(e.Status,'N/A') as Served,f.Fullname,IFNULL(d.Status,'N/A')Status from tblprf a LEFT JOIN tblcanvass_sheet b ON b.OrderNo=a.OrderNo
+                LEFT JOIN tbl_order_item c ON c.orderID=b.orderID
+                LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
+                LEFT JOIN tblassignment e ON e.prfID=a.prfID
+                LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to: AND a.Department=:department:
+                group by a.OrderNo,b.purchaseLogID,c.orderID";
+                $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'department'=>$dept]);
+                foreach ($query->getResult() as $row) 
+                {
+                    ?>
+                    <tr>
+                        <td><?php echo $row->OrderNo ?></td>
+                        <td><?php echo $row->DatePrepared ?></td>
+                        <td><?php echo $row->DateNeeded ?></td>
+                        <td><?php echo $row->DateReceived ?></td>
+                        <td><?php echo $row->purchaseNumber ?></td>
+                        <td><?php echo $row->Date ?></td>
+                        <td><?php echo $row->Supplier ?></td>
+                        <td><?php echo $row->Item_Name ?><?php echo $row->Specification ?></td>
+                        <td><?php echo $row->Qty ?></td>
+                        <td><?php echo $row->ItemUnit ?></td>
+                        <td><?php echo number_format($row->Price,2) ?></td>
+                        <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
+                        <td><?php echo $row->Terms ?></td>
+                        <td><?php echo $row->Department ?></td>
+                        <td>
+                            <?php if($row->Served=="N/A")
+                            {
+                                ?>-<?php
+                            } 
+                            else if($row->Served=="1")
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">YES</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?><span class="badge bg-warning text-white">NO</span><?php
+                            }
                             ?>
-                            <span class="badge bg-success text-white">YES</span>
-                            <?php
-                        }
-                        else
-                        {
-                            ?><span class="badge bg-warning text-white">NO</span><?php
-                        }
-                        ?>
-                    </td>
-                    <td><?php echo $row->Fullname ?></td>
-                    <td>
-                        <?php 
-                        if($row->Status==0)
-                        {
+                        </td>
+                        <td><?php echo $row->Fullname ?></td>
+                        <td>
+                            <?php 
+                            if($row->Status==0)
+                            {
+                                ?>
+                                <span class="badge bg-warning text-white">PENDING</span>
+                                <?php
+                            }
+                            else if($row->Status==1)
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">APPROVED</span>
+                                <?php
+                            }
+                            else if($row->Status==2)
+                            {
+                                ?>
+                                <span class="badge bg-danger text-white">CANCELLED</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>-<?php
+                            }
                             ?>
-                            <span class="badge bg-warning text-white">PENDING</span>
-                            <?php
-                        }
-                        else if($row->Status==1)
-                        {
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php
+                }
+            }
+            else
+            {
+                $sql = "Select a.OrderNo,a.DatePrepared,a.DateNeeded,e.Date as DateReceived,d.purchaseNumber,d.Date,b.Supplier,c.Item_Name,c.Specification,c.Qty,c.ItemUnit,b.Price,b.Terms,a.Department,IFNULL(e.Status,'N/A') as Served,f.Fullname,IFNULL(d.Status,'N/A')Status from tblprf a LEFT JOIN tblcanvass_sheet b ON b.OrderNo=a.OrderNo
+                LEFT JOIN tbl_order_item c ON c.orderID=b.orderID
+                LEFT JOIN tblpurchase_logs d ON d.purchaseLogID=b.purchaseLogID
+                LEFT JOIN tblassignment e ON e.prfID=a.prfID
+                LEFT JOIN tblaccount f ON f.accountID=e.accountID WHERE a.DatePrepared BETWEEN :from: AND :to: AND a.Department=:department: AND c.Item_Name =:item:
+                group by a.OrderNo,b.purchaseLogID,c.orderID";
+                $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'department'=>$dept,'item'=>$item]);
+                foreach ($query->getResult() as $row) 
+                {
+                    ?>
+                    <tr>
+                        <td><?php echo $row->OrderNo ?></td>
+                        <td><?php echo $row->DatePrepared ?></td>
+                        <td><?php echo $row->DateNeeded ?></td>
+                        <td><?php echo $row->DateReceived ?></td>
+                        <td><?php echo $row->purchaseNumber ?></td>
+                        <td><?php echo $row->Date ?></td>
+                        <td><?php echo $row->Supplier ?></td>
+                        <td><?php echo $row->Item_Name ?><?php echo $row->Specification ?></td>
+                        <td><?php echo $row->Qty ?></td>
+                        <td><?php echo $row->ItemUnit ?></td>
+                        <td><?php echo number_format($row->Price,2) ?></td>
+                        <td><?php echo number_format($row->Price*$row->Qty,2) ?></td>
+                        <td><?php echo $row->Terms ?></td>
+                        <td><?php echo $row->Department ?></td>
+                        <td>
+                            <?php if($row->Served=="N/A")
+                            {
+                                ?>-<?php
+                            } 
+                            else if($row->Served=="1")
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">YES</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?><span class="badge bg-warning text-white">NO</span><?php
+                            }
                             ?>
-                            <span class="badge bg-success text-white">APPROVED</span>
-                            <?php
-                        }
-                        else if($row->Status==2)
-                        {
+                        </td>
+                        <td><?php echo $row->Fullname ?></td>
+                        <td>
+                            <?php 
+                            if($row->Status==0)
+                            {
+                                ?>
+                                <span class="badge bg-warning text-white">PENDING</span>
+                                <?php
+                            }
+                            else if($row->Status==1)
+                            {
+                                ?>
+                                <span class="badge bg-success text-white">APPROVED</span>
+                                <?php
+                            }
+                            else if($row->Status==2)
+                            {
+                                ?>
+                                <span class="badge bg-danger text-white">CANCELLED</span>
+                                <?php
+                            }
+                            else
+                            {
+                                ?>-<?php
+                            }
                             ?>
-                            <span class="badge bg-danger text-white">CANCELLED</span>
-                            <?php
-                        }
-                        else
-                        {
-                            ?>-<?php
-                        }
-                        ?>
-                    </td>
-                    <td></td>
-                </tr>
-                <?php
+                        </td>
+                        <td></td>
+                    </tr>
+                    <?php
+                }
             }
         }
     }
