@@ -1353,7 +1353,7 @@ class Home extends BaseController
         $canvass = $builder->get()->getResult();
         //po
         $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.Reference,b.purchaseNumber,b.Date,b.Status,a.OrderNo,TIMESTAMPDIFF(Day, b.Date, CURDATE()) Age,c.Reason,d.ExpectedDate');
+        $builder->select('a.Reference,b.purchaseNumber,b.Date,b.Status,b.Comment,a.OrderNo,TIMESTAMPDIFF(Day, b.Date, CURDATE()) Age,c.Reason,d.ExpectedDate');
         $builder->join('tblpurchase_logs b','b.Reference=a.Reference','INNER');
         $builder->join('tblprf c','c.OrderNo=a.OrderNo','LEFT');
         $builder->join('tbldelivery_info d','d.purchaseNumber=b.purchaseNumber','LEFT');

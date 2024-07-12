@@ -621,7 +621,7 @@
 								</div>
 								<div class="tab-pane fade" id="purchase6" role="tabpanel">
 									<br/>
-									<table class="data-table table stripe hover nowrap">
+									<table class="data-table table stripe hover">
 										<thead>
 											<th>Date Created</th>
 											<th>PRF No</th>
@@ -647,7 +647,7 @@
 													<?php }else if($row->Status==1){?>
 														<span class="badge bg-success text-white">Approved</span>
 													<?php }else if($row->Status==2){?>
-														<span class="badge bg-danger text-white">Cancelled</span>
+														<span class="badge bg-danger text-white"><?php echo $row->Comment ?></span>
 													<?php }?>
 												</td>
 												<td><?php echo $row->ExpectedDate ?></td>
