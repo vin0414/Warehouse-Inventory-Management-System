@@ -462,7 +462,7 @@
 									</div>
 									<div class="col-lg-6 form-group">
 										<label>Contact Number</label>
-										<input type="phone" class="form-control" name="phone" required/>
+										<input type="phone" class="form-control" name="phone" minlength="11" maxlength="11" required/>
 									</div>
 								</div>
 							</div>
@@ -472,13 +472,22 @@
 							</div>
 							<div class="col-lg-12 form-group">
 								<div class="row g-3">
-									<div class="col-lg-6 form-group">
+									<div class="col-lg-4 form-group">
 										<label>Terms</label>
 										<input type="text" class="form-control" name="terms" required/>
 									</div>
-									<div class="col-lg-6 form-group">
+									<div class="col-lg-4 form-group">
 										<label>Warranty</label>
 										<input type="text" class="form-control" name="warranty" required/>
+									</div>
+									<div class="col-lg-4 form-group">
+										<label>Value Added Tax (VAT)</label>
+										<select class="form-control" name="vatable">
+											<option value="">Choose</option>
+											<option>VAT INC</option>
+											<option>VAT EX</option>
+											<option>Non-Vatable</option>
+										</select>
 									</div>
 								</div>
 							</div>
@@ -495,6 +504,7 @@
                                         <th>UOM</th>
                                         <th>Qty</th>
                                         <th>Specifications</th>
+										<th>Currency</th>
 										<th>Unit Price</th>
                                     </thead>
                                     <tbody>
@@ -505,6 +515,17 @@
 												<td><?php echo $row->ItemUnit ?></td>
 												<td><?php echo $row->Qty ?></td>
 												<td><?php echo $row->Specification ?></td>
+												<td>
+													<select class="form-control" name="currency[]">
+														<option>PHP</option>
+														<option>USD</option>
+														<option>EUR</option>
+														<option>YEN</option>
+														<option>AUD</option>
+														<option>GBP</option>
+														<option>SGD</option>
+													</select>
+												</td>
 												<td><input type='text' class='form-control' name='price[]'/></td>
                                             </tr>
                                         <?php endforeach; ?>

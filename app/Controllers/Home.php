@@ -2263,25 +2263,96 @@ class Home extends BaseController
         $code = $this->request->getPost('code');
         $reference = $this->request->getPost('reference');
         $supplier = $this->request->getPost('supplier');
-        $price = $this->request->getPost('price');
         $terms = $this->request->getPost('terms');
+        $warranty = $this->request->getPost('warranty');
         $contact = $this->request->getPost('contact');
         $phone = $this->request->getPost('phone');
         $address = $this->request->getPost('address');
+        $vatable = $this->request->getPost('vatable');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
+
+        $itemID = $this->request->getPost('itemID');
+        $price = $this->request->getPost('price');
+        $currency = $this->request->getPost('currency');
+        $count = count($itemID);
+
+        //create new P.O.
+        $po_number="";
+        $builder = $this->db->table('tblpurchase_logs');
+        $builder->select('COUNT(purchaseLogID)+1 as total');
+        $list = $builder->get();
+        if($li = $list->getRow())
+        {
+            $po_number = "PO-".str_pad($li->total, 9, '0', STR_PAD_LEFT);
+        }
+        $values = ['purchaseNumber'=>$po_number,'Reference'=>$reference, 'Status'=>0,
+                    'Date'=>date('Y-m-d'),'accountID'=>session()->get('loggedUser'),'Remarks'=>'OPEN','Comment'=>''];
+        $purchaseOrderModel->save($values);
+
         //save the file to the canvass folder
+        $canvassForm = $canvassFormModel->WHERE('Reference',$reference)->first();
         if(!empty($originalName))
         {
-            $canvassForm = $canvassFormModel->WHERE('Reference',$reference)->first();
             $values = ['Attachment'=>$originalName];
             $canvassFormModel->update($canvassForm['formID'],$values);
             $file->move('Canvass/',$originalName);
         }
+
+        //get the po ID
+        $purchase = $purchaseOrderModel->WHERE('purchaseNumber',$po_number)->first();
+
+        //save the data with same reference
+        for($i=0;$i<$count;$i++)
+        {
+            $values = ['OrderNo'=>$canvassForm['OrderNo'], 'orderID'=>$itemID[$i],'Supplier'=>$supplier,
+                    'Price'=>$price[$i],'Currency'=>$currency[$i],'ContactPerson'=>$contact,'ContactNumber'=>$phone,
+                    'Address'=>$address,'Terms'=>$terms,'Warranty'=>$warranty,'Reference'=>$reference,
+                    'Remarks'=>'Selected','Vatable'=>$vatable,'purchaseLogID'=>$purchase['purchaseLogID']];
+            $canvassModel->save($values);
+        }
+
         //cancelled the P.O.
         $purchase_order = $purchaseOrderModel->WHERE('purchaseNumber',$code)->first();
-        $values = ['Status'=>2,'Comment'=>'Cancelled'];
-        $purchaseOrderModel->update($purchase_order['purchaseLogID'],$values);
+        $value = ['Status'=>2,'Remarks'=>'CLOSE','Comment'=>'Cancelled'];
+        $purchaseOrderModel->update($purchase_order['purchaseLogID'],$value);
+
+        //get the account ID of the approver
+        $review = $purchaseReviewModel->WHERE('purchaseNumber',$code)->first();
+        //save
+        $new_values = ['accountID'=>$review['accountID'],'purchaseNumber'=>$po_number,'DateReceived'=>date('Y-m-d'),'Status'=>0,'DateApproved'=>''];
+        $purchaseReviewModel->save($new_values);
+
+        //add email
+        $builder = $this->db->table('tblaccount');
+        $builder->select('Fullname,Email');
+        $builder->WHERE('accountID',$review['accountID']);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            //email
+            $email = \Config\Services::email();
+            $email->setTo($row->Email);
+            $email->setFrom("fastcat.system@gmail.com","FastCat");
+            $imgURL = "assets/img/fastcat.png";
+            $email->attach($imgURL);
+            $cid = $email->setAttachmentCID($imgURL);
+            $template = "<center>
+            <img src='cid:". $cid ."' width='100'/>
+            <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
+            <tr><td><center><h1>Purchase Order Form</h1></center></td></tr>
+            <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+            <tr><td><center>This is from FastCat System, sending you a reminder that requesting for your approval of the generated Purchase Order.</center></td></tr>
+            <tr><td><center>Purchase Order No</center></td></tr>
+            <tr><td><center><h2>".$po_number."</h2></center></td></tr>
+            <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
+            <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
+            <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
+            $subject = "Purchase Order Form - For Approval";
+            $email->setSubject($subject);
+            $email->setMessage($template);
+            $email->send();
+        }
         echo "success";
     }
 
