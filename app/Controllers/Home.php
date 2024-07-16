@@ -1619,7 +1619,7 @@ class Home extends BaseController
                 //update the canvass Sheet
                 $builder = $this->db->table('tblcanvass_sheet');
                 $builder->select('canvassID');
-                $builder->WHERE('Vatable',$row->Vatable)->WHERE('Supplier',$row->Supplier)->WHERE('Reference',$val);
+                $builder->WHERE('Vatable',$row->Vatable)->WHERE('Supplier',$row->Supplier)->WHERE('Reference',$val)->WHERE('Remarks','Selected');
                 $datas = $builder->get();
                 foreach($datas->getResult() as $rows)
                 {
