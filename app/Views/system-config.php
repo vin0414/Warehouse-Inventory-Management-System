@@ -1220,7 +1220,11 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									Swal.fire(
+        								'Great',
+        								'Successfully reset',
+        								'success'
+        							);
 								}
 								else
 								{
@@ -1264,7 +1268,11 @@
 					{
 						if(response=="success")
 						{
-							alert("Great! Successfully re-assigned");
+							Swal.fire(
+        								'Great',
+        								'Successfully re-assigned',
+        								'success'
+        							);
 						}
 						else
 						{
