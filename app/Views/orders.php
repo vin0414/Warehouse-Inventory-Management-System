@@ -688,7 +688,7 @@
 									+"<option>WK</option><option>YD</option><option>YR</option>"
 									+"</select>";
 				cell3.innerHTML = "<input type='text' class='form-control' id='item_name' name='item_name[]'/>";
-				cell4.innerHTML = "<input type='text' class='form-control' id='specification' name='specification[]'/>";
+				cell4.innerHTML = "<textarea class='textarea_editor form-control' style='height:45px;' id='specification' name='specification[]'></textarea>";
 				cell5.innerHTML = "<button type='button' class='btn btn-danger btnDelete'><span class='dw dw-trash'></span></button>";
 			}
         </script>

@@ -451,6 +451,14 @@
                             <div class="col-lg-2 form-group">
                                 <input type="date" class="form-control" name="to"/>
                             </div>
+							<div class="col-lg-3 form-group">
+                                <select class="form-control custom-select2" name="vendor">
+                                    <option value="">-Choose vendor-</option>
+									<?php foreach($supplier as $row): ?>
+										<option><?php echo $row['supplierName'] ?></option>
+									<?php endforeach; ?>
+                                </select>
+                            </div>
                             <div class="col-lg-3 form-group">
                                 <select class="form-control custom-select2" name="department">
                                     <option value="">-Choose Department-</option>

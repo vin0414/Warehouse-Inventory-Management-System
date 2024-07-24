@@ -338,6 +338,7 @@ class Purchase extends BaseController
         $qty = $this->request->getPost('qty');
         $item = $this->request->getPost('item');
         $item_name = $this->request->getPost('item_name');
+        
         $spec = $this->request->getPost('specification');
         //approver
         $approver_user = $this->request->getPost('approver');
@@ -399,9 +400,13 @@ class Purchase extends BaseController
                     $count = count($item_name);
                     for($i=0;$i<$count;$i++)
                     {
+                        $htmlcode1 = "<html> \n <body>";
+                        $content = htmlspecialchars($spec[$i]);
+                        $htmlcode2 = "</body> \n <html>";
+                        $data = htmlspecialchars_decode($htmlcode1.$content.$htmlcode2);
                         $values = [
                             'accountID'=>$user, 'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
-                            'Specification'=>$spec[$i],'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
+                            'Specification'=>$data,'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
                         ];
                         $OrderItemModel->save($values);
                     }
@@ -505,9 +510,17 @@ class Purchase extends BaseController
                 $count = count($item_name);
                 for($i=0;$i<$count;$i++)
                 {
+                    $htmlcode1 = "<html> \n <body>";
+                    $content = htmlspecialchars($spec[$i]);
+                    $htmlcode2 = "</body> \n <html>";
+                    $data = htmlspecialchars_decode($htmlcode1.$content.$htmlcode2);
                     $values = [
                         'accountID'=>$user, 'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
-                        'Specification'=>$spec[$i],'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
+                        'Specification'=>$data,'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
+                    ];
+                    $values = [
+                        'accountID'=>$user, 'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
+                        'Specification'=>$data,'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
                     ];
                     $OrderItemModel->save($values);
                 }

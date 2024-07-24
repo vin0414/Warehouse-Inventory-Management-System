@@ -1924,6 +1924,17 @@ class Home extends BaseController
             $reviewCanvassModel->update($review['crID'],$values);
             echo "success";
         }  
+        else
+        {
+            $value = ['Status'=>4];
+            $canvass = $canvasFormModel->WHERE('Reference',$code)->first();
+            $canvasFormModel->update($canvass['formID'],$value);
+            //approved
+            $review = $reviewCanvassModel->WHERE('accountID',$user)->WHERE('Reference',$code)->first();
+            $values = ['Status'=>1,'DateApproved'=>date('Y-m-d')];
+            $reviewCanvassModel->update($review['crID'],$values);
+            echo "success";
+        }
     }
 
     public function proceedRequest()
@@ -2284,6 +2295,9 @@ class Home extends BaseController
 
     public function monitoring()
     {
+        //vendors
+        $supplierModel = new \App\Models\supplierModel();
+        $supplier = $supplierModel->findAll();
         //department
         $builder = $this->db->table('tblprf');
         $builder->select('Department');
@@ -2295,7 +2309,7 @@ class Home extends BaseController
         $builder->groupBy('Item_Name');
         $item = $builder->get()->getResult();
 
-        $data = ['list'=>$list,'item'=>$item];
+        $data = ['list'=>$list,'item'=>$item,'supplier'=>$supplier];
         return view('monitoring',$data);
     }
 
