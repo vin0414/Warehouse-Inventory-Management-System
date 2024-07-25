@@ -606,7 +606,7 @@
 														<?php }else if($row->Status==4){?>
 															<span class="badge bg-success text-white">Approved</span>
 														<?php }else { ?>
-															<?php echo $row->Comment ?>
+															<span class="badge bg-danger text-white"><?php echo $row->Comment ?></span>
 														<?php } ?>
 													</td>
 													<td>

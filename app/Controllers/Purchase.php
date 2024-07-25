@@ -414,13 +414,9 @@ class Purchase extends BaseController
                     $count = count($item_name);
                     for($i=0;$i<$count;$i++)
                     {
-                        $htmlcode1 = "<html> \n <body>";
-                        $content = htmlspecialchars($spec[$i]);
-                        $htmlcode2 = "</body> \n <html>";
-                        $data = htmlspecialchars_decode($htmlcode1.$content.$htmlcode2);
                         $values = [
                             'accountID'=>$user, 'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
-                            'Specification'=>$data,'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
+                            'Specification'=>$spec[$i],'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
                         ];
                         $OrderItemModel->save($values);
                     }
@@ -524,17 +520,9 @@ class Purchase extends BaseController
                 $count = count($item_name);
                 for($i=0;$i<$count;$i++)
                 {
-                    $htmlcode1 = "<html> \n <body>";
-                    $content = htmlspecialchars($spec[$i]);
-                    $htmlcode2 = "</body> \n <html>";
-                    $data = htmlspecialchars_decode($htmlcode1.$content.$htmlcode2);
                     $values = [
                         'accountID'=>$user, 'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
-                        'Specification'=>$data,'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
-                    ];
-                    $values = [
-                        'accountID'=>$user, 'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
-                        'Specification'=>$data,'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
+                        'Specification'=>$spec[$i],'OrderNo'=>$code,'DateCreated'=>date('Y-m-d')
                     ];
                     $OrderItemModel->save($values);
                 }
@@ -1380,6 +1368,24 @@ class Purchase extends BaseController
         $purchase = $purchaseModel->WHERE('OrderNo',$val)->first();
         $values = ['Status'=>5,'Remarks'=>'CLOSE'];
         $purchaseModel->update($purchase['prfID'],$values);
+        echo "success";
+    }
+
+    public function closePurchaseOrder()
+    {
+        $receiveModel = new \App\Models\receiveModel();
+        $purchaseOrderModel = new \App\Models\purchaseOrderModel();
+        $val = $this->request->getPost('value');
+        //get the index of tblreceive
+        $receive = $receiveModel->WHERE('purchaseNumber',$val)->first();
+        //change the remarks
+        $values = ['Remarks'=>'Full Delivery'];
+        $receiveModel->update($receive['receiveID'],$values);
+        //get the purchase log ID
+        $purchase = $purchaseOrderModel->WHERE('purchaseNumber',$val)->first();
+        //change the status
+        $data = ['Remarks'=>'CLOSE'];
+        $purchaseOrderModel->update($purchase['purchaseLogID'],$data);
         echo "success";
     }
 

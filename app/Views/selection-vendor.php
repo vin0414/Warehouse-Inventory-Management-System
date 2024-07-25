@@ -585,6 +585,7 @@
 				e.preventDefault();
 				var data = $(this).serialize();
 				$('#modal-loading').modal('show');
+				$('#assignModal').modal('hide');
 				$('#btnSave').attr("value","Submitting...");
 				$.ajax({
 					url:"<?=site_url('send-reference')?>",method:"POST",

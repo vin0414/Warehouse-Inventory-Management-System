@@ -561,9 +561,21 @@
 													<td><?php echo $row->warehouseName ?></td>
 													<td><?php echo $row->Remarks ?></td>
 													<td>
-														<a class="dropdown-item" href="<?=site_url('download-file/')?><?php echo $row->purchaseNumber ?>">
-															<span class="dw dw-download"></span>&nbsp;Download
-														</a>
+														<div class="dropdown">
+															<button type="button" class="btn btn-primary btn-sm line-height-1 dropdown-toggle" role="button" data-toggle="dropdown">
+																More
+															</button>
+															<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
+																<a class="dropdown-item" href="<?=site_url('download-file/')?><?php echo $row->purchaseNumber ?>">
+																	<i class="dw dw-download"></i>&nbsp;Download
+																</a>	
+																<?php if($row->Remarks=="Partial Delivery"){?>
+																<button type="button" class="dropdown-item settle" value="<?php echo $row->purchaseNumber ?>">
+																	<i class="icon-copy bi bi-lock"></i>&nbsp;Close
+																</button>
+																<?php } ?>
+															</div>
+														</div>
 													</td>
 												</tr>
 											<?php endforeach; ?>
@@ -635,6 +647,31 @@
 				var val = $(this).val();
 				$('#receiveID').attr("value",val);
 				$('#receiveModal').modal('show');
+			});
+
+			$(document).on('click','.settle',function(){
+				var confirmation = confirm('Do you want to tag this P.O. as close?');
+				if(confirmation)
+				{
+					$('#modal-loading').modal('show');
+					var val = $(this).val();
+					$.ajax({
+						url:"<?=site_url('close-purchase-order')?>",method:"POST",
+						data:{value:val},
+						success:function(response)
+						{
+							$('#modal-loading').modal('hide');
+							if(response==="success")
+							{
+								location.reload();
+							}
+							else
+							{
+								alert(response);
+							}
+						}
+					});
+				}
 			});
 
 			$('#btnSave').on('click',function(e)
