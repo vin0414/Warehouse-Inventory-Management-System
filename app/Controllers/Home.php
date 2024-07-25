@@ -1509,8 +1509,14 @@ class Home extends BaseController
         $builder->WHERE('a.accountID',$user);
         $builder->groupBy('a.crID')->orderby('a.crID','DESC');
         $list = $builder->get()->getResult();
+        //account
+        $role = ['Staff'];
+        $builder = $this->db->table('tblaccount');
+        $builder->select('*');
+        $builder->WHEREIN('systemRole',$role)->WHERE('Status',1);
+        $account = $builder->get()->getResult();
 
-        $data = ['review'=>$list];
+        $data = ['review'=>$list,'account'=>$account];
         return view ('selection-vendor',$data);
     }
 

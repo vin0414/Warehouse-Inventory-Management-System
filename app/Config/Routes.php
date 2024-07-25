@@ -93,6 +93,7 @@ $routes->post('save-changes','Purchase::saveChanges');
 $routes->post('change-assignment','Home::changeAssignment');
 $routes->post('save-group','Home::saveGroup');
 $routes->post('forward','Purchase::forwardPRF');
+$routes->post('send-reference','Purchase::sendReference');
 //fetch the product details
 $routes->get('product-information','ProductController::productInfo');
 $routes->post('save-report','ProductController::saveReport');

@@ -74,6 +74,24 @@
                 width: 0px;               /* width of vertical scrollbar */
                 border: 1px solid #d5d5d5;
               }
+
+			.loading-spinner{
+				width:30px;
+				height:30px;
+				border:2px solid indigo;
+				border-radius:50%;
+				border-top-color:#0001;
+				display:inline-block;
+				animation:loadingspinner .7s linear infinite;
+				}
+				@keyframes loadingspinner{
+				0%{
+					transform:rotate(0deg)
+				}
+				100%{
+					transform:rotate(360deg)
+				}
+			}
             
         </style>
 	</head>
@@ -457,6 +475,7 @@
 								<th>To</th>
                                 <th>Date Needed</th>
                                 <th>Status</th>
+								<th>Action</th>
                             </thead>
 							<tbody>
 								<?php foreach($review as $row): ?>
@@ -469,7 +488,7 @@
 											<a class="btn-link" href="export/<?php echo $row->Reference ?>" target="_blank"><?php echo $row->Reference ?></a>
 										<?php } ?>
                                         </td>
-										<td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
+										<td><a class="btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
 										<td><?php echo $row->Fullname ?></td>
 										<td><?php echo $row->Dept ?></td>
 										<td><?php echo $row->Department ?></td>
@@ -483,12 +502,56 @@
 												<span class="badge bg-danger text-white">REJECTED</span>
 											<?php } ?>
 										</td>
+										<td>
+											<button type="button" class="btn btn-primary btn-sm send" value="<?php echo $row->Reference ?>">
+											<i class="icon-copy dw dw-mail"></i>&nbsp;Send
+											</button>
+										</td>
 									</tr>
 								<?php endforeach; ?>
 							</tbody>
                         </table>
                     </div>
                 </div>
+			</div>
+		</div>
+		<div class="modal fade" id="assignModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">
+                            Transfer Canvass Sheet
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" class="row g-3" id="frmAssign">
+                            <input type="hidden" id="reference" name="reference"/>
+                            <div class="col-12 form-group">
+                                <label>Transfer To : </label>
+                                <select class="form-control custom-select2" name="receiver" id="receiver" style="width:100%;" required>
+									<option value="">Choose</option>
+									<?php foreach($account as $row): ?>
+										<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
+									<?php endforeach; ?>
+								</select>
+                            </div>
+                            <div class="col-12 form-group">
+                                <input type="submit" class="btn btn-primary" id="btnSave" value="Submit"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div class="modal" id="modal-loading" data-backdrop="static">
+			<div class="modal-dialog modal-sm">
+				<div class="modal-content">
+				<div class="modal-body text-center">
+					<div class="loading-spinner mb-2"></div>
+					<div>Loading</div>
+				</div>
+				</div>
 			</div>
 		</div>
 		<!-- js -->
@@ -507,6 +570,40 @@
 			{
 				notify();
 			});
+			$(document).on('click','.send',function()
+			{
+				var confirmation = confirm("Do you want to transfer the selected quotation?");
+				if(confirmation)
+				{
+					$('#assignModal').modal('show');
+					var val = $(this).val();
+					$('#reference').attr("value",val);
+				}
+			});
+
+			$('#frmAssign').on('submit',function(e){
+				e.preventDefault();
+				var data = $(this).serialize();
+				$('#modal-loading').modal('show');
+				$('#btnSave').attr("value","Submitting...");
+				$.ajax({
+					url:"<?=site_url('send-reference')?>",method:"POST",
+					data:data,success:function(response)
+					{
+						$('#modal-loading').modal('hide');
+						$('#btnSave').attr("value","Submit");
+						if(response==="success")
+						{
+							location.reload();
+						}
+						else
+						{
+							alert(response);
+						}	
+					}
+				});
+			});
+
 			function notify()
 			{
 				$.ajax({

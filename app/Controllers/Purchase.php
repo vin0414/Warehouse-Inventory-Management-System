@@ -10,6 +10,20 @@ class Purchase extends BaseController
         helper(['url','form']);
         $this->db = db_connect();
     }
+    
+    public function sendReference()
+    {
+        $reviewCanvassModel = new \App\Models\reviewCanvassModel();
+        //data
+        $reference = $this->request->getPost('reference');
+        $accountID = $this->request->getPost('receiver');
+        //get the index
+        $canvass = $reviewCanvassModel->WHERE('Reference',$reference)->first();
+        //update
+        $values = ['accountID'=>$accountID];
+        $reviewCanvassModel->update($canvass['crID'],$values);
+        echo "success";
+    }
 
     public function saveChanges()
     {
