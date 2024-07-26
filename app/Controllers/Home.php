@@ -687,6 +687,18 @@ class Home extends BaseController
         return view('orders',$data);
     }
 
+    public function complyPurchase($id)
+    {
+        $purchaseModel = new \App\Models\purchaseModel();
+        $purchase = $purchaseModel->WHERE('OrderNo',$id)->first();
+
+        //items
+        $OrderItemModel = new \App\Models\OrderItemModel();
+        $item = $OrderItemModel->WHERE('OrderNo',$id)->findAll();
+        $data = ['purchase'=>$purchase,'item'=>$item];
+        return view('comply-purchase',$data);
+    }
+
     public function editPurchase($id)
     {
         $purchaseModel = new \App\Models\purchaseModel();

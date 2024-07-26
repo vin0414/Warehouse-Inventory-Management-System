@@ -567,6 +567,8 @@
 																		<span class="badge bg-success text-white">APPROVED</span>
 																	<?php }else if($row->Status==2){?>
 																		<span class="badge bg-danger text-white">CANCELLED</span>
+																	<?php }else{ ?>
+																		<span class="badge bg-danger text-white">HOLD</span>
 																	<?php } ?>
 																</td>
 																<td>
@@ -869,6 +871,7 @@
 				$('#prfID').attr("value",val);
 				$('#assignModal').modal('show');
 			});
+
 			$(document).on('click','.accept',function(e)
 			{
 				e.preventDefault();
@@ -897,6 +900,39 @@
 									alert(response);
 								}
 								$('#modal-loading').modal('hide');
+							}
+						});
+					}
+				});
+			});
+
+			$(document).on('click','.hold',function(e)
+			{
+				e.preventDefault();
+				var val = $('#reviewID').val();
+				Swal.fire({
+					title: "Are you sure?",
+					text: "Do you want to hold this selected request?",
+					icon: "question",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Yes!"
+					}).then((result) => {
+					if (result.isConfirmed) {
+						var message = prompt("Enter your comment to hold the request");
+						$.ajax({
+							url:"<?=site_url('hold-request')?>",method:"POST",
+							data:{value:val,message:message},success:function(response)
+							{
+								if(response==="success")
+								{
+									location.reload();
+								}
+								else
+								{
+									alert(response);
+								}
 							}
 						});
 					}

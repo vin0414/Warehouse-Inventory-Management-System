@@ -508,9 +508,11 @@
 													<td><?php echo $row->PurchaseType ?></td>
 													<td>
 														<?php if($row->Status==2){ ?>
-														<a href="edit-purchase/<?php echo $row->OrderNo ?>" class="btn-link"><?php echo $row->OrderNo ?></a>
-														<?php }else{?>
-														<?php echo $row->OrderNo ?>
+															<a href="edit-purchase/<?php echo $row->OrderNo ?>" class="btn-link"><?php echo $row->OrderNo ?></a>
+														<?php }else if($row->Status==6){?>
+															<a href="comply/<?php echo $row->OrderNo ?>" class="btn-link"><?php echo $row->OrderNo ?></a>
+														<?php }else{ ?>
+															<?php echo $row->OrderNo ?>
 														<?php } ?>
 													</td>
 													<td><?php echo substr($row->Reason,0,20) ?>...</td>
@@ -531,8 +533,10 @@
 															<?php } ?>
 														<?php }else if($row->Status==4){ ?>
 															<span class="badge bg-primary text-white">To Dept Head</span>
-														<?php }else{ ?>
+														<?php }else if($row->Status==5){ ?>
 															<span class="badge bg-secondary text-white">Close</span>
+														<?php }else{ ?>
+															<span class="badge bg-danger text-white">Hold</span>
 														<?php } ?>
 													</td>
 													<td>

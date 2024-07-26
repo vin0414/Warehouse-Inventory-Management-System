@@ -228,6 +228,106 @@ class Purchase extends BaseController
         }
     }
 
+    public function comply()
+    {
+        date_default_timezone_set('Asia/Manila');
+        $OrderItemModel = new \App\Models\OrderItemModel();
+        $purchaseModel = new \App\Models\purchaseModel();
+        $reviewModel = new \App\Models\reviewModel();
+        //data
+        $purchaseID = $this->request->getPost('purchaseID');
+        $purchaseNumber = $this->request->getPost('purchaseNumber');
+        $datePrepared = $this->request->getPost('datePrepared');
+        $dept = $this->request->getPost('department');
+        $dateNeeded = $this->request->getPost('dateNeeded');
+        $reason = $this->request->getPost('reason');
+        $purchase_type = $this->request->getPost('purchase_type');
+        $file = $this->request->getFile('file');
+        $originalName = $file->getClientName();
+        $approver_user = $this->request->getPost('approver');
+        //array
+        $itemID = $this->request->getPost('itemID');
+        $qty = $this->request->getPost('qty');
+        $item = $this->request->getPost('item');
+        $item_name = $this->request->getPost('item_name');
+        $spec = $this->request->getPost('specification');
+
+        $validation = $this->validate([
+            'datePrepared'=>'required','department'=>'required','dateNeeded'=>'required',
+            'reason'=>'required','item_name'=>'required','approver'=>'required',
+            'purchase_type'=>'required',
+        ]);
+
+        if(!$validation)
+        {
+            session()->setFlashdata('fail','Invalid! Please fill in the form');
+            return redirect()->to('/edit-purchase/'.$purchaseNumber)->withInput();
+        }
+        else
+        {
+            //update all the item requested
+            $count = count($item_name);
+            for($i=0;$i<$count;$i++)
+            {
+                $values = [
+                    'Qty'=>$qty[$i],'ItemUnit'=>$item[$i],'Item_Name'=>$item_name[$i],
+                    'Specification'=>$spec[$i],
+                ];
+                $OrderItemModel->update($itemID[$i],$values);
+            }
+            //update the purchase Form
+            $values = [
+                'DatePrepared'=>$datePrepared,'Department'=>$dept,
+                'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>7,'DateCreated'=>date('Y-m-d'),
+                'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,
+            ];
+            $purchaseModel->update($purchaseID,$values);
+            //upload the attachment
+            if(!empty($originalName))
+            {
+                $file->move('Attachment/',$originalName);
+            }
+            //get the latest approver 
+            //hold the request
+            //send to approver
+            $value = [
+                'accountID'=>$approver_user,'OrderNo'=>$purchaseNumber,'DateReceived'=>date('Y-m-d'),'Status'=>0,
+                'DateApproved'=>"0000-00-00",'Comment'=>''
+            ];
+            $reviewModel->save($value);
+            //send email notification
+            $builder = $this->db->table('tblaccount');
+            $builder->select('Fullname,Email');
+            $builder->WHERE('accountID',$approver_user);
+            $data = $builder->get();
+            if($row = $data->getRow())
+            {
+                $email = \Config\Services::email();
+                $email->setTo($row->Email);
+                $email->setFrom("fastcat.system@gmail.com","FastCat");
+                $imgURL = "assets/img/fastcat.png";
+                $email->attach($imgURL);
+                $cid = $email->setAttachmentCID($imgURL);
+                $template = "<center>
+                <img src='cid:". $cid ."' width='100'/>
+                <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
+                <tr><td><center><h1>Purchase Requistion Form</h1></center></td></tr>
+                <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+                <tr><td><center>This is from FastCat System, sending you a reminder that</center></td></tr>
+                <tr><td><p><center><b>".$purchaseNumber."</b> is requesting for your approval</center></p></td><tr>
+                <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
+                <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
+                <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
+                $subject = "Purchase Requisition Form - For Approval";
+                $email->setSubject($subject);
+                $email->setMessage($template);
+                $email->send();
+            }
+            session()->setFlashdata('success','Great! Successfully submitted for review');
+            return redirect()->to('/list-orders')->withInput();
+        }
+    }
+
     public function reSubmit()
     {
         date_default_timezone_set('Asia/Manila');
@@ -283,11 +383,7 @@ class Purchase extends BaseController
             ];
             $purchaseModel->update($purchaseID,$values);
             //upload the attachment
-            if(empty($originalName))
-            {
-                //do nothing
-            }
-            else
+            if(!empty($originalName))
             {
                 $file->move('Attachment/',$originalName);
             }
@@ -1050,8 +1146,9 @@ class Purchase extends BaseController
                             <?php }?>
                             <div class="col-12 form-group">
                                 <?php if($row->Status==0){ ?>
-                                <input type="button" class="btn btn-primary accept" value="Accept"/>
-                                <button type="button" class="btn btn-outline-danger cancel">Cancel</button>
+                                <button type="button" class="btn btn-primary accept"><i class="icon-copy bi bi-check2-circle"></i>&nbsp;Accept</button>
+                                <button type="button" class="btn btn-outline-primary hold"><i class="icon-copy bi bi-exclamation-diamond"></i>&nbsp;Hold</button>
+                                <button type="button" class="btn btn-outline-danger cancel"><i class="icon-copy bi bi-x-circle"></i>&nbsp;Cancel</button>
                                 <?php } ?>
                             </div>
                         </form>
@@ -1088,8 +1185,10 @@ class Purchase extends BaseController
                                                 <span class="badge bg-warning text-white">PENDING</span>
                                             <?php }else if($rows->Status==1){?>
                                                 <span class="badge bg-success text-white">APPROVED</span>
-                                            <?php }else{ ?>
+                                            <?php }else if($rows->Status==2){ ?>
                                                 <span class="badge bg-danger text-white">DECLINED</span>
+                                            <?php }else{ ?>
+                                                <span class="badge bg-danger text-white">HOLD</span>
                                             <?php } ?>
                                         </td>
                                         <td><?php echo $rows->DateApproved ?></td>
@@ -1318,6 +1417,47 @@ class Purchase extends BaseController
             $reviewModel->update($val,$values);
             echo "success";
         }  
+    }
+
+    public function holdRequest()
+    {
+        $systemLogsModel = new \App\Models\systemLogsModel();
+        $reviewModel = new \App\Models\reviewModel();
+        $purchaseModel = new \App\Models\purchaseModel();
+        //data
+        $val = $this->request->getPost('value');
+        $msg = $this->request->getPost('message');
+        $user = session()->get('loggedUser');
+        //function
+        if(empty($msg))
+        {
+            echo "Invalid! Please leave a message";
+        }
+        else
+        {
+            $values = [
+                'Status'=>3,'Comment'=>$msg
+            ];
+            $reviewModel->update($val,$values);
+            //update
+            $builder = $this->db->table('tblreview a');
+            $builder->select('a.OrderNo');
+            $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
+            $builder->WHERE('a.reviewID',$val);
+            $data = $builder->get();
+            if($row = $data->getRow())
+            {
+                $purchase = $purchaseModel->WHERE('OrderNo',$row->OrderNo)->first();
+                $value = ['Status'=>6];
+                $purchaseModel->update($purchase['prfID'],$value);
+                //system logs
+                $values = [
+                    'accountID'=>$user,'Date'=>date('Y-m-d H:i:s a'),'Activity'=>'Hold the request PRF No : '.$row->OrderNo
+                ];
+                $systemLogsModel->save($values);
+            }
+            echo "success";
+        }
     }
 
     public function Cancel()
@@ -2313,6 +2453,8 @@ class Purchase extends BaseController
                             <span class="badge bg-success text-white">APPROVED</span>
                         <?php }else if($row->Status==2){?>
                             <span class="badge bg-danger text-white">CANCELLED</span>
+                        <?php }else{ ?>
+                            <span class="badge bg-danger text-white">HOLD</span>
                         <?php } ?>
                     </td>
                     <td>
@@ -2362,6 +2504,8 @@ class Purchase extends BaseController
                             <span class="badge bg-success text-white">APPROVED</span>
                         <?php }else if($row->Status==2){?>
                             <span class="badge bg-danger text-white">CANCELLED</span>
+                        <?php }else{ ?>
+                            <span class="badge bg-danger text-white">HOLD</span>
                         <?php } ?>
                     </td>
                     <td>
@@ -2411,6 +2555,8 @@ class Purchase extends BaseController
                             <span class="badge bg-success text-white">APPROVED</span>
                         <?php }else if($row->Status==2){?>
                             <span class="badge bg-danger text-white">CANCELLED</span>
+                        <?php }else{ ?>
+                            <span class="badge bg-danger text-white">HOLD</span>
                         <?php } ?>
                     </td>
                     <td>
@@ -2460,6 +2606,8 @@ class Purchase extends BaseController
                             <span class="badge bg-success text-white">APPROVED</span>
                         <?php }else if($row->Status==2){?>
                             <span class="badge bg-danger text-white">CANCELLED</span>
+                        <?php }else{ ?>
+                            <span class="badge bg-danger text-white">HOLD</span>
                         <?php } ?>
                     </td>
                     <td>

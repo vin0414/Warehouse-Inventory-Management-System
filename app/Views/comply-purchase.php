@@ -4,7 +4,7 @@
 	<head>
 		<!-- Basic Page Info -->
 		<meta charset="utf-8" />
-		<title>Edit PRF</title>
+		<title>Comply PRF</title>
 
 		<!-- Site favicon -->
 		<link
@@ -340,7 +340,7 @@
 							<ul class="submenu">
                                 <li><a href="<?=site_url('orders')?>">Purchase Request</a></li>
 								<li><a href="<?=site_url('list-orders')?>">List Order</a></li>
-								<li><a href="javascript:void(0);" class="active">Modify PRF</a></li>
+								<li><a href="javascript:void(0);" class="active">Comply PRF</a></li>
 								<?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){?>
 								<li><a href="<?=site_url('local-purchase')?>">Local Purchase</a></li>
 								<li><a href="<?=site_url('purchase-order')?>">Purchase Order</a></li>
@@ -443,11 +443,11 @@
 					</div>
 				<?php endif; ?>
                 <div class="card-box">
-                    <div class="card-header">Edit Purchase Requisition Form
+                    <div class="card-header">Modify Purchase Requisition Form
                     <a href="<?=site_url('list-orders')?>" style="float:right;"><i class="icon-copy dw dw-left-arrow1"></i>&nbsp;Back</a>
                     </div>
                     <div class="card-body">
-                        <form method="POST" class="row g-3" id="frmPurchase" enctype="multipart/form-data" action="<?=base_url('re-submit')?>">
+                        <form method="POST" class="row g-3" id="frmPurchase" enctype="multipart/form-data" action="<?=base_url('comply')?>">
                             <?php if($purchase): ?>
                             <input type="hidden" name="purchaseID" value="<?php echo $purchase['prfID'] ?>"/>
                             <input type="hidden" name="purchaseNumber" value="<?php echo $purchase['OrderNo'] ?>"/>
@@ -506,7 +506,7 @@
                                 </table>
                             </div>
                             <div class="col-12 form-group">
-								<label>Department Head/Masters</label>
+								<label>Department Head/Superintendent</label>
 								<select class="form-control custom-select2" name="approver" id="approver">
 									<option value="">Choose</option>
 								</select>
