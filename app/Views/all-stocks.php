@@ -522,7 +522,7 @@
 												<div class="dropdown">
 													<a class="btn btn-primary btn-sm dropdown-toggle"
 														href="#" role="button" data-toggle="dropdown">
-														SELECT
+														More
 													</a>
 													<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 														<a class="dropdown-item" href="edit/<?php echo $row->inventID ?>"><i class="icon-copy dw dw-edit"></i>Edit</a>
@@ -559,7 +559,7 @@
 												<div class="dropdown">
 													<a class="btn btn-primary btn-sm dropdown-toggle"
 														href="#" role="button" data-toggle="dropdown">
-														SELECT
+														More
 													</a>
 													<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 														<a class="dropdown-item" href="edit/<?php echo $row->inventID ?>"><i class="icon-copy dw dw-edit"></i>Edit</a>

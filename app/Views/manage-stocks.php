@@ -590,11 +590,11 @@
 														<div class="dropdown">
 															<a class="btn btn-primary btn-sm dropdown-toggle"
 																href="#" role="button" data-toggle="dropdown">
-																SELECT
+																More
 															</a>
 															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
-																<button type="button" class="dropdown-item accept" value="<?php echo $row->issuanceID ?>"><span class="dw dw-check"></span>&nbsp;Accept</button>
-																<button type="button" class="dropdown-item delete" value="<?php echo $row->issuanceID ?>"><span class="dw dw-trash"></span>&nbsp;Cancel</button>
+																<button type="button" class="dropdown-item accept" value="<?php echo $row->issuanceID ?>"><i class="dw dw-check"></i>&nbsp;Accept</button>
+																<button type="button" class="dropdown-item delete" value="<?php echo $row->issuanceID ?>"><i class="dw dw-trash"></i>&nbsp;Cancel</button>
 															</div>
 														</div>
 														<?php }else{ ?>-<?php } ?>

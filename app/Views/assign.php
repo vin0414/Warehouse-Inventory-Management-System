@@ -602,10 +602,10 @@
 																SELECT
 															</a>
 															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
-																<button type="button" class="dropdown-item accept" value="<?php echo $row->assignID ?>"><span class="dw dw-check"></span>&nbsp;Accept</button>
-																<button type="button" class="dropdown-item revision" value="<?php echo $row->OrderNo ?>"><span class="dw dw-repeat1"></span>&nbsp;Reject</button>
-																<button type="button" class="dropdown-item transfer" value="<?php echo $row->assignID ?>"><span class="bi bi-forward"></span>&nbsp;Forward</button>
-																<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><span class="dw dw-list"></span>&nbsp;List of Items</button>
+																<button type="button" class="dropdown-item accept" value="<?php echo $row->assignID ?>"><i class="dw dw-check"></i>&nbsp;Accept</button>
+																<button type="button" class="dropdown-item revision" value="<?php echo $row->OrderNo ?>"><i class="dw dw-repeat1"></i>&nbsp;Reject</button>
+																<button type="button" class="dropdown-item transfer" value="<?php echo $row->assignID ?>"><i class="bi bi-forward"></i>&nbsp;Forward</button>
+																<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><i class="dw dw-list"></i>&nbsp;List of Items</button>
 															</div>
 														</div>
 													</td>
@@ -641,10 +641,10 @@
 																	SELECT
 																</a>
 																<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
-																	<a href="create/<?php echo $row->OrderNo ?>" class="dropdown-item"><span class="dw dw-add"></span>&nbsp;Create</a>
-																	<a href="edit-order/<?php echo $row->OrderNo ?>" class="dropdown-item" target="_blank"><span class="dw dw-edit-1"></span>&nbsp;Edit Items</a>
-																	<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><span class="dw dw-list"></span>&nbsp;List of Item</button>
-																	<button type="button" class="dropdown-item archive" value="<?php echo $row->OrderNo ?>"><span class="dw dw-trash"></span>&nbsp;Close</button>
+																	<a href="create/<?php echo $row->OrderNo ?>" class="dropdown-item"><i class="dw dw-add"></i>&nbsp;Create</a>
+																	<a href="edit-order/<?php echo $row->OrderNo ?>" class="dropdown-item" target="_blank"><i class="dw dw-edit-1"></i>&nbsp;Edit Items</a>
+																	<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><i class="dw dw-list"></i>&nbsp;List of Item</button>
+																	<button type="button" class="dropdown-item archive" value="<?php echo $row->OrderNo ?>"><i class="dw dw-trash"></i>&nbsp;Close</button>
 																</div>
 															</div>
 														<?php }else { ?>
@@ -772,7 +772,7 @@
 													<td><?php echo $row['Comment'] ?></td>
 													<td>
 														<?php if($row['Status']==2){?>
-														<a href="create/<?php echo $row['OrderNo'] ?>" class="dropdown-item"><span class="dw dw-add"></span>&nbsp;Create</a>
+														<a href="create/<?php echo $row['OrderNo'] ?>" class="dropdown-item"><i class="dw dw-add"></i>&nbsp;Create</a>
 														<?php } ?>
 													</td>
 												</tr>
