@@ -244,7 +244,6 @@ class Purchase extends BaseController
         $purchase_type = $this->request->getPost('purchase_type');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
-        $approver_user = $this->request->getPost('approver');
         //array
         $itemID = $this->request->getPost('itemID');
         $qty = $this->request->getPost('qty');
@@ -254,14 +253,13 @@ class Purchase extends BaseController
 
         $validation = $this->validate([
             'datePrepared'=>'required','department'=>'required','dateNeeded'=>'required',
-            'reason'=>'required','item_name'=>'required','approver'=>'required',
-            'purchase_type'=>'required',
+            'reason'=>'required','item_name'=>'required','purchase_type'=>'required',
         ]);
 
         if(!$validation)
         {
             session()->setFlashdata('fail','Invalid! Please fill in the form');
-            return redirect()->to('/edit-purchase/'.$purchaseNumber)->withInput();
+            return redirect()->to('/comply/'.$purchaseNumber)->withInput();
         }
         else
         {
@@ -275,10 +273,21 @@ class Purchase extends BaseController
                 ];
                 $OrderItemModel->update($itemID[$i],$values);
             }
+            //get the old status of PRF
+            $status=0;
+            $builder = $this->db->table('tblhold');
+            $builder->select('Status');
+            $builder->WHERE('OrderNo',$purchaseNumber);
+            $builder->orderBy('holdID','DESC')->limit(1);
+            $record = $builder->get();
+            if($row = $record->getRow())
+            {
+                $status = $row->Status;
+            }
             //update the purchase Form
             $values = [
                 'DatePrepared'=>$datePrepared,'Department'=>$dept,
-                'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>7,'DateCreated'=>date('Y-m-d'),
+                'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>$status,'DateCreated'=>date('Y-m-d'),
                 'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,
             ];
             $purchaseModel->update($purchaseID,$values);
@@ -289,39 +298,46 @@ class Purchase extends BaseController
             }
             //get the latest approver 
             //hold the request
-            //send to approver
-            $value = [
-                'accountID'=>$approver_user,'OrderNo'=>$purchaseNumber,'DateReceived'=>date('Y-m-d'),'Status'=>0,
-                'DateApproved'=>"0000-00-00",'Comment'=>''
-            ];
-            $reviewModel->save($value);
-            //send email notification
-            $builder = $this->db->table('tblaccount');
-            $builder->select('Fullname,Email');
-            $builder->WHERE('accountID',$approver_user);
-            $data = $builder->get();
-            if($row = $data->getRow())
-            {
-                $email = \Config\Services::email();
-                $email->setTo($row->Email);
-                $email->setFrom("fastcat.system@gmail.com","FastCat");
-                $imgURL = "assets/img/fastcat.png";
-                $email->attach($imgURL);
-                $cid = $email->setAttachmentCID($imgURL);
-                $template = "<center>
-                <img src='cid:". $cid ."' width='100'/>
-                <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
-                <tr><td><center><h1>Purchase Requistion Form</h1></center></td></tr>
-                <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
-                <tr><td><center>This is from FastCat System, sending you a reminder that</center></td></tr>
-                <tr><td><p><center><b>".$purchaseNumber."</b> is requesting for your approval</center></p></td><tr>
-                <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
-                <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
-                <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
-                $subject = "Purchase Requisition Form - For Approval";
-                $email->setSubject($subject);
-                $email->setMessage($template);
-                $email->send();
+            $builder = $this->db->table('tblreview');
+            $builder->select('accountID,reviewID');
+            $builder->WHERE('OrderNo',$purchaseNumber);
+            $builder->orderBy('reviewID','DESC')->limit(1);
+            $datas = $builder->get();
+            if($rows = $datas->getRow())
+            {            //send to approver
+                $value = [
+                    'accountID'=>$rows->accountID,'OrderNo'=>$purchaseNumber,'DateReceived'=>date('Y-m-d'),'Status'=>0,
+                    'DateApproved'=>"0000-00-00",'Comment'=>''
+                ];
+                $reviewModel->save($value);
+                //send email notification
+                $builder = $this->db->table('tblaccount');
+                $builder->select('Fullname,Email');
+                $builder->WHERE('accountID',$rows->accountID);
+                $data = $builder->get();
+                if($row = $data->getRow())
+                {
+                    $email = \Config\Services::email();
+                    $email->setTo($row->Email);
+                    $email->setFrom("fastcat.system@gmail.com","FastCat");
+                    $imgURL = "assets/img/fastcat.png";
+                    $email->attach($imgURL);
+                    $cid = $email->setAttachmentCID($imgURL);
+                    $template = "<center>
+                    <img src='cid:". $cid ."' width='100'/>
+                    <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
+                    <tr><td><center><h1>Purchase Requistion Form</h1></center></td></tr>
+                    <tr><td><center>Hi, ".$row->Fullname."</center></td></tr>
+                    <tr><td><center>This is from FastCat System, sending you a reminder that</center></td></tr>
+                    <tr><td><p><center><b>".$purchaseNumber."</b> is requesting for your approval</center></p></td><tr>
+                    <tr><td><center>Please login to your account @ https:fastcat-ims.com.</center></td></tr>
+                    <tr><td><center>This is a system message please don't reply. Thank you</center></td></tr>
+                    <tr><td><center>FastCat IT Support</center></td></tr></tbody></table></center>";
+                    $subject = "Purchase Requisition Form - For Approval";
+                    $email->setSubject($subject);
+                    $email->setMessage($template);
+                    $email->send();
+                }
             }
             session()->setFlashdata('success','Great! Successfully submitted for review');
             return redirect()->to('/list-orders')->withInput();
@@ -1075,10 +1091,10 @@ class Purchase extends BaseController
                             <?php if(session()->get('role')=="Editor" && session()->get('location')=="Head Office"){ ?>
                             <div class="col-12 form-group">
 								<b><label>Priority Level : </label></b>
-								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="1" required/>&nbsp;<label>Emergency</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="1"/>&nbsp;<label>Emergency</label>
 								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="2"/>&nbsp;<label>Urgent</label>
 								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="3"/>&nbsp;<label>Medium</label>
-								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="4"/>&nbsp;<label>Low</label>
+								<input type="radio" style="width:18px;height:18px;" name="urgencyLevel" value="4" checked/>&nbsp;<label>Low</label>
 							</div>
                             <?php } ?>
                             <div class="col-12 form-group">
@@ -1424,6 +1440,7 @@ class Purchase extends BaseController
         $systemLogsModel = new \App\Models\systemLogsModel();
         $reviewModel = new \App\Models\reviewModel();
         $purchaseModel = new \App\Models\purchaseModel();
+        $holdModel = new \App\Models\holdModel();
         //data
         $val = $this->request->getPost('value');
         $msg = $this->request->getPost('message');
@@ -1448,6 +1465,10 @@ class Purchase extends BaseController
             if($row = $data->getRow())
             {
                 $purchase = $purchaseModel->WHERE('OrderNo',$row->OrderNo)->first();
+                //save the old status of PRF
+                $records = ['OrderNo'=>$row->OrderNo,'Status'=>$purchase['Status'],'accountID'=>$user,'Date'=>date('Y-m-d H:i:s a')];
+                $holdModel->save($records);
+                //update the status of onhold PRF
                 $value = ['Status'=>6];
                 $purchaseModel->update($purchase['prfID'],$value);
                 //system logs

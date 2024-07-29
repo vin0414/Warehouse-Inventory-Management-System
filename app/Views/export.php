@@ -508,7 +508,7 @@
                                                 <td><?php echo $row->Qty ?></td>
                                                 <td style='text-align:right;'><?php echo number_format($row->Price,2) ?></td>
                                                 <td style='text-align:right;'><?php echo number_format($row->Qty*$row->Price,2) ?></td>
-                                                <td><?php echo $row->Specification ?></td>
+                                                <td><?php echo nl2br($row->Specification) ?></td>
                                                 <td><?php echo $row->Supplier ?></td>
 												<td><?php echo $row->ContactNumber ?></td>
                                                 <td><?php echo $row->Terms ?></td>

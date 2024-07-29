@@ -496,7 +496,7 @@
                                     <td><?php echo $row['Qty'] ?></td>
                                     <td><?php echo $row['ItemUnit'] ?></td>
                                     <td><?php echo $row['Item_Name'] ?></td>
-                                    <td><?php echo $row['Specification']?></td>
+                                    <td><?php echo nl2br($row['Specification'])?></td>
                                 </tr>
                             <?php endforeach; ?>
                            </tbody>

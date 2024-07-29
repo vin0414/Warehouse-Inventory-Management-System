@@ -447,7 +447,7 @@
                     <a href="<?=site_url('list-orders')?>" style="float:right;"><i class="icon-copy dw dw-left-arrow1"></i>&nbsp;Back</a>
                     </div>
                     <div class="card-body">
-                        <form method="POST" class="row g-3" id="frmPurchase" enctype="multipart/form-data" action="<?=base_url('comply')?>">
+                        <form method="POST" class="row g-3" id="frmPurchase" enctype="multipart/form-data" action="<?=base_url('compliance')?>">
                             <?php if($purchase): ?>
                             <input type="hidden" name="purchaseID" value="<?php echo $purchase['prfID'] ?>"/>
                             <input type="hidden" name="purchaseNumber" value="<?php echo $purchase['OrderNo'] ?>"/>
@@ -505,12 +505,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="col-12 form-group">
-								<label>Department Head/Superintendent</label>
-								<select class="form-control custom-select2" name="approver" id="approver">
-									<option value="">Choose</option>
-								</select>
-							</div>
                             <div class="col-12 form-group">
                                 <button type="submit" class="btn btn-primary" id="btnSave">Save and Submit</button>
                             </div>
