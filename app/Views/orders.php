@@ -452,9 +452,6 @@
 			<div class="xs-pd-20-10 pd-ltr-20">
 				<div class="card-box">
 					<div class="card-header">Purchase Request Form
-					<a href="javascript:void(0);" class="btn-link btn-sm" onclick="addRow()" style="float:right;">
-						<span class="icon-copy dw dw-add"></span>&nbsp;Add
-					</a>
 					<div class="dropdown" style="float:right;">
 						<a class="btn btn-link btn-sm no-arrow dropdown-toggle" href="#" role="button" data-toggle="dropdown"><i class="icon-copy dw dw-notebook"></i>&nbsp;Catalogs</a>
 						<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
@@ -515,6 +512,11 @@
                                         <input type="date" class="form-control" name="dateNeeded" id="dateNeeded" required/>
                                     </div>
                                 </div>
+                            </div>
+							<div class="col-12 form-group">
+                                <a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" onclick="addRow()">
+            						<span class="icon-copy dw dw-add"></span>&nbsp;Add Item(s)
+            					</a>
                             </div>
                             <div class="col-12 form-group">
                                 <table class="table stripe table-bordered hover nowrap">
