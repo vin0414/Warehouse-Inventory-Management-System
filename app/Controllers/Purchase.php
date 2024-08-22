@@ -18,10 +18,20 @@ class Purchase extends BaseController
         $reference = $this->request->getPost('reference');
         $accountID = $this->request->getPost('receiver');
         //get the index
-        $canvass = $reviewCanvassModel->WHERE('Reference',$reference)->first();
-        //update
-        $values = ['accountID'=>$accountID];
-        $reviewCanvassModel->update($canvass['crID'],$values);
+        //$canvass = $reviewCanvassModel
+        //->WHERE('Reference',$reference)->first();
+        //get the last index in canvass review
+        $builder = $this->db->table('tblcanvass_review');
+        $builder->select('crID');
+        $builder->WHERE('Reference',$reference);
+        $builder->orderBy('crID','DESC')->limit(1);
+        $data = $builder->get();
+        if($row = $data->getRow())
+        {
+            //update
+            $values = ['accountID'=>$accountID];
+            $reviewCanvassModel->update($row->crID,$values);
+        }
         echo "success";
     }
 
