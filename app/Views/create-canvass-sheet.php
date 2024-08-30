@@ -645,6 +645,7 @@
 											<option>AUD</option>
 											<option>GBP</option>
 											<option>SGD</option>
+											<option>CNY</option>
 										</select>
 									</div>
 								</div>
