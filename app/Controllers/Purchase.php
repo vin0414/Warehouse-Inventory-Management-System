@@ -2802,10 +2802,9 @@ class Purchase extends BaseController
         else
         {
             //get the pending PRF from original requestor
-            $status = [2,3];
             $builder = $this->db->table('tblprf');
             $builder->select('prfID');
-            $builder->WHERE('accountID',$old_user)->WHERENOTIN('Status',$status);
+            $builder->WHERE('accountID',$old_user);
             $data = $builder->get();
             foreach($data->getResult() as $row)
             {
