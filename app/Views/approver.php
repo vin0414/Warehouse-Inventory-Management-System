@@ -494,16 +494,6 @@
 									<a
 										class="nav-link text-blue"
 										data-toggle="tab"
-										href="#addstock"
-										role="tab"
-										aria-selected="false"
-										>Assigning</a
-									>
-								</li>
-								<li class="nav-item">
-									<a
-										class="nav-link text-blue"
-										data-toggle="tab"
 										href="#purchase"
 										role="tab"
 										aria-selected="false"
@@ -582,41 +572,6 @@
 												</table>
 											</div>
 										</div>
-									</div>
-								</div>
-								<div class="tab-pane fade" id="addstock" role="tabpanel">
-									<br/>
-									<div class="table-responsive tableFixHead">
-										<table class="data-table table hover nowrap">
-											<thead>
-												<th>Date Created</th>
-												<th>PRF No</th>
-												<th>Department</th>
-												<th>Reason</th>
-												<th>Date Needed</th>
-												<th>Assigned To</th>
-												<th>Status</th>
-											</thead>
-											<tbody>
-												<?php foreach($assign as $row): ?>
-													<tr>
-														<td><?php echo $row->DatePrepared ?></td>
-														<td><button type="button" class="btn btn-link btn-sm assign" value="<?php echo $row->prfID ?>"><?php echo $row->OrderNo ?></button></td>
-														<td><?php echo $row->Department ?></td>
-														<td><?php echo substr($row->Reason,0,20) ?>...</td>
-														<td><?php echo $row->DateNeeded ?></td>
-														<td><?php echo $row->Fullname ?></td>
-														<td>
-															<?php if($row->Status==0){ ?>
-																<span class="badge bg-warning text-white">PENDING</span>
-															<?php }else { ?>
-																<span class="badge bg-success text-white">DONE</span>
-															<?php } ?>													
-														</td>
-													</tr>
-												<?php endforeach; ?>
-											</tbody>
-										</table>
 									</div>
 								</div>
 								<div class="tab-pane fade" id="purchase" role="tabpanel">
@@ -715,35 +670,6 @@
                     </div>
                     <div class="modal-body">
 						<div id="output"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-		<div class="modal fade" id="assignModal" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="myLargeModalLabel">
-                            Assigning PRF
-                        </h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="post" class="row g-3" id="frmAssign">
-                            <input type="hidden" id="prfID" name="prfID"/>
-                            <div class="col-12 form-group">
-                                <label>Assign To</label>
-                                <select class="form-control custom-select2" name="receiver" id="receiver" style="width:100%;" required>
-									<option value="">Choose</option>
-									<?php foreach($account as $row): ?>
-										<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
-									<?php endforeach; ?>
-								</select>
-                            </div>
-                            <div class="col-12 form-group">
-                                <input type="submit" class="btn btn-primary" id="btnSave" value="Submit"/>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>

@@ -517,7 +517,7 @@
                                 		<input type="file" class="form-control" name="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" required/>
 									</div>
 									<div class="col-lg-6">
-										<label>Material Department Head</label>
+										<label>Department Head</label>
 										<select class="form-control custom-select2" name="approver" id="approver" required>
 											<option value="">Choose</option>
 											<?php foreach($approver as $row): ?>

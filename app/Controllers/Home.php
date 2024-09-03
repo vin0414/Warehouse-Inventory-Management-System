@@ -1470,18 +1470,18 @@ class Home extends BaseController
         $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
         $review = $builder->get()->getResult();
         //assignment
-        $builder = $this->db->table('tblprf a');
-        $builder->select('a.prfID,a.DatePrepared,a.Department,a.Reason,a.DateNeeded,a.OrderNo,c.Fullname,b.Status');
-        $builder->join('tblassignment b','b.prfID=a.prfID','LEFT');
-        $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-        $builder->WHERE('a.Status',3)->WHERE('PurchaseType','Regular Purchase');
-        $assign = $builder->get()->getResult();
-        //account
-        $role = ['Staff','Administrator'];
-        $builder = $this->db->table('tblaccount');
-        $builder->select('*');
-        $builder->WHEREIN('systemRole',$role)->WHERE('Status',1);
-        $account = $builder->get()->getResult();
+        // $builder = $this->db->table('tblprf a');
+        // $builder->select('a.prfID,a.DatePrepared,a.Department,a.Reason,a.DateNeeded,a.OrderNo,c.Fullname,b.Status');
+        // $builder->join('tblassignment b','b.prfID=a.prfID','LEFT');
+        // $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
+        // $builder->WHERE('a.Status',3)->WHERE('PurchaseType','Regular Purchase');
+        // $assign = $builder->get()->getResult();
+        //account 
+        // $role = ['Staff','Administrator'];
+        // $builder = $this->db->table('tblaccount');
+        // $builder->select('*');
+        // $builder->WHEREIN('systemRole',$role)->WHERE('Status',1);
+        // $account = $builder->get()->getResult();
         //purchase order
         $builder = $this->db->table('tblpurchase_review a');
         $builder->select('a.prID,a.DateReceived,c.Department,a.Status,
@@ -1491,7 +1491,7 @@ class Home extends BaseController
         $builder->WHERE('a.accountID',$user);
         $builder->groupBy('a.prID')->orderBy('a.Status','ASC');
         $purchase = $builder->get()->getResult();
-        $data = ['review'=>$review,'assign'=>$assign,'account'=>$account,'purchase'=>$purchase];
+        $data = ['review'=>$review,'purchase'=>$purchase];
         return view('approver',$data);
     }
 
@@ -1829,7 +1829,7 @@ class Home extends BaseController
         {
             echo "Invalid! PRF already assigned to ".$row->Fullname;
         }
-        else
+        else 
         {
             $values = [
                 'prfID'=>$prf, 'accountID'=>$receiver,'Date'=>date('Y-m-d'),'Status'=>0

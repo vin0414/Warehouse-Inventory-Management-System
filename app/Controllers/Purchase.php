@@ -1237,6 +1237,8 @@ class Purchase extends BaseController
         $systemLogsModel = new \App\Models\systemLogsModel();
         $reviewModel = new \App\Models\reviewModel();
         $purchaseModel = new \App\Models\purchaseModel();
+        $taskModel = new \App\Models\taskModel();
+        $assignmentModel = new \App\Models\assignmentModel();
         //data
         $val = $this->request->getPost('reviewID');
         $typePurchase = $this->request->getPost('purchase_type');
@@ -1355,7 +1357,13 @@ class Purchase extends BaseController
                     {
                         $purchase = $purchaseModel->WHERE('OrderNo',$row->OrderNo)->first();
                         $value = ['Status'=>3,'PurchaseType'=>$typePurchase];
-                        $purchaseModel->update($purchase['prfID'],$value);
+                        $purchaseModel->update($purchase['prfID'],$value); 
+                        //auto assign
+                        $task = $taskModel->WHERE('ItemGroup',$purchase['ItemGroup'])->first();
+                        $values = [
+                            'prfID'=>$purchase['prfID'], 'accountID'=>$task['accountID'],'Date'=>date('Y-m-d'),'Status'=>0
+                        ];
+                        $assignmentModel->save($values);
                         //save logs
                         $values = [
                             'accountID'=>$user,'Date'=>date('Y-m-d H:i:s a'),'Activity'=>'Accepted '.$row->OrderNo
@@ -1430,6 +1438,12 @@ class Purchase extends BaseController
                     $purchase = $purchaseModel->WHERE('OrderNo',$row->OrderNo)->first();
                     $value = ['Status'=>3,'PurchaseType'=>$typePurchase];
                     $purchaseModel->update($purchase['prfID'],$value);
+                    //auto assign
+                    $task = $taskModel->WHERE('ItemGroup',$purchase['ItemGroup'])->first();
+                    $values = [
+                        'prfID'=>$purchase['prfID'], 'accountID'=>$task['accountID'],'Date'=>date('Y-m-d'),'Status'=>0
+                    ];
+                    $assignmentModel->save($values);
                     //save logs
                     $values = [
                         'accountID'=>$user,'Date'=>date('Y-m-d H:i:s a'),'Activity'=>'Accepted '.$row->OrderNo
