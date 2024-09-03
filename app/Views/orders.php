@@ -537,7 +537,9 @@
                                 <textarea class="form-control" name="reason" required></textarea>
                             </div>
 							<div class="col-12 form-group">
-                                <label>Attachment(Incident Report/WRF/Work Directives/etc)</label>
+                                <label>Attachment(Incident Report/WRF/Work Directives/etc).
+									<button type="button" class="btn" data-container="body" data-toggle="popover" data-placement="top" data-content="1. Quotes and proposals 2. Specifications and requirements 3. Contracts and agreements 4. Invoices and receipts"><i class="icon-copy dw dw-question"></i> Click here</button>
+								</label>
                                 <input type="file" class="form-control" name="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" required/>
                             </div>
 							<div class="col-12 form-group">
@@ -568,6 +570,20 @@
 			$(document).ready(function()
 			{
 				editors();notify();
+				var date = new Date();
+				var startDate = new Date(); 
+				startDate = new Date(startDate);
+				var endDate = "", count = 0;
+				var noOfDaysToAdd = 15;
+				while(count < noOfDaysToAdd){
+					endDate = new Date(startDate.setDate(startDate.getDate() + 1));
+					if(endDate.getDay() != 0 && endDate.getDay() != 6){
+					//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
+					count++;
+					}
+				}
+				$('#dateNeeded').val(convert(endDate));
+				$('#dateNeeded').attr('min',convert(endDate));
 				$("#Table").on('click','.btnDelete',function(){
                     $(this).closest('tr').remove();
                 });
@@ -597,29 +613,16 @@
 			// 	}
 			// 	else if($(this).val()==4)
 			// 	{
-			// 		var date = new Date();
-			// 		var startDate = new Date(); 
-			// 		startDate = new Date(startDate);
-			// 		var endDate = "", count = 0;
-			// 		var noOfDaysToAdd = 5;
-			// 		while(count < noOfDaysToAdd){
-			// 			endDate = new Date(startDate.setDate(startDate.getDate() + 1));
-			// 			if(endDate.getDay() != 0 && endDate.getDay() != 6){
-			// 			//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
-			// 			count++;
-			// 			}
-			// 		}
-			// 		$('#dateNeeded').val(convert(endDate));
-            // 		$('#dateNeeded').attr('min',convert(endDate));
+					
 			// 	}
 			// });
 
-			// function convert(str) {
-			// 	var date = new Date(str),
-			// 	mnth = ("0" + (date.getMonth() + 1)).slice(-2),
-			// 	day = ("0" + date.getDate()).slice(-2);
-			// 	return [date.getFullYear(), mnth, day].join("-");
-			// }
+			function convert(str) {
+				var date = new Date(str),
+				mnth = ("0" + (date.getMonth() + 1)).slice(-2),
+				day = ("0" + date.getDate()).slice(-2);
+				return [date.getFullYear(), mnth, day].join("-");
+			}
         
 			function notify()
 			{

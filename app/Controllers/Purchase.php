@@ -470,6 +470,7 @@ class Purchase extends BaseController
         $purchase_type = $this->request->getPost('purchase_type');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
+        $newFilename = md5(time()).$originalName;
         //array
         $qty = $this->request->getPost('qty');
         $item = $this->request->getPost('item');
@@ -516,7 +517,7 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$datePrepared,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$newFilename,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
                         $file->move('Attachment/',$originalName);
@@ -526,10 +527,10 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$tomorrow,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$newFilename,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
-                        $file->move('Attachment/',$originalName);
+                        $file->move('Attachment/',$newFilename);
                     }  
                     
                     //save all the item requested
@@ -609,10 +610,10 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$datePrepared,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$newFilename,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
-                        $file->move('Attachment/',$originalName);
+                        $file->move('Attachment/',$newFilename);
                     }
                 }
                 else
@@ -631,10 +632,10 @@ class Purchase extends BaseController
                         $values = [
                             'OrderNo'=>$code,'accountID'=>$user, 'DatePrepared'=>$tomorrow,'ItemGroup'=>$itemGroup,'Department'=>$dept,
                             'DateNeeded'=>$dateNeeded,'Reason'=>$reason,'Status'=>0,'DateCreated'=>date('Y-m-d'),
-                            'PurchaseType'=>$purchase_type,'Attachment'=>$originalName,'Remarks'=>'OPEN','Urgency'=>$urgency
+                            'PurchaseType'=>$purchase_type,'Attachment'=>$newFilename,'Remarks'=>'OPEN','Urgency'=>$urgency
                         ];
                         $purchaseModel->save($values);
-                        $file->move('Attachment/',$originalName);
+                        $file->move('Attachment/',$newFilename);
                     }
                 }  
                 
@@ -2022,6 +2023,7 @@ class Purchase extends BaseController
         $message = $this->request->getPost('instructions');
         $file = $this->request->getFile('file');
         $originalName = $file->getClientName();
+        $newFilename = md5(time()).$originalName;
 
         $validation = $this->validate([
             'datePrepared'=>'required','dateNeeded'=>'required',
@@ -2062,7 +2064,7 @@ class Purchase extends BaseController
                     $records = [
                         'Reference'=>$code, 'accountID'=>$requestor,'DatePrepared'=>$datePrepared,
                         'DateNeeded'=>$dateNeeded,'OrderNo'=>$OrderNo,'Department'=>$department,
-                        'Status'=>0,'createdBy'=>$user,'Attachment'=>$originalName
+                        'Status'=>0,'createdBy'=>$user,'Attachment'=>$newFilename
                     ];
                     $canvassForm->save($records);
                     //update the list of vendors status and reference
@@ -2109,7 +2111,7 @@ class Purchase extends BaseController
                         $email->setMessage($template);
                         $email->send();
                     }
-                    $file->move('Canvass/',$originalName);
+                    $file->move('Canvass/',$newFilename);
                     echo "success";
                 }
             }
@@ -2127,7 +2129,7 @@ class Purchase extends BaseController
                     $records = [
                         'Reference'=>$code, 'accountID'=>$requestor,'DatePrepared'=>$datePrepared,
                         'DateNeeded'=>$dateNeeded,'OrderNo'=>$OrderNo,'Department'=>$department,
-                        'Status'=>0,'createdBy'=>$user,'Attachment'=>$originalName
+                        'Status'=>0,'createdBy'=>$user,'Attachment'=>$newFilename
                     ];
                     $canvassForm->save($records);
                     //update the list of vendors status and reference
@@ -2174,7 +2176,7 @@ class Purchase extends BaseController
                         $email->setMessage($template);
                         $email->send();
                     }
-                    $file->move('Canvass/',$originalName);
+                    $file->move('Canvass/',$newFilename);
                     echo "success";
                 }
             }
