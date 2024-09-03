@@ -923,14 +923,14 @@ class Home extends BaseController
         $list = $builder->get()->getResult();
         //pending
         $builder = $this->db->table('tblassignment a');
-        $builder->select('a.Status,b.prfID,b.OrderNo,b.Remarks,a.Date,b.DateNeeded,b.Reason,b.Department,c.Fullname,a.assignID');
+        $builder->select('a.Status,b.prfID,b.OrderNo,b.Remarks,a.Date,b.DateNeeded,b.Reason,b.Department,b.Urgency,c.Fullname,a.assignID');
         $builder->join('tblprf b','b.prfID=a.prfID','LEFT');
         $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
         $builder->WHERE('a.accountID',$user)->WHERE('a.Status',0);
         $builder->groupby('a.assignID');
         $pending = $builder->get()->getResult();
         //ongoing
-        $sql = "Select a.Status,b.prfID,b.OrderNo,b.Remarks,a.Date,b.DateNeeded,b.Reason,b.Department,c.Fullname,a.assignID,e.total,f.totalOrder from tblassignment a
+        $sql = "Select a.Status,b.prfID,b.OrderNo,b.Remarks,a.Date,b.DateNeeded,b.Reason,b.Department,b.Urgency,c.Fullname,a.assignID,e.total,f.totalOrder from tblassignment a
         LEFT JOIN tblprf b ON b.prfID=a.prfID 
         LEFT JOIN tblaccount c ON c.accountID=b.accountID 
         LEFT JOIN (Select COUNT(orderID)total,OrderNo from tblcanvass_sheet GROUP BY OrderNo) e ON e.OrderNo=b.OrderNo

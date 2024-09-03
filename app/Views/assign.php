@@ -452,6 +452,11 @@
                                 <?= session()->getFlashdata('success'); ?>
                             </div>
                         <?php endif; ?> 
+						<div style="float:right;">
+							<small>Legends:</small>
+							<span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i> Emergency</span>
+							<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i> Urgent</span>
+						</div>
 						<div class="tabs">
 							<ul class="nav nav-pills justify-content-left" role="tablist">
 								<li class="nav-item">
@@ -578,6 +583,7 @@
 									<br/>
 									<table class="data-table table stripe hover">
 										<thead>
+											<th>#</th>
 											<th>Date Received</th>
 											<th>PRF No</th>
 											<th>Requestor</th>
@@ -589,6 +595,13 @@
 										<tbody>
 											<?php foreach($pending as $row): ?>
 												<tr>
+													<td>
+														<?php if($row->Urgency==1){ ?>
+															<span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i></span>
+														<?php }else if($row->Urgency==2){?>
+															<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
+														<?php } ?>
+													</td>
 													<td><?php echo $row->Date ?></td>
 													<td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
 													<td><?php echo $row->Fullname ?></td>
@@ -618,6 +631,7 @@
 									<br/>
 									<table class="data-table table stripe hover nowrap">
 										<thead>
+											<th>#</th>
 											<th>Date Received</th>
 											<th>PRF No</th>
 											<th>Requestor</th>
@@ -628,6 +642,13 @@
 										<tbody> 
 											<?php foreach($ongoing as $row): ?>
 												<tr>
+													<td>
+														<?php if($row->Urgency==1){ ?>
+															<span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i></span>
+														<?php }else if($row->Urgency==2){?>
+															<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
+														<?php } ?>
+													</td>
 													<td><?php echo $row->Date ?></td>
 													<td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
 													<td><?php echo $row->Fullname ?></td>

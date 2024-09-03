@@ -541,7 +541,7 @@
 																		<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
 																	<?php } ?>
 																</td>
-																<td>
+																<td> 
 																	<?php echo $row->DateReceived ?><br/>
 																	<small><?php echo $row->Age ?> days ago</small>
 																</td>
