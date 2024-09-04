@@ -489,7 +489,6 @@
 										>Purchase Requisition <span class="badge bg-primary btn-sm text-white" id="notification_approval">0</span></a
 									>
 								</li>
-								<?php if(session()->get('role')=="Administrator"){ ?>
 								<li class="nav-item">
 									<a
 										class="nav-link text-blue"
@@ -500,7 +499,6 @@
 										>Purchase Order <span class="badge bg-primary btn-sm text-white" id="notification_po">0</span></a
 									>
 								</li>
-								<?php } ?>
 							</ul>
 							<div class="tab-content">
 								<div class="tab-pane fade show active" id="others6" role="tabpanel">
