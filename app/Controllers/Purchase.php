@@ -1604,7 +1604,7 @@ class Purchase extends BaseController
         $user = session()->get('loggedUser');
         if(empty($msg))
         {
-            echo "Invalid! Please try again";
+            echo "Invalid! Please leave a message";
         }
         else
         {
@@ -1614,7 +1614,7 @@ class Purchase extends BaseController
             $purchaseModel->update($purchase['prfID'],$value);
             //update the assigned PRF
             $assign = $assignmentModel->WHERE('prfID',$purchase['prfID'])->first();
-            $values = ['Status'=>2];
+            $values = ['prfID'=>0,'Status'=>2];
             $assignmentModel->update($assign['assignID'],$values);
             //send an email to the requestor
             $account = $accountModel->WHERE('accountID',$purchase['accountID'])->first();
