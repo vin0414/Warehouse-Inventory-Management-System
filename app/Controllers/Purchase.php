@@ -898,13 +898,13 @@ class Purchase extends BaseController
     public function viewQuotation()
     {
         $reference = $this->request->getGet('value');
+        $user = session()->get('loggedUser');
         $file="";$refNo = "";
         //fetch
         $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DatePrepared,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment,d.Status,d.prID');
+        $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DatePrepared,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment');
         $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
         $builder->join('tblpurchase_logs c','a.Reference=c.Reference','LEFT');
-        $builder->join('tblpurchase_review d','d.purchaseNumber=c.purchaseNumber','LEFT');
         $builder->WHERE('c.purchaseNumber',$reference);
         $datax = $builder->get();
         if($rowx = $datax->getRow())
@@ -1059,10 +1059,22 @@ class Purchase extends BaseController
                 </div>
             </div>
         </div>
-        <?php if($rowx->Status==0){ ?>
-            <button type="button" class="btn btn-primary btn-sm approve" value="<?php echo $rowx->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
-            <button type="button" class="btn btn-danger btn-sm decline" value="<?php echo $rowx->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
-        <?php } ?>
+        <?php 
+        $builder = $this->db->table('tblpurchase_review');
+        $builder->select('Status,prID');
+        $builder->WHERE('purchaseNumber',$reference)->WHERE('accountID',$user);
+        $checkStatus = $builder->get();
+        if($rowStatus = $checkStatus->getRow())
+        { 
+            if($rowStatus->Status==0)
+            {
+        ?>
+            <button type="button" class="btn btn-primary btn-sm approve" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
+            <button type="button" class="btn btn-danger btn-sm decline" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
+        <?php 
+            }
+        } 
+        ?>
         <?php
     }
 

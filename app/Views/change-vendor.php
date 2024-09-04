@@ -524,6 +524,7 @@
 														<option>AUD</option>
 														<option>GBP</option>
 														<option>SGD</option>
+														<option>CNY</option>
 													</select>
 												</td>
 												<td><input type='text' class='form-control' name='price[]'/></td>
