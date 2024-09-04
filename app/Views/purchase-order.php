@@ -607,6 +607,8 @@
 														<span class="badge bg-warning text-white">PENDING</span>
 													<?php }else if($row->Status==1){?>
 														<span class="badge bg-success text-white">APPROVED</span>
+													<?php }else if($row->Status==3){?>
+															<span class="badge bg-primary text-white">CHECKING</span>
 													<?php }else{ ?>
 														<span class="badge bg-danger text-white"><?php echo $row->Comment ?></span>
 													<?php } ?>

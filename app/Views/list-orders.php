@@ -650,6 +650,8 @@
 														<span class="badge bg-warning text-white">To Materials Manager</span>
 													<?php }else if($row->Status==1){?>
 														<span class="badge bg-success text-white">Approved</span>
+													<?php }else if($row->Status==3){?>
+															<span class="badge bg-primary text-white">To General Manager</span>
 													<?php }else if($row->Status==2){?>
 														<span class="badge bg-danger text-white"><?php echo $row->Comment ?></span>
 													<?php }?>

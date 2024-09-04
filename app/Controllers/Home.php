@@ -2072,8 +2072,12 @@ class Home extends BaseController
         {
             $values = ['Status'=>3];
             $purchaseOrderModel->update($purchase_order['purchaseLogID'],$values);
-            //email
+            //final approver details
             $account = $accountModel->WHERE('Department','Executive')->WHERE('systemRole','Editor')->first();
+            //save the data
+            $new_values = ['accountID'=>$account['accountID'],'purchaseNumber'=>$purchase['purchaseNumber'],'DateReceived'=>$date,'Status'=>0,'DateApproved'=>''];
+            $purchaseReviewModel->save($new_values);
+            //email
             $email = \Config\Services::email();
             $email->setTo($account['Email']);
             $email->setFrom("fastcat.system@gmail.com","FastCat");
