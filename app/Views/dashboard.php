@@ -519,9 +519,29 @@
 					</div>
 					<div class="col-lg-4 mb-20">
 						<div class="card-box">
+							<div class="card-header bg-primary text-white"><i class="icon-copy dw dw-shopping-cart"></i>&nbsp;Unserved PRF</div>	
+							<div class="card-body">
+								<div class="latest-post" style="height:245px;overflow-y:auto;">
+									<ul>
+										<?php foreach($unserve as $rows): ?>
+											<li>
+												<h4>
+													<a href="javascript:void(0);">
+														PRF No : <?php echo $rows->OrderNo ?>
+													</a>
+												</h4>
+												<span>Assignee : <?php echo $rows->Fullname ?></span><span style="float:right;"></span>
+											</li>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div class="card-box">
 							<div class="card-header bg-primary text-white"><i class="icon-copy dw dw-delivery-truck"></i>&nbsp;P.O. (For Deliveries)</div>	
 							<div class="card-body">
-								<div class="latest-post" style="height:600px;overflow-y:auto;">
+								<div class="latest-post" style="height:240px;overflow-y:auto;">
 									<ul id="allPO">
 									</ul>
 								</div>
@@ -530,16 +550,16 @@
 					</div>
 					<div class="col-lg-4 mb-20">
 						<div class="card-box">
-							<div class="card-body">
-								<div class="card-title">Total Request Per Category</div>	
-								<div id="categoryContainer" style="width:100%;height:250px;"></div>
+							<div class="card-header bg-primary text-white">Total Request Per Category</div>	
+							<div class="card-body">	
+								<div id="categoryContainer" style="width:100%;height:245px;"></div>
 							</div>
 						</div>
 						<br/>
 						<div class="card-box">
+							<div class="card-header bg-primary text-white">PRF Daily Request</div>	
 							<div class="card-body">
-								<div class="card-title">PRF Request Per Day</div>	
-								<div id="chartContainer" style="width:100%;height:250px;"></div>
+								<div id="chartContainer" style="width:100%;height:240px;"></div>
 							</div>
 						</div>
 					</div>

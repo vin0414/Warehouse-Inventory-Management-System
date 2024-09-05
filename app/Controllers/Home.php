@@ -100,6 +100,13 @@ class Home extends BaseController
         {
             $approvedQ = $row->total;
         }
+        //unserved
+        $sqls="Select a.OrderNo,c.Fullname from tblprf a 
+        LEFT JOIN tblassignment b ON a.prfID=a.prfID 
+        LEFT JOIN tblaccount c ON c.accountID=b.accountID
+        WHERE a.Status=3 AND NOT EXISTS(Select b.OrderNo from tblcanvass_form b WHERE b.OrderNo=a.OrderNo) GROUP BY a.OrderNo";
+        $queries = $this->db->query($sqls);
+        $unserve = $queries->getResult();
         //collect
         $data = ['query'=>$query,
         'pending'=>$total_pending,
@@ -108,6 +115,7 @@ class Home extends BaseController
         'total'=>$total,
         'quotation'=>$total_quote,
         'approvedQ'=>$approvedQ,
+        'unserve'=>$unserve,
         'chart'=>$chart,];
         return view('dashboard',$data);
     }
@@ -681,9 +689,14 @@ class Home extends BaseController
 
     public function purchaseRequest()
     {
+        //items
         $itemGroupModel = new \App\Models\itemGroupModel();
         $item = $itemGroupModel->findAll();
-        $data = ['item'=>$item];
+        //department
+        $assignmentModel = new \App\Models\warehouseModel();
+        $assign = $assignmentModel->findAll();
+        //collect
+        $data = ['item'=>$item,'assign'=>$assign];
         return view('orders',$data);
     }
 
