@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
+header('Access-Control-Allow-Origin: *');
 
 class purchaseOrderResource extends ResourceController
 {
@@ -19,6 +20,7 @@ class purchaseOrderResource extends ResourceController
       $builder->select('a.purchaseLogID,a.purchaseNumber,c.OrderNo,c.ItemGroup,c.Reason,c.Department,c.DateNeeded,c.Urgency');
       $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
       $builder->join('tblprf c','c.OrderNo=b.OrderNo','LEFT');
+      $builder->WHERE('a.Status',1);
       $data['purchaseOrder'] = $builder->get()->getResult();
       return $this->respond($data);
     }
