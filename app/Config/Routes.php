@@ -45,6 +45,7 @@ $routes->get('quotation-notification','Notification::quotationNotification');
 $routes->get('sms-notification','Notification::smsNotification');
 //API
 $routes->get('list-purchase-order','purchaseOrderResource::index');
+$routes->get('list-items/(:any)','purchaseOrderResource::listItems/$1');
 //dashboard
 $routes->get('all-prf','Dashboard::allPRF');
 $routes->get('all-po','Dashboard::allPO');

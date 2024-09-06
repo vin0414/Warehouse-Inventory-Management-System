@@ -31,18 +31,7 @@ class purchaseOrderResource extends ResourceController
         $builder->select('a.Price,b.Qty,b.Item_Name,b.ItemUnit,a.Currency,b.Specification');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
         $builder->WHERE('a.purchaseLogID',$id);
-        $datas = $builder->get();
-        foreach($datas->getResult() as $rows)
-        {
-            ?>
-            <tr>
-                <td><?php echo $rows->Qty ?></td>
-                <td><?php echo $rows->ItemUnit ?></td>
-                <td><?php echo $rows->Item_Name."-".nl2br($rows->Specification) ?></td>
-                <td style='text-align:right;'><?php echo $rows->Currency." ".number_format($rows->Price,2) ?></td>
-                <td style='text-align:right;'><?php echo $rows->Currency." ".number_format($rows->Qty*$rows->Price,2) ?></td>
-            </tr>
-            <?php
-        }
+        $data['list'] = $builder->get()->getResult();
+        return $this->respond($data);
     }
 }
