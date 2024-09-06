@@ -38,8 +38,9 @@ class purchaseOrderResource extends ResourceController
     public function totalAmount($id)
     {
         $builder = $this->db->table('tblcanvass_sheet a');
-        $builder->select('SUM(a.Price*b.Qty)total');
+        $builder->select('a.Currency,SUM(a.Price*b.Qty)total,c.ItemGroup');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
+        $builder->join('tblprf c','c.OrderNo,b.OrderNo','LEFT');
         $builder->WHERE('a.purchaseLogID',$id);
         $data['total'] = $builder->get()->getResult();
         return $this->respond($data);
