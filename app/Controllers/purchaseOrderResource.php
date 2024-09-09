@@ -28,8 +28,9 @@ class purchaseOrderResource extends ResourceController
     public function listItems($id)
     {
         $builder = $this->db->table('tblcanvass_sheet a');
-        $builder->select('a.Supplier,a.Price,b.Qty,b.Item_Name,b.ItemUnit,a.Currency,b.Specification');
+        $builder->select('a.Supplier,a.Price,b.Qty,b.Item_Name,b.ItemUnit,a.Currency,b.Specification,c.Reason');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
+        $builder->join('tblprf c','c.OrderNo=b.OrderNo','LEFT');
         $builder->WHERE('a.purchaseLogID',$id);
         $data['list'] = $builder->get()->getResult();
         return $this->respond($data);
