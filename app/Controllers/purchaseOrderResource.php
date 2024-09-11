@@ -49,6 +49,19 @@ class purchaseOrderResource extends ResourceController
         return $this->respond($data);
     }
 
+    public function firstApprover($id)
+    {
+        $builder = $this->db->table('tblaccount a');
+        $builder->select('a.Fullname');
+        $builder->join('tblreview b','b.accountID=a.accountID','LEFT');
+        $builder->join('tblcanvass_form c','c.OrderNo=b.OrderNo','LEFT');
+        $builder->join('tblpurchase_logs d','d.Reference=c.Reference','LEFT');
+        $builder->WHERE('d.purchaseLogID',$id);
+        $builder->orderBy('b.reviewID','ASC')->limit(1);
+        $data['approver'] = $builder->get()->getRow();
+        return $this->respond($data);
+    }
+
     public function viewFile($id)
     {
         $dompdf = new Dompdf();
