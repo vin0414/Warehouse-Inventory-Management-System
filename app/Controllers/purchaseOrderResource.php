@@ -58,7 +58,7 @@ class purchaseOrderResource extends ResourceController
         $builder->join('tblpurchase_logs d','d.Reference=c.Reference','LEFT');
         $builder->WHERE('d.purchaseLogID',$id);
         $builder->orderBy('b.reviewID','ASC')->limit(1);
-        $data['approver'] = $builder->get()->getRow();
+        $data['approver'] = $builder->get()->getResult();
         return $this->respond($data);
     }
 
