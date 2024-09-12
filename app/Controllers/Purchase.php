@@ -1639,7 +1639,7 @@ class Purchase extends BaseController
             $template = "<center>
             <img src='cid:". $cid ."' width='100'/>
             <table style='padding:10px;background-color:#ffffff;' border='0'><tbody>
-            <tr><td><center><h1>For Issuance</h1></center></td></tr>
+            <tr><td><center><h1>Decline PRF</h1></center></td></tr>
             <tr><td><center>Hi, ".$account['Fullname']."</center></td></tr>
             <tr><td><center>This is from FastCat System, sending you a message that your request PRF No : ".$val." has been rejected.</center></td></tr>
             <tr><td><p><center>Please see the comment below :</center></p></td><tr>

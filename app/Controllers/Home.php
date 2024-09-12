@@ -1587,6 +1587,12 @@ class Home extends BaseController
         return view('purchase-order',$data);
     }
 
+    public function printPO($id)
+    {
+        $data = ['brf'=>$id];
+        return view('print',$data);
+    }
+
     public function Modify($id)
     {
         $builder = $this->db->table('tblcanvass_sheet a');

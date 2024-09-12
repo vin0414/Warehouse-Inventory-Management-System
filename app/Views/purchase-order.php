@@ -627,6 +627,7 @@
 															More
 														</a>
 														<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
+															<?php if($row->Status==1){ ?>
 															<a class="dropdown-item" href="<?=site_url('file-download/')?><?php echo $row->purchaseNumber ?>">
 																<i class="dw dw-download"></i>&nbsp;Download
 															</a>
@@ -636,7 +637,6 @@
 															<a class="dropdown-item" href="<?=site_url('change/')?><?php echo $row->purchaseNumber ?>">
 																<i class="icon-copy dw dw-repeat-1"></i>&nbsp;Change Vendor
 															</a>
-															<?php if($row->Status==1){ ?>
 															<?php if(session()->get('role')=="Administrator"){ ?>
 															<button type="button" class="dropdown-item cancel" value="<?php echo $row->purchaseLogID ?>">
 																<i class="icon-copy dw dw-trash"></i>&nbsp;Cancel
@@ -646,7 +646,7 @@
 																<i class="icon-copy dw dw-mail"></i>&nbsp;Send via Email
 															</button>
 															<button type="button" class="dropdown-item deliver" value="<?php echo $row->purchaseNumber ?>">
-																<i class="icon-copy dw dw-delivery-truck-2"></i>&nbsp;Add Delivery date
+																<i class="icon-copy dw dw-delivery-truck-2"></i>&nbsp;Delivery
 															</button>
 															<?php }else if($row->Status==2){ ?>
 															<a class="dropdown-item" href="<?=site_url('modify/')?><?php echo $row->purchaseNumber ?>">
