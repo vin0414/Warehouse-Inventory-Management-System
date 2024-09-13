@@ -984,7 +984,7 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									alert("Great! Successfully sent");
 								}
 								else
 								{

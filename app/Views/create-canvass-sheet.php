@@ -573,13 +573,17 @@
 							</div>
 							<div class="col-12 form-group">
 								<div class="row g-3">
-									<div class="col-lg-6">
+									<div class="col-lg-3">
 										<label>Contact Person</label>
 										<input type="text" class="form-control" name="contactPerson" id="person" required/>
 									</div>
 									<div class="col-lg-3">
 										<label>Unit Price</label>
 										<input type="text" class="form-control" name="unitPrice" required/>
+									</div>
+									<div class="col-lg-3">
+										<label>Email Address</label>
+										<input type="email" class="form-control" name="email" id="email" required/>
 									</div>
 									<div class="col-lg-3">
 										<label>Contact Number</label>
@@ -657,11 +661,15 @@
 							</div>
 							<div class="col-12 form-group">
 								<div class="row g-3">
-									<div class="col-lg-6">
+									<div class="col-lg-4">
 										<label>Contact Person</label>
 										<input type="text" class="form-control" name="contactPerson" id="persons" required/>
 									</div>
-									<div class="col-lg-6">
+									<div class="col-lg-4">
+										<label>Email Address</label>
+										<input type="email" class="form-control" name="email" id="email" required/>
+									</div>
+									<div class="col-lg-4">
 										<label>Contact Number</label>
 										<input type="phone" class="form-control" maxlength="11" minlength="11" name="phone" id="phones" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
 									</div>
