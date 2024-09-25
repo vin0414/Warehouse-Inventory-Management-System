@@ -245,6 +245,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/issuance','Home::Issuance');
     $routes->get('/monitoring','Home::monitoring');
     $routes->get('/change/(:any)','Home::changeVendor/$1');
+    $routes->get('/report','Home::report');
 });
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

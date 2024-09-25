@@ -2457,6 +2457,8 @@ class Home extends BaseController
         return view('overall-report',$data);
     }
 
+
+    //return item report
     public function returnOrderReport()
     {
         $builder = $this->db->table('tblsupplier');
@@ -2467,11 +2469,19 @@ class Home extends BaseController
         return view('return-order-report',$data);
     }
 
+    //issued items
     public function Issuance()
     {
         return view('issuance-report');
     }
 
+    //prf report
+    public function report()
+    {
+        return view('prf-report');
+    }
+
+    //reset user accounts
     public function resetAccount()
     {
         $accountModel = new \App\Models\accountModel();
@@ -2482,6 +2492,7 @@ class Home extends BaseController
         echo "success";
     }
 
+    //transfer of assignment
     public function changeAssignment()
     {
         $accountModel = new \App\Models\accountModel();

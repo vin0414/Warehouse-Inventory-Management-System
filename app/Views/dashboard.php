@@ -383,8 +383,8 @@
 							</a>
 							<ul class="submenu">
 								<li><a href="<?=site_url('stocks')?>">All Stocks</a></li>
-								<li><a href="<?=site_url('add')?>">Add Item</a></li>
 								<?php if(session()->get('role')=="Administrator"||session()->get('role')=="Planner"){ ?>
+								<li><a href="<?=site_url('add')?>">Add Item</a></li>
 								<li><a href="<?=site_url('manage')?>">Manage Stocks</a></li>
                                 <?php } ?>
 							</ul>
@@ -424,6 +424,7 @@
 							<?php }else{ ?>
 							<ul class="submenu">
 								<li><a href="<?=site_url('add-report')?>">Create Report</a></li>
+								<li><a href="<?=site_url('report')?>">PRF Report</a></li>
 							</ul>
 							<?php } ?>
 						</li>

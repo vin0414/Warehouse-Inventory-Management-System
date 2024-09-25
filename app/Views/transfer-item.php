@@ -359,8 +359,8 @@
 							</a>
 							<ul class="submenu">
 								<li><a href="javascript:void(0);" class="active">Issuance</a></li>
-								<li><a href="<?=site_url('add')?>">Add Item</a></li>
 								<?php if(session()->get('role')=="Administrator"||session()->get('role')=="Planner"){ ?>
+								<li><a href="<?=site_url('add')?>">Add Item</a></li>
 								<li><a href="<?=site_url('manage')?>">Manage Stocks</a></li>
                                 <?php } ?>
 							</ul>
