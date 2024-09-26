@@ -391,6 +391,7 @@
 							<a href="javascript:;" class="dropdown-toggle">
                                 <i class="micon dw dw-bar-chart-1"></i><span class="mtext">Reports</span>
 							</a>
+							<?php if(session()->get('role')=="Administrator"||session()->get('role')=="Editor"){ ?>
 							<ul class="submenu">
 								<li><a href="<?=site_url('overall-report')?>">Main Report</a></li>
 								<li><a href="<?=site_url('monitoring')?>">PRF/PO Monitoring</a></li>
@@ -399,6 +400,12 @@
 								<li><a href="<?=site_url('return-order-summary')?>">Return Order Report</a></li>
 								<li><a href="<?=site_url('issuance')?>">Issuance Report</a></li>
 							</ul>
+							<?php }else{ ?>
+							<ul class="submenu">
+								<li><a href="<?=site_url('add-report')?>">Create Report</a></li>
+								<li><a href="<?=site_url('prf-report')?>">PRF Report</a></li>
+							</ul>
+							<?php } ?>
 						</li>
 						<li>
 							<div class="dropdown-divider"></div>

@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use Dompdf\Dompdf;
 
-class Report extends BaseController
+class ReportController extends BaseController
 {
     private $db;
     public function __construct()
@@ -2153,7 +2153,9 @@ class Report extends BaseController
             
         }
         $dompdf->loadHtml($template);
+        //$customPaper = array(0,0,609,1800);
         $dompdf->setPaper('A4', 'portrait');
+        //$dompdf->setPaper($customPaper);
         $dompdf->render();
         $dompdf->stream($id.".pdf",array("Attachment" => 0));
         exit();

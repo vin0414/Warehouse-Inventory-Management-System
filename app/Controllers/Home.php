@@ -2476,7 +2476,7 @@ class Home extends BaseController
     }
 
     //prf report
-    public function report()
+    public function prfReport()
     {
         return view('prf-report');
     }

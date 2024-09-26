@@ -409,7 +409,7 @@
 							<?php }else{ ?>
 							<ul class="submenu">
 								<li><a href="<?=site_url('add-report')?>" class="active">Create Report</a></li>
-								<li><a href="<?=site_url('report')?>">PRF Report</a></li>
+								<li><a href="<?=site_url('prf-report')?>">PRF Report</a></li>
 							</ul>
 							<?php } ?>
 						</li>
@@ -453,7 +453,7 @@
 				<?php endif; ?>
                 <div class="card-box">
                     <div class="card-header">
-                        Create Report
+						<i class="micon dw dw-bar-chart-1"></i>&nbsp;Create Report
 						<div class="dropdown" style="float:right;">
 							<a class="btn font-24 p-0 line-height-1 no-arrow dropdown-toggle" data-color="#1b3133" href="#" role="button" data-toggle="dropdown"><span class="icon-copy dw dw-add"></span> New</a>
 							<div class="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">

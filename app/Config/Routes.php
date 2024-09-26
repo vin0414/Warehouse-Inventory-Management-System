@@ -124,8 +124,8 @@ $routes->post('accept-transfer-request','ProductController::acceptRequest');
 $routes->post('submit-return-order','ProductController::submitReturnOrder');
 $routes->post('accept-return-order','ProductController::acceptReturnOrder');
 //other functions
-$routes->get('search-stocks','Report::searchStockReport');
-$routes->get('search-inventory','Report::searchInventory');
+$routes->get('search-stocks','ReportController::searchStockReport');
+$routes->get('search-inventory','ReportController::searchInventory');
 $routes->post('save-order','Purchase::saveOrder');
 $routes->post('re-submit','Purchase::reSubmit');
 $routes->post('compliance','Purchase::comply');
@@ -153,7 +153,7 @@ $routes->post('remove-item','Purchase::removeItem');
 $routes->post('save-form','Purchase::saveForm');
 $routes->get('auto-reset','Purchase::autoReset');
 $routes->get('auto-email','Purchase::autoEmail');
-$routes->get('auto-detect','Report::autoDetect');
+$routes->get('auto-detect','ReportController::autoDetect');
 $routes->get('view-images','Purchase::viewImage');
 $routes->post('add-assignment','Home::addAssignment');
 $routes->post('accept-assignment','Home::acceptAssignment');
@@ -167,21 +167,21 @@ $routes->post('decline','Home::decline');
 $routes->get('search-vendor','Home::searchVendor');
 $routes->get('vendor-information','Home::vendorInformation');
 $routes->post('save-new-vendor','Home::updateVendor');
-$routes->get('download/(:any)','Report::Download/$1');
-$routes->get('download-file/(:any)','Report::DownloadFile/$1');
-$routes->get('file-download/(:any)','Report::fileDownload/$1');
-$routes->get('open-file/(:any)','Report::openFile/$1');
-$routes->get('vendor-ledger','Report::vendorLedger');
-$routes->get('fetch-purchase_number','Report::fetchPO');
-$routes->get('generate-return-summary','Report::generateReturnSummary');
+$routes->get('download/(:any)','ReportController::Download/$1');
+$routes->get('download-file/(:any)','ReporController::DownloadFile/$1');
+$routes->get('file-download/(:any)','ReportController::fileDownload/$1');
+$routes->get('open-file/(:any)','ReportController::openFile/$1');
+$routes->get('vendor-ledger','ReportController::vendorLedger');
+$routes->get('fetch-purchase_number','ReportController::fetchPO');
+$routes->get('generate-return-summary','ReportController::generateReturnSummary');
 $routes->get('load-entries','Purchase::loadEntries');
 $routes->post('save-entries','Purchase::saveEntries');
-$routes->get('issued-items','Report::issuedItems');
-$routes->get('library','Report::Library');
-$routes->post('save-task','Report::saveTask');
-$routes->post('remove-task','Report::removeTask');
-$routes->get('generate-report','Report::generateReport');
-$routes->get('staff-report','Report::staffReport');
+$routes->get('issued-items','ReportController::issuedItems');
+$routes->get('library','ReportController::Library');
+$routes->post('save-task','ReportController::saveTask');
+$routes->post('remove-task','ReportController::removeTask');
+$routes->get('generate-report','ReportController::generateReport');
+$routes->get('staff-report','ReportController::staffReport');
 $routes->get('fetch-items','Purchase::fetchItems');
 $routes->get('search-request','Purchase::searchRequest');
 $routes->get('search-order','Purchase::searchOrder');
@@ -193,7 +193,7 @@ $routes->post('delivered','Purchase::successDelivery');
 $routes->post('tag-as-paid','Purchase::tagAsPaid');
 $routes->post('paid-delivery','Purchase::paidDelivery');
 $routes->post('transfer-prf','Purchase::transferPRF');
-$routes->get('monitoring-report','Report::monitoringReport');
+$routes->get('monitoring-report','ReportController::monitoringReport');
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {
@@ -245,7 +245,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/issuance','Home::Issuance');
     $routes->get('/monitoring','Home::monitoring');
     $routes->get('/change/(:any)','Home::changeVendor/$1');
-    $routes->get('/report','Home::report');
+    $routes->get('/prf-report','Home::prfReport');
 });
 $routes->group('',['filter'=>'AlreadyLoggedIn'],function($routes)
 {

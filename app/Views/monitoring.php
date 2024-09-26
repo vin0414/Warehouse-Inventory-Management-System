@@ -411,7 +411,7 @@
 							<?php }else{ ?>
 							<ul class="submenu">
 								<li><a href="<?=site_url('add-report')?>">Create Report</a></li>
-								<li><a href="<?=site_url('report')?>">PRF Report</a></li>
+								<li><a href="<?=site_url('prf-report')?>">PRF Report</a></li>
 							</ul>
 							<?php } ?>
 						</li>
@@ -445,46 +445,51 @@
 			<div class="xs-pd-20-10 pd-ltr-20">
                 <div class="row g-1">
                     <div class="col-lg-12 form-group">
-                        <form method="GET" class="row g-1" id="frmSearch">
-                            <div class="col-lg-2 form-group">
-                                <input type="date" class="form-control" name="from"/>
-                            </div>
-                            <div class="col-lg-2 form-group">
-                                <input type="date" class="form-control" name="to"/>
-                            </div>
-							<div class="col-lg-3 form-group">
-                                <select class="form-control custom-select2" name="vendor">
-                                    <option value="">-Choose vendor-</option>
-									<?php foreach($supplier as $row): ?>
-										<option><?php echo $row['supplierName'] ?></option>
-									<?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 form-group">
-                                <select class="form-control custom-select2" name="department">
-                                    <option value="">-Choose Department-</option>
-									<?php foreach($list as $row): ?>
-										<option><?php echo $row->Department ?></option>
-									<?php endforeach; ?>
-                                </select>
-                            </div>
-							<div class="col-lg-2 form-group">
-                                <select class="form-control custom-select2" name="items">
-                                    <option value="">-Choose Item-</option>
-									<?php foreach($item as $row): ?>
-										<option><?php echo $row->Item_Name ?></option>
-									<?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="col-lg-3 form-group">
-                                <button type="submit" class="btn btn-primary" id="btnSearch">
-                                    <i class="icon-copy dw dw-search"></i> Search
-                                </button>&nbsp;
-                                <a href="javascript:void(0);" class="btn btn-outline-primary" onclick="exportf(this)" id="btnExport">
-                                    <i class="icon-copy dw dw-download"></i> Export
-                                </a>
-                            </div>
-                        </form>
+                        <div class="card-box">
+							<div class="card-header"><i class="micon dw dw-bar-chart-1"></i>&nbsp;PRF/PO Monitoring</div>
+							<div class="card-body">
+								<form method="GET" class="row g-1" id="frmSearch">
+									<div class="col-lg-2 form-group">
+										<input type="date" class="form-control" name="from"/>
+									</div>
+									<div class="col-lg-2 form-group">
+										<input type="date" class="form-control" name="to"/>
+									</div>
+									<div class="col-lg-3 form-group">
+										<select class="form-control custom-select2" name="vendor">
+											<option value="">-Choose vendor-</option>
+											<?php foreach($supplier as $row): ?>
+												<option><?php echo $row['supplierName'] ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+									<div class="col-lg-3 form-group">
+										<select class="form-control custom-select2" name="department">
+											<option value="">-Choose Department-</option>
+											<?php foreach($list as $row): ?>
+												<option><?php echo $row->Department ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+									<div class="col-lg-2 form-group">
+										<select class="form-control custom-select2" name="items">
+											<option value="">-Choose Item-</option>
+											<?php foreach($item as $row): ?>
+												<option><?php echo $row->Item_Name ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+									<div class="col-lg-3 form-group">
+										<button type="submit" class="btn btn-primary" id="btnSearch">
+											<i class="icon-copy dw dw-search"></i> Search
+										</button>&nbsp;
+										<a href="javascript:void(0);" class="btn btn-outline-primary" onclick="exportf(this)" id="btnExport">
+											<i class="icon-copy dw dw-download"></i> Export
+										</a>
+									</div>
+								</form>
+							</div>
+						</div>
                     </div>
                     <div class="col-lg-12 form-group tableFixHead" style="height:500px;overflow-y:auto;overflow-x:hidden;">
                         <table class="table-bordered" id="table">

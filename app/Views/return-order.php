@@ -398,7 +398,7 @@
 							<?php }else{ ?>
 							<ul class="submenu">
 								<li><a href="<?=site_url('return-order')?>" class="active">Return Order</a></li>
-								<li><a href="<?=site_url('report')?>">PRF Report</a></li>
+								<li><a href="<?=site_url('prf-report')?>">PRF Report</a></li>
 							</ul>
 							<?php } ?>
 						</li>
