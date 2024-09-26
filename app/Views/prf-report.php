@@ -473,8 +473,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 form-group">
-                        
+                    <div class="col-lg-12 form-group tableFixHead" style="height:500px;overflow-y:auto;overflow-x:hidden;">
+                        <table class="table-bordered" id="table">
+                            <thead>
+                                <th>Date Needed</th>
+                                <th>PRF No</th>
+                                <th>Item(s)</th>
+                                <th>UOM</th>
+                                <th>Qty</th>
+                                <th>Specification</th>
+                                <th>With PO?</th>
+                                <th>Assignee</th>
+                            </thead>
+                            <tbody id="result">
+                                <tr>
+                                    <td colspan="8" style="text-align:center;">No Record(s)</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 			</div>
