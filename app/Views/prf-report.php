@@ -458,7 +458,9 @@
                                     <div class="col-lg-3 form-group">
 										<select class="form-control custom-select2" name="assignee">
 											<option value="">-Choose Assignee-</option>
-											
+											<?php foreach($account as $row): ?>
+												<option value="<?php echo $row->accountID ?>"><?php echo $row->Fullname ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
                                     <div class="col-lg-3 form-group">
@@ -473,7 +475,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 form-group tableFixHead" style="height:500px;overflow-y:auto;overflow-x:hidden;">
+                    <div class="col-lg-12 form-group tableFixHead">
                         <table class="table-bordered" id="table">
                             <thead>
                                 <th>Date Needed</th>
@@ -506,12 +508,31 @@
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
         <script src="assets/vendors/scripts/datatable-setting.js"></script>
         <script>
+			$('#frmSearch').on('submit',function(e){
+                e.preventDefault();
+                var data = $(this).serialize();
+                $('#result').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
+				$.ajax({
+					url:"<?=site_url('generate-prf-report')?>",method:"GET",
+					data:data,success:function(response)
+					{
+						if(response==="")
+						{
+							$('#result').html("<tr><td colspan='8'><center>No Record(s)</center></td></tr>");
+						}
+						else
+						{
+							$('#result').html(response);
+						}
+					}
+				});
+            });
 			function exportf(elem) {
 			var table = document.getElementById("table");
 			var html = table.outerHTML;
 			var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
 			elem.setAttribute("href", url);
-			elem.setAttribute("download","pr-po-monitoring.xls"); // Choose the file name
+			elem.setAttribute("download","prf-report.xls"); // Choose the file name
 			return false;
 			}
         </script>

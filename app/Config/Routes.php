@@ -194,6 +194,7 @@ $routes->post('tag-as-paid','Purchase::tagAsPaid');
 $routes->post('paid-delivery','Purchase::paidDelivery');
 $routes->post('transfer-prf','Purchase::transferPRF');
 $routes->get('monitoring-report','ReportController::monitoringReport');
+$routes->get('generate-prf-report','ReportController::generatePRFReport');
 
 $routes->group('',['filter'=>'AuthCheck'],function($routes)
 {

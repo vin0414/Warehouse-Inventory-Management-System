@@ -2478,7 +2478,14 @@ class Home extends BaseController
     //prf report
     public function prfReport()
     {
-        return view('prf-report');
+        $role = ['Staff','Administrator'];
+        $builder = $this->db->table('tblaccount');
+        $builder->select('*');
+        $builder->WHEREIN('systemRole',$role)->WHERE('Status',1);
+        $account = $builder->get()->getResult();
+
+        $data = ['account'=>$account];
+        return view('prf-report',$data);
     }
 
     //reset user accounts

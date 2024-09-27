@@ -11,6 +11,42 @@ class ReportController extends BaseController
         $this->db = db_connect();
     }
 
+    public function generatePRFReport()
+    {
+        $from  = $this->request->getGet('from');
+        $to = $this->request->getGet('to');
+        $assignee = $this->request->getGet('assignee');
+        //generate
+        $sql = "Select a.DateNeeded,a.OrderNo,b.Item_Name,b.Qty,b.ItemUnit,b.Specification,c.purchaseLogID,e.Fullname from tblprf a 
+                LEFT JOIN tbl_order_item b ON b.OrderNo=a.OrderNo 
+                LEFT JOIN tblcanvass_sheet c ON c.OrderNo=a.OrderNo
+                LEFT JOIN tblassignment d ON d.prfID=a.prfID
+                LEFT JOIN tblaccount e ON e.accountID=d.accountID
+                WHERE a.DateNeeded BETWEEN :from: AND :to: AND e.accountID=:accountID: group by b.orderID";
+        $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'accountID'=>$assignee]);
+        foreach($query->getResult() as $row)
+        {
+            ?>
+            <tr>
+                <td><?php echo $row->DateNeeded ?></td>
+                <td><?php echo $row->OrderNo ?></td>
+                <td><?php echo $row->Item_Name ?></td>
+                <td><?php echo $row->ItemUnit ?></td>
+                <td><?php echo $row->Qty ?></td>
+                <td><?php echo nl2br($row->Specification) ?></td>
+                <td>
+                    <?php
+                    if(empty($row->purchaseLogID))
+                    {echo "No";}
+                    else{ echo "Yes";}
+                    ?>
+                </td>
+                <td><?php echo $row->Fullname ?></td>
+            </tr>
+            <?php
+        }
+    }
+
     public function monitoringReport()
     {
         $from  = $this->request->getGet('from');

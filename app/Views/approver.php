@@ -78,9 +78,6 @@
 			table  { border-collapse: collapse; width: 100%; }
 			th, td { padding: 8px 16px;color:#000; }
 			tbody{color:#000;}
-			tr:nth-child(even) {
-			background-color: #f2f2f2;
-			}
 			  .loading-spinner{
 				width:30px;
 				height:30px;
@@ -518,7 +515,7 @@
 										</div>
 										<div class="col-12 form-group">
 											<div class="table-responsive tableFixHead" style="height:500px;overflow-y:auto;">
-												<table class="table stripe hover nowrap">
+												<table class="table table-striped hover nowrap">
 													<thead>
 														<th>&nbsp;</th>
 														<th>Date Received</th>
@@ -581,7 +578,7 @@
 										</div>
 										<div class="col-12 form-group">
 											<div class="table-responsive tableFixHead" style="height:500px;overflow-y:auto;"">
-												<table class="table stripe hover nowrap">
+												<table class="table table-striped hover nowrap">
 													<thead>
 														<th>Date Received</th>
 														<th>P.O. No</th>

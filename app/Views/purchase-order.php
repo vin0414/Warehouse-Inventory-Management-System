@@ -652,6 +652,9 @@
 															<?php }else if($row->Status==2){ ?>
 															<a class="dropdown-item" href="<?=site_url('modify/')?><?php echo $row->purchaseNumber ?>">
 																<i class="dw dw-edit"></i>&nbsp;Modify
+															</a>
+															<a class="dropdown-item" href="<?=site_url('change/')?><?php echo $row->purchaseNumber ?>">
+																<i class="icon-copy dw dw-repeat-1"></i>&nbsp;Change Vendor
 															</a>	
 															<?php } ?>
 														</div>

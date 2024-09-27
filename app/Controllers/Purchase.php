@@ -897,185 +897,443 @@ class Purchase extends BaseController
 
     public function viewQuotation()
     {
+        $accountModel = new \App\Models\accountModel();
         $reference = $this->request->getGet('value');
         $user = session()->get('loggedUser');
         $file="";$refNo = "";
-        //fetch
-        $builder = $this->db->table('tblcanvass_form a');
-        $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DatePrepared,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment');
-        $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
-        $builder->join('tblpurchase_logs c','a.Reference=c.Reference','LEFT');
-        $builder->WHERE('c.purchaseNumber',$reference);
-        $datax = $builder->get();
-        if($rowx = $datax->getRow())
+        //change the view for executive approval
+        $account = $accountModel->WHERE('accountID',$user)->WHERE('Department','Executive')->WHERE('systemRole','Editor')->first();
+        if(empty($account))
         {
-            $file = $rowx->Attachment;
-            $quotation = $rowx->quotation;
-            $refNo  = $rowx->Reference;
+            //fetch
+            $builder = $this->db->table('tblcanvass_form a');
+            $builder->select('a.Reference,a.Attachment as quotation,b.Department,b.OrderNo,b.DatePrepared,b.DateNeeded,b.PurchaseType,b.Reason,b.Attachment');
+            $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
+            $builder->join('tblpurchase_logs c','a.Reference=c.Reference','LEFT');
+            $builder->WHERE('c.purchaseNumber',$reference);
+            $datax = $builder->get();
+            if($rowx = $datax->getRow())
+            {
+                $file = $rowx->Attachment;
+                $quotation = $rowx->quotation;
+                $refNo  = $rowx->Reference;
+                ?>
+            <div class="tab">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Canvass Sheet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#approvedPRF" role="tab" aria-selected="true">PRF</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#prf" role="tab" aria-selected="true">PRF Attachment</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#quotation" role="tab" aria-selected="true">Quotation</a>
+                    </li>
+                </ul>
+            <?php
+            }
+            $builder = $this->db->table('tblcanvass_sheet a');
+            $builder->select('a.*,b.Qty,b.ItemUnit,b.Item_Name,b.Specification');
+            $builder->join('tbl_order_item b','b.orderID=a.orderID','INNER');
+            $builder->join('tblpurchase_logs c','c.purchaseLogID=a.purchaseLogID','INNER');
+            $builder->WHERE('c.purchaseNumber',$reference)->WHERE('a.Remarks','Selected');
+            $data = $builder->get();
             ?>
-        <div class="tab">
-            <ul class="nav nav-pills" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Canvass Sheet</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#approvedPRF" role="tab" aria-selected="true">PRF</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#prf" role="tab" aria-selected="true">PRF Attachment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#quotation" role="tab" aria-selected="true">Quotation</a>
-                </li>
-            </ul>
-        <?php
-        }
-        $builder = $this->db->table('tblcanvass_sheet a');
-        $builder->select('a.*,b.Qty,b.ItemUnit,b.Item_Name,b.Specification');
-        $builder->join('tbl_order_item b','b.orderID=a.orderID','INNER');
-        $builder->join('tblpurchase_logs c','c.purchaseLogID=a.purchaseLogID','INNER');
-        $builder->WHERE('c.purchaseNumber',$reference);
-        $data = $builder->get();
-        ?>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="items" role="tabpanel">
-                    <div class="row g-2">
-                        <div class="col-12 form-group"> 
-                            <div class="row g-1">
-                                <div class="col-lg-4"></div>
-                                <div class="col-lg-4 text-center"><b><h5>Canvass Sheet Form</h5></b></div>
-                                <div class="col-lg-4"><label style="float:right;">Reference No. <span style="color:red;"><?php echo $refNo ?></span></label></div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="items" role="tabpanel">
+                        <div class="row g-2">
+                            <div class="col-12 form-group"> 
+                                <div class="row g-1">
+                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-4 text-center"><b><h5>Canvass Sheet Form</h5></b></div>
+                                    <div class="col-lg-4"><label style="float:right;">Reference No. <span style="color:red;"><?php echo $refNo ?></span></label></div>
+                                </div>
+                            </div>
+                            <div class="col-12 form-group table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <th class="bg-primary text-white">Item(s)</th>
+                                        <th class="bg-primary text-white">Qty</th>
+                                        <th class="bg-primary text-white">Unit Price</th>
+                                        <th class="bg-primary text-white">Total Price</th>
+                                        <th class="bg-primary text-white">Specification</th>
+                                        <th class="bg-primary text-white">Vendor(s)</th>
+                                        <th class="bg-primary text-white">Contact #</th>
+                                        <th class="bg-primary text-white">Terms</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach($data->getResult() as $row)
+                                        {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row->Item_Name ?></td>
+                                                <td><?php echo $row->Qty ?></td>
+                                                <td style="text-align:right;"><?php echo number_format($row->Price,2) ?></td>
+                                                <td style="text-align:right;"><?php echo number_format($row->Qty*$row->Price,2) ?></td>
+                                                <td><?php echo $row->Specification ?></td>
+                                                <td><?php echo $row->Supplier ?></td>
+                                                <td><?php echo $row->ContactNumber ?></td>
+                                                <td><?php echo $row->Terms ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="col-12 form-group table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <th class="bg-primary text-white">Item(s)</th>
-                                    <th class="bg-primary text-white">Qty</th>
-                                    <th class="bg-primary text-white">Unit Price</th>
-                                    <th class="bg-primary text-white">Total Price</th>
-                                    <th class="bg-primary text-white">Specification</th>
-                                    <th class="bg-primary text-white">Vendor(s)</th>
-                                    <th class="bg-primary text-white">Contact #</th>
-                                    <th class="bg-primary text-white">Terms</th>
-                                </thead>
-                                <tbody>
-                                    <?php
+                    </div>
+                    <div class="tab-pane fade show" id="approvedPRF" role="tabpanel">
+                        <div class="row g-1">
+                            <div class="col-lg-1">
+                                <img src="/assets/img/apfc.png" width="150"/>
+                            </div>
+                            <div class="col-lg-11" style="margin-left:-50px;">
+                                <h4 class="text-center">ARCHIPELAGO PHILIPPINE FERRIES CORPORATION</h4>
+                                <p class="text-center">6th Flr, Unioil Center Building, Commerce Ave.<br/>
+                        Madrigal Business Park, Ayala Alabang, Muntinlupa City, 1780</p>
+                            </div>
+                        </div>
+                        <div class="row g-1">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4 text-center"><b><h5>PURCHASE ORDER FORM (PRF)</h5></b></div>
+                            <div class="col-lg-4"><label style="float:right;">No. <span style="color:red;"><?php echo $row->OrderNo ?></span></label></div>
+                        </div>
+                        <div class="row g-1">
+                            <div class="col-lg-6">
+                                <label><b>Vessel/Port/Department :</b><u><?php echo $rowx->Department ?></u></label> 
+                            </div>
+                            <div class="col-lg-3 text-center">
+                                <label><b>Date Prepared :</b><u><?php echo $rowx->DatePrepared ?></u></label> 
+                            </div>
+                            <div class="col-lg-3">
+                                <label style="float:right;"><b>Date Needed :</b><u><?php echo $rowx->DateNeeded ?></u></label> 
+                            </div>
+                        </div>
+                        <div class="row g-1">
+                            <div class="col-12 form-group">
+                                <table class="table table-bordered nowrap">
+                                    <thead>
+                                        <th>Qty</th>
+                                        <th>Unit</th>
+                                        <th>Product Name</th>
+                                        <th>Specification</th>
+                                    </thead>
+                                    <tbody>
+                                    <?php 
+                                    $builder = $this->db->table('tbl_order_item');
+                                    $builder->select('*');
+                                    $builder->WHERE('OrderNo',$rowx->OrderNo);
+                                    $data = $builder->get();
                                     foreach($data->getResult() as $row)
                                     {
                                         ?>
                                         <tr>
-                                            <td><?php echo $row->Item_Name ?></td>
                                             <td><?php echo $row->Qty ?></td>
-                                            <td style="text-align:right;"><?php echo number_format($row->Price,2) ?></td>
-                                            <td style="text-align:right;"><?php echo number_format($row->Qty*$row->Price,2) ?></td>
-                                            <td><?php echo $row->Specification ?></td>
-                                            <td><?php echo $row->Supplier ?></td>
-                                            <td><?php echo $row->ContactNumber ?></td>
-                                            <td><?php echo $row->Terms ?></td>
+                                            <td><?php echo $row->ItemUnit ?></td>
+                                            <td><?php echo $row->Item_Name ?></td>
+                                            <td><?php echo nl2br($row->Specification) ?></td>
                                         </tr>
                                         <?php
                                     }
                                     ?>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-12 form-group">
+                                <label><b>Reason/Remarks</b></label>
+                                <textarea class="form-control"><?php echo $rowx->Reason ?></textarea>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane fade show" id="approvedPRF" role="tabpanel">
-                    <div class="row g-1">
-                        <div class="col-lg-1">
-                            <img src="/assets/img/apfc.png" width="150"/>
-                        </div>
-                        <div class="col-lg-11" style="margin-left:-50px;">
-                            <h4 class="text-center">ARCHIPELAGO PHILIPPINE FERRIES CORPORATION</h4>
-                            <p class="text-center">6th Flr, Unioil Center Building, Commerce Ave.<br/>
-                    Madrigal Business Park, Ayala Alabang, Muntinlupa City, 1780</p>
-                        </div>
+                    <div class="tab-pane fade show" id="prf" role="tabpanel">
+                        <br/>
+                        <object data="Attachment/<?php echo $file ?>" type="application/pdf" style="width:100%;height:500px;">
+                            <div>No PDF viewer available</div>
+                        </object>
                     </div>
-                    <div class="row g-1">
-                        <div class="col-lg-4"></div>
-                        <div class="col-lg-4 text-center"><b><h5>PURCHASE ORDER FORM (PRF)</h5></b></div>
-                        <div class="col-lg-4"><label style="float:right;">No. <span style="color:red;"><?php echo $row->OrderNo ?></span></label></div>
+                    <div class="tab-pane fade show" id="quotation" role="tabpanel">
+                        <br/>
+                        <object data="Canvass/<?php echo $quotation ?>" type="application/pdf" style="width:100%;height:500px;">
+                            <div>No PDF viewer available</div>
+                        </object>
                     </div>
-                    <div class="row g-1">
-                        <div class="col-lg-6">
-                            <label><b>Vessel/Port/Department :</b><u><?php echo $rowx->Department ?></u></label> 
-                        </div>
-                        <div class="col-lg-3 text-center">
-                            <label><b>Date Prepared :</b><u><?php echo $rowx->DatePrepared ?></u></label> 
-                        </div>
-                        <div class="col-lg-3">
-                            <label style="float:right;"><b>Date Needed :</b><u><?php echo $rowx->DateNeeded ?></u></label> 
-                        </div>
-                    </div>
-                    <div class="row g-1">
-                        <div class="col-12 form-group">
-                            <table class="table table-bordered nowrap">
-                                <thead>
-                                    <th>Qty</th>
-                                    <th>Unit</th>
-                                    <th>Product Name</th>
-                                    <th>Specification</th>
-                                </thead>
-                                <tbody>
-                                <?php 
-                                $builder = $this->db->table('tbl_order_item');
-                                $builder->select('*');
-                                $builder->WHERE('OrderNo',$rowx->OrderNo);
-                                $data = $builder->get();
-                                foreach($data->getResult() as $row)
-                                {
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $row->Qty ?></td>
-                                        <td><?php echo $row->ItemUnit ?></td>
-                                        <td><?php echo $row->Item_Name ?></td>
-                                        <td><?php echo $row->Specification ?></td>
-                                    </tr>
-                                    <?php
-                                }
-                                ?>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-12 form-group">
-                            <label><b>Reason/Remarks</b></label>
-                            <textarea class="form-control"><?php echo $rowx->Reason ?></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade show" id="prf" role="tabpanel">
-                    <br/>
-                    <object data="Attachment/<?php echo $file ?>" type="application/pdf" style="width:100%;height:500px;">
-                        <div>No PDF viewer available</div>
-                    </object>
-                </div>
-                <div class="tab-pane fade show" id="quotation" role="tabpanel">
-                    <br/>
-                    <object data="Canvass/<?php echo $quotation ?>" type="application/pdf" style="width:100%;height:500px;">
-                        <div>No PDF viewer available</div>
-                    </object>
                 </div>
             </div>
-        </div>
-        <?php 
-        $builder = $this->db->table('tblpurchase_review');
-        $builder->select('Status,prID');
-        $builder->WHERE('purchaseNumber',$reference)->WHERE('accountID',$user);
-        $checkStatus = $builder->get();
-        if($rowStatus = $checkStatus->getRow())
-        { 
-            if($rowStatus->Status==0)
+            <?php 
+            $builder = $this->db->table('tblpurchase_review');
+            $builder->select('Status,prID');
+            $builder->WHERE('purchaseNumber',$reference)->WHERE('accountID',$user);
+            $checkStatus = $builder->get();
+            if($rowStatus = $checkStatus->getRow())
+            { 
+                if($rowStatus->Status==0)
+                {
+            ?>
+                <button type="button" class="btn btn-primary btn-sm approve" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
+                <button type="button" class="btn btn-danger btn-sm decline" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
+            <?php 
+                }
+            } 
+            ?>
+            <?php
+        }
+        else
+        {
+            $refNo = "";$vendor= "";$address="";$contactNo = "";$vendorEmail="";
+            $terms="";
+            $builder = $this->db->table('tblcanvass_sheet a');
+            $builder->select('a.Reference,a.Supplier,a.Address,a.Terms,a.ContactNumber,a.EmailAddress');
+            $builder->join('tblpurchase_logs b','a.purchaseLogID=b.purchaseLogID','LEFT');
+            $builder->WHERE('b.purchaseNumber',$reference);
+            $datax = $builder->get();
+            if($rowx = $datax->getRow())
             {
-        ?>
-            <button type="button" class="btn btn-primary btn-sm approve" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
-            <button type="button" class="btn btn-danger btn-sm decline" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
-        <?php 
+                $refNo  = $rowx->Reference;
+                $vendor = $rowx->Supplier;
+                $address = $rowx->Address;
+                $contactNo = $rowx->ContactNumber;
+                $vendorEmail = $rowx->EmailAddress;
             }
-        } 
-        ?>
-        <?php
+            ?>
+            <div class="tab">
+                <ul class="nav nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Canvass Sheet</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#po" role="tab" aria-selected="true">P.O.</a>
+                    </li>
+                </ul>
+                <?php
+                $builder = $this->db->table('tblcanvass_sheet a');
+                $builder->select('a.Price,b.Qty,b.ItemUnit,b.Item_Name,b.Specification,a.Currency');
+                $builder->join('tbl_order_item b','b.orderID=a.orderID','INNER');
+                $builder->join('tblpurchase_logs c','c.purchaseLogID=a.purchaseLogID','INNER');
+                $builder->WHERE('c.purchaseNumber',$reference)->WHERE('a.Remarks','Selected');
+                $data = $builder->get();
+                ?>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="items" role="tabpanel">
+                        <br/>
+                        <div class="row g-2">
+                            <div class="col-12 form-group">
+                                <div class="row g-2">
+                                    <div class="col-lg-8">
+                                        <div class="row g-1">
+                                            <div class="col-12">
+                                            <b>Vendor's Name</b> : <?php echo $vendor ?>
+                                            </div>
+                                            <div class="col-12">
+                                            <b>Location</b> : <?php echo $address ?>
+                                            </div>
+                                            <div class="col-12">
+                                            <b>Contact Details </b> : <?php echo $vendorEmail ?> | <?php echo $contactNo ?> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row g-1">
+                                            <div class="col-12">
+                                            <b>Terms</b> : <?php echo $terms ?>
+                                            </div>
+                                            <div class="col-12">
+                                            <b>Reference No</b> : <?php echo $refNo ?>
+                                            </div>
+                                            <div class="col-12">
+                                            <b>P.O. No</b> : <?php echo $reference ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 form-group table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <th class="bg-primary text-white">Item(s)</th>
+                                        <th class="bg-primary text-white">Qty</th>
+                                        <th class="bg-primary text-white">Unit Price</th>
+                                        <th class="bg-primary text-white">Total Price</th>
+                                        <th class="bg-primary text-white">Specification</th>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        foreach($data->getResult() as $row)
+                                        {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $row->Item_Name ?></td>
+                                                <td><?php echo $row->Qty ?></td>
+                                                <td style="text-align:right;"><?php echo $row->Currency ?> <?php echo number_format($row->Price,2) ?></td>
+                                                <td style="text-align:right;"><?php echo $row->Currency ?> <?php echo number_format($row->Qty*$row->Price,2) ?></td>
+                                                <td><?php echo nl2br($row->Specification) ?></td>
+                                            </tr>
+                                            <?php
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <?php
+                        //approval 
+                        $builder = $this->db->table('tblpurchase_review');
+                        $builder->select('Status,prID');
+                        $builder->WHERE('purchaseNumber',$reference)->WHERE('accountID',$user);
+                        $checkStatus = $builder->get();
+                        if($rowStatus = $checkStatus->getRow())
+                        { 
+                            if($rowStatus->Status==1)
+                            {
+                        ?>
+                            <button type="button" class="btn btn-primary btn-sm approve" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
+                            <button type="button" class="btn btn-danger btn-sm decline" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
+                        <?php 
+                            }
+                        } 
+                        ?>
+                    </div>
+                    <div class="tab-pane fade" id="po" role="tabpanel">
+                        <?php
+                            $builder = $this->db->table('tblpurchase_logs a');
+                            $builder->select('a.purchaseLogID,a.purchaseNumber,a.Date,a.Reference,b.OrderNo,b.Supplier,b.Price,b.Terms,
+                            b.Address,e.Fullname,b.Vatable,c.PurchaseType,b.Currency');
+                            $builder->join('tblcanvass_sheet b','b.purchaseLogID=a.purchaseLogID','INNER');
+                            $builder->join('tblprf c','c.OrderNo=b.OrderNo','LEFT');
+                            $builder->join('tblpurchase_review d','d.purchaseNumber=a.purchaseNumber','LEFT');
+                            $builder->join('tblaccount e','e.accountID=d.accountID','LEFT');
+                            $builder->WHERE('a.purchaseNumber',$reference);
+                            $data = $builder->get(); 
+                            $template = '';  
+                            if($row = $data->getRow())
+                            {        
+                                $currency = $row->Currency;
+                                $template .= "
+                                <head>
+                                    <style>
+                                    table{font-size:12px;}
+                                    #vendor {
+                                        font-family: sans-serif;
+                                        border-collapse: collapse;
+                                        width: 100%;
+                                      }
+                                      
+                                      #vendor td, #vendor th {
+                                        border: 1px solid #000;
+                                        padding: 5px;font-size:12px;
+                                      }
+                                     #vendor tr{background-color:#ffffff;}
+                                      
+                                      #vendor th {
+                                        padding-top: 12px;
+                                        padding-bottom: 12px;
+                                        text-align: left;
+                                        color: #000000;
+                                      }
+                                    </style>
+                                </head>
+                                <body>
+                                    <table style='width:100%;padding:0.2px;'>
+                                    <tr><td colspan='3'><center><b>Unioil Center Building, Commence Ave. Cor. Acacia Ave., Muntinlupa, PHL</b></center>
+                                    <center><small>VAT Reg. TIN 233-662-279-00</small></center>
+                                    <center><small>Tel No. (632) 842 9341 Fax No. 632 807 5670</small></center></td></tr>
+                                    <tr><td colspan='3'>&nbsp;</td></tr>
+                                    <tr>
+                                        <td colspan='2'><b>Vendor : ".$row->Supplier."</b></td>
+                                        <td><b>Date</b> : ".$row->Date."</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan='2'><b>Address</b> : ".$row->Address."</td>
+                                        <td><b>Terms</b> : ".$row->Terms."</td>
+                                    </tr>
+                                    <tr><td colspan='2'><b>TIN :</b></td><td><b>PRF No</b> : ".$row->OrderNo."</td></tr>
+                                    <tr><td colspan='3'><b>Ship To : Archipelago Philippine Ferries Corporation</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unioil Center Building, Commerce Ave. Cor. Acacia Ave., Muntinlupa, PHL</td></tr>
+                                    <tr><td colspan='3'>&nbsp;</td></tr>
+                                    <tr><td colspan='3'><b>Gentlemen:</b> We are ordering the following and charged to our account</td></tr>";
+                                $template.="
+                                    <tr>
+                                        <td colspan='3'>
+                                        <table style='width:100%;' id='vendor'>
+                                            <thead>
+                                            <th>QUANTITY</th>
+                                            <th>UNIT</th>
+                                            <th>DESCRIPTION</th>
+                                            <th>UNIT PRICE</th>
+                                            <th>TOTAL AMOUNT</th>
+                                            </thead><tbody>";
+                                $builder = $this->db->table('tblcanvass_sheet a');
+                                $builder->select('a.Price,b.Qty,b.Item_Name,b.ItemUnit,a.Currency,b.Specification');
+                                $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
+                                $builder->WHERE('a.purchaseLogID',$row->purchaseLogID);
+                                $datas = $builder->get();
+                                foreach($datas->getResult() as $rows)
+                                {
+                                    $template.="<tr>
+                                        <td>".$rows->Qty."</td>
+                                        <td>".$rows->ItemUnit."</td>
+                                        <td>".$rows->Item_Name."-".nl2br($rows->Specification)."</td>
+                                        <td style='text-align:right;'>".$rows->Currency." ".number_format($rows->Price,2)."</td>
+                                        <td style='text-align:right;'>".$rows->Currency." ".number_format($rows->Qty*$rows->Price,2)."</td>
+                                    </tr>";
+                                } 
+                                //$template.="</tbody></table></td></tr><tr><td colspan='3'><table style='width:100%;' id='vendor'>"; 
+                                //total
+                                $totalAmount=0.00;
+                                $builder = $this->db->table('tblcanvass_sheet a');
+                                $builder->select('SUM(a.Price*b.Qty)total');
+                                $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
+                                $builder->WHERE('a.purchaseLogID',$row->purchaseLogID);
+                                $datax = $builder->get();
+                                if($rowx = $datax->getRow())
+                                {
+                                    $totalAmount = $rowx->total;
+                                    $template.="<tr>
+                                        <td colspan='3'></td>
+                                        <td>Sub-Total Amount</td>
+                                        <td style='text-align:right;'>".$currency." ".number_format($rowx->total,2)."</td>
+                                    </tr>";
+                                }   
+                                $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
+                                if($row->Vatable=="VAT INC" || $row->Vatable=="VAT EX")
+                                {
+                                    $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount/1.12,2)."</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount/1.12)*0.12,2)."</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
+                                }
+                                else
+                                {
+                                    $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>0.00</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>0.00</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
+                                    $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>0.00</td></tr>";
+                                }
+                                $template.="</tbody></table></td></tr>"; 
+                                $builder = $this->db->table('tblcomment');
+                                $builder->select('Message');
+                                $builder->WHERE('Reference',$row->Reference);
+                                $dataY = $builder->get();
+                                if($rowY = $dataY->getRow())
+                                {
+                                $template.="<tr><td colspan='3'>&nbsp;</td></tr>
+                                    <tr><td colspan='3'>Delivery/Shipping Instructions</td></td>
+                                    <tr><td style='height:50px;border:1px solid #000000;' colspan='3'>".$rowY->Message."</td></tr>";
+                                }
+                            }
+                        echo $template;
+                        ?>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
     }
 
     public function viewPurchase()
