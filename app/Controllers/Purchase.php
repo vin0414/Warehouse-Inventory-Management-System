@@ -1187,7 +1187,7 @@ class Purchase extends BaseController
                         $checkStatus = $builder->get();
                         if($rowStatus = $checkStatus->getRow())
                         { 
-                            if($rowStatus->Status==1)
+                            if($rowStatus->Status==0)
                             {
                         ?>
                             <button type="button" class="btn btn-primary btn-sm approve" value="<?php echo $rowStatus->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
