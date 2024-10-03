@@ -492,6 +492,7 @@
                                         <th class="bg-primary text-white" style="width:200px;">Item Unit</th>
                                         <th class="bg-primary text-white" style="width:100px;">Qty</th>
                                         <th class="bg-primary text-white">Specification</th>
+										<th class="bg-primary text-white">Action</th>
                                     </thead>
                                     <tbody>
                                         <?php foreach($item as $row): ?>
@@ -501,6 +502,9 @@
                                                 <td><input type='text' class='form-control' id='item' name='item[]' value="<?php echo $row['ItemUnit'] ?>"/></td>
                                                 <td><input type='number' class='form-control' id='qty' value="<?php echo $row['Qty'] ?>" name='qty[]'/></td>
                                                 <td><textarea class='form-control' style='height:45px;' id='specification' name='specification[]'><?php echo $row['Specification'] ?></textarea></td>
+												<td>
+													<button type="button" class="btn btn-danger btn-sm remove" value="<?php echo $row['orderID'] ?>"><i class="icon-copy dw dw-trash"></i></button>
+												</td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </tbody>
@@ -540,6 +544,29 @@
 					}
 				});
 			}
+			//remove the item
+			$(document).on('click','.remove',function(){
+				var confirmation = confirm("Do you want to remove this item from the list?");
+				if(confirmation)
+				{
+					//hide the data
+					$.ajax({
+						url:"<?=site_url('remove-order-item')?>",method:"POST",
+						data:{value:$(this).val()},
+						success:function(response)
+						{
+							if(response==="success")
+							{
+								location.reload();
+							}
+							else
+							{
+								alert(response);
+							}
+						}
+					});
+				}
+			});
         </script>
 	</body>
 </html>

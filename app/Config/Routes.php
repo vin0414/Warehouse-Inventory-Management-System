@@ -129,6 +129,7 @@ $routes->get('search-inventory','ReportController::searchInventory');
 $routes->post('save-order','Purchase::saveOrder');
 $routes->post('re-submit','Purchase::reSubmit');
 $routes->post('compliance','Purchase::comply');
+$routes->post('remove-order-item','Purchase::removeOrderItem');
 $routes->get('get-editor','Purchase::getEditor');
 $routes->post('cancel-order','Purchase::cancelOrder');
 $routes->get('view-order','Purchase::viewOrder');

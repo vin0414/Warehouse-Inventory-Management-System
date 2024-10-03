@@ -618,7 +618,7 @@
 															<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
 																<button type="button" class="dropdown-item accept" value="<?php echo $row->assignID ?>"><i class="dw dw-check"></i>&nbsp;Accept</button>
 																<button type="button" class="dropdown-item revision" value="<?php echo $row->OrderNo ?>"><i class="dw dw-repeat1"></i>&nbsp;Reject</button>
-																<button type="button" class="dropdown-item transfer" value="<?php echo $row->assignID ?>"><i class="bi bi-forward"></i>&nbsp;Forward</button>
+																<button type="button" class="dropdown-item transfer" value="<?php echo $row->assignID ?>"><i class="bi bi-forward"></i>&nbsp;Assign To</button>
 																<button type="button" class="dropdown-item view" value="<?php echo $row->OrderNo ?>"><i class="dw dw-list"></i>&nbsp;List of Items</button>
 															</div>
 														</div>

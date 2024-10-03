@@ -238,6 +238,16 @@ class Purchase extends BaseController
         }
     }
 
+    public function removeOrderItem()
+    {
+        $OrderItemModel = new \App\Models\OrderItemModel();
+        //data
+        $val = $this->request->getPost('value');
+        $values = ['OrderNo'=>'N/A'];
+        $OrderItemModel->update($val,$values);
+        echo "success";
+    }
+
     public function comply()
     {
         date_default_timezone_set('Asia/Manila');
