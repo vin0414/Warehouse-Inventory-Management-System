@@ -1109,6 +1109,8 @@ class Purchase extends BaseController
                 $contactNo = $rowx->ContactNumber;
                 $vendorEmail = $rowx->EmailAddress;
             }
+            $canvassFormModel = new \App\Models\canvasFormModel();
+            $quotation = $canvassFormModel->WHERE('Reference',$refNo)->first();
             ?>
             <div class="tab">
                 <ul class="nav nav-pills" role="tablist">
@@ -1116,7 +1118,10 @@ class Purchase extends BaseController
                         <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Canvass Sheet</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-blue" data-toggle="tab" href="#po" role="tab" aria-selected="true">P.O.</a>
+                        <a class="nav-link text-blue" data-toggle="tab" href="#quotation" role="tab" aria-selected="true">Quotation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-blue" data-toggle="tab" href="#po" role="tab" aria-selected="true">Purchase Order</a>
                     </li>
                 </ul>
                 <?php
@@ -1206,6 +1211,12 @@ class Purchase extends BaseController
                             }
                         } 
                         ?>
+                    </div>
+                    <div class="tab-pane fade" id="quotation" role="tabpanel">
+                        <br/>
+                        <object data="Canvass/<?=$quotation['Attachment'] ?>" type="application/pdf" style="width:100%;height:500px;">
+                            <div>No PDF viewer available</div>
+                        </object>
                     </div>
                     <div class="tab-pane fade" id="po" role="tabpanel">
                         <?php

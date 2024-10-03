@@ -815,7 +815,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();
 								}
 								else
 								{
@@ -849,7 +850,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();
 								}
 								else
 								{
@@ -882,7 +884,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();
 								}
 								else
 								{
@@ -970,7 +973,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();
 								}
 								else
 								{
@@ -1005,7 +1009,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();
 								}
 								else
 								{

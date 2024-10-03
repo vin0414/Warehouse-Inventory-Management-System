@@ -506,13 +506,11 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <label>Vessel/Port/Department</label>
-										<select class="form-control custom-select2" name="department" id="department">
+										<!-- <select class="form-control custom-select2" name="department" id="department">
 											<option value="">Choose</option>
-											<?php foreach($assign as $row): ?>
-												<option><?php echo $row['warehouseName'] ?></option>
-											<?php endforeach; ?>
-										</select>
-                                        <!-- <input type="text" class="form-control"  name="department" required/> -->
+											
+										</select> -->
+                                        <input type="text" class="form-control"  name="department" required/>
                                     </div>
                                     <div class="col-lg-2">
                                         <label>Date Needed</label>
