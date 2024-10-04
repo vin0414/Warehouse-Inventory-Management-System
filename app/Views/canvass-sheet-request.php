@@ -492,33 +492,7 @@
 										<th>Status</th>
 									</thead>
 									<tbody id="tbl_list">
-										<?php foreach($list as $row): ?>
-											<tr>
-												<td>
-													<?php echo $row->DateReceived ?><br/>
-													<small><?php echo $row->Age ?> days ago</small>
-												</td>
-												<?php if($row->Status==0){ ?>
-												<td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
-												<?php }else { ?>
-												<td><button type="button" class="btn btn-link" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
-												<?php } ?>
-												<td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
-												<td><?php echo $row->PurchaseType ?></td>
-												<td><?php echo $row->Fullname ?></td>
-												<td><?php echo $row->Department ?></td>
-												<td><?php echo $row->DateNeeded ?></td>
-												<td>
-													<?php if($row->Status==0){ ?>
-														<span class="badge bg-warning text-white">PENDING</span>
-													<?php }else if($row->Status==1){?>
-														<span class="badge bg-success text-white">APPROVED</span>
-													<?php }else if($row->Status==2){ ?>
-														<span class="badge bg-danger text-white">REJECTED</span>
-													<?php } ?>
-												</td>
-											</tr>
-										<?php endforeach; ?>
+										
 									</tbody>
 								</table>
 							</div>
@@ -574,7 +548,25 @@
 		<script src="assets/vendors/scripts/datatable-setting.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 		<script>
-			$(document).ready(function(){notify();});
+			$(document).ready(function(){notify();loadRequest();});
+			function loadRequest()
+			{
+				$('#tbl_list').html("<tr><td colspan='7'><center>Searching....</center></td></tr>");
+				$.ajax({
+					url:"<?=site_url('load-request')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#tbl_list').html("<tr><td colspan='7'><center>No Record(s) found</center></td></tr>");
+						}
+						else
+						{
+							$('#tbl_list').html(response);
+						}
+					}
+				});
+			}
 			$('#search').keyup(function()
 			{
 				var val = $(this).val();
@@ -633,7 +625,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();loadRequest();
 								}
 								else
 								{
@@ -667,7 +660,8 @@
 							{
 								if(response==="success")
 								{
-									location.reload();
+									//location.reload();
+									notify();loadRequest();
 								}
 								else
 								{

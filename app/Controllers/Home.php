@@ -1473,15 +1473,15 @@ class Home extends BaseController
 
     public function approver()
     {
-        $user = session()->get('loggedUser');
-        $builder = $this->db->table('tblreview a');
-        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,
-        b.DateNeeded,b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
-        $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
-        $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-        $builder->WHERE('a.accountID',$user);
-        $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
-        $review = $builder->get()->getResult();
+        // $user = session()->get('loggedUser');
+        // $builder = $this->db->table('tblreview a');
+        // $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,
+        // b.DateNeeded,b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
+        // $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
+        // $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
+        // $builder->WHERE('a.accountID',$user);
+        // $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
+        // $review = $builder->get()->getResult();
         //assignment
         // $builder = $this->db->table('tblprf a');
         // $builder->select('a.prfID,a.DatePrepared,a.Department,a.Reason,a.DateNeeded,a.OrderNo,c.Fullname,b.Status');
@@ -1496,32 +1496,32 @@ class Home extends BaseController
         // $builder->WHEREIN('systemRole',$role)->WHERE('Status',1);
         // $account = $builder->get()->getResult();
         //purchase order
-        $builder = $this->db->table('tblpurchase_review a');
-        $builder->select('a.prID,a.DateReceived,c.Department,a.Status,
-        a.purchaseNumber,a.DateApproved,c.OrderNo,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
-        $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
-        $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
-        $builder->WHERE('a.accountID',$user);
-        $builder->groupBy('a.prID')->orderBy('a.Status','ASC');
-        $purchase = $builder->get()->getResult();
-        $data = ['review'=>$review,'purchase'=>$purchase];
-        return view('approver',$data);
+        // $builder = $this->db->table('tblpurchase_review a');
+        // $builder->select('a.prID,a.DateReceived,c.Department,a.Status,
+        // a.purchaseNumber,a.DateApproved,c.OrderNo,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
+        // $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
+        // $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
+        // $builder->WHERE('a.accountID',$user);
+        // $builder->groupBy('a.prID')->orderBy('a.Status','ASC');
+        // $purchase = $builder->get()->getResult();
+        // $data = ['review'=>$review,'purchase'=>$purchase];
+        return view('approver');
     }
 
     public function canvassRequest()
     {
-        $user = session()->get('loggedUser');
-        $builder = $this->db->table('tblcanvass_review a');
-        $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
-        $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
-        $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-        $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
-        $builder->WHERE('a.accountID',$user);
-        $builder->groupBy('a.crID')->orderby('a.Status','ASC');
-        $list = $builder->get()->getResult();
+        // $user = session()->get('loggedUser');
+        // $builder = $this->db->table('tblcanvass_review a');
+        // $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
+        // $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
+        // $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
+        // $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
+        // $builder->WHERE('a.accountID',$user);
+        // $builder->groupBy('a.crID')->orderby('a.Status','ASC');
+        // $list = $builder->get()->getResult();
 
-        $data = ['list'=>$list];
-        return view ('canvass-sheet-request',$data);
+        // $data = ['list'=>$list];
+        return view ('canvass-sheet-request');
     }
 
     public function localPurchase()

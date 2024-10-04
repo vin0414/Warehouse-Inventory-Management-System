@@ -528,42 +528,7 @@
 														<th>Action</th>
 													</thead>
 													<tbody id="tblreview">
-														<?php foreach($review as $row): ?>
-															<tr>
-																<td>
-																	<?php if($row->Urgency==1){ ?>
-																		<span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i></span>
-																	<?php }else if($row->Urgency==2){?>
-																		<span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
-																	<?php } ?>
-																</td>
-																<td> 
-																	<?php echo $row->DateReceived ?><br/>
-																	<small><?php echo $row->Age ?> days ago</small>
-																</td>
-																<td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
-																<td><?php echo $row->Fullname ?></td>
-																<td><?php echo $row->Department ?></td>
-																<td><?php echo $row->DateNeeded ?></td>
-																<td><?php echo $row->DateApproved ?></td>
-																<td>
-																	<?php if($row->Status==0){ ?>
-																		<span class="badge bg-warning text-white">PENDING</span>
-																	<?php }else if($row->Status==1){?>
-																		<span class="badge bg-success text-white">APPROVED</span>
-																	<?php }else if($row->Status==2){?>
-																		<span class="badge bg-danger text-white">CANCELLED</span>
-																	<?php }else{ ?>
-																		<span class="badge bg-danger text-white">HOLD</span>
-																	<?php } ?>
-																</td>
-																<td>
-																	<?php if($row->Status==0){ ?>
-																	<a href="edit-order/<?php echo $row->OrderNo ?>" class="btn btn-warning btn-sm"><span class="dw dw-edit-1"></span></a>
-																	<?php } ?>
-																</td>
-															</tr>
-														<?php endforeach; ?>
+														
 													</tbody>
 												</table>
 											</div>
@@ -589,45 +554,8 @@
 														<th>Status</th>
 														<th>Action</th>
 													</thead>
-													<tbody id="tblpurchase">
-														<?php foreach($purchase as $row): ?>
-															<tr>
-																<td>
-																	<?php echo $row->DateReceived ?><br/>
-																	<small><?php echo $row->Age ?> days ago</small>
-																</td>
-																<td><?php echo $row->purchaseNumber ?></td>
-																<td><?php echo $row->OrderNo ?></td>
-																<td><?php echo $row->Department ?></td>
-																<td><?php echo $row->DateApproved ?></td>
-																<td><button type="button" class="btn btn-primary btn-sm viewQuotation" value="<?php echo $row->purchaseNumber ?>">Details</button></td>
-																<td>
-																	<?php if($row->Status==0){ ?>
-																		<span class="badge bg-warning text-white">PENDING</span>
-																	<?php }else if($row->Status==1){?>
-																		<span class="badge bg-success text-white">APPROVED</span>
-																	<?php }else{?>
-																		<span class="badge bg-danger text-white">CANCELLED</span>
-																	<?php } ?>
-																</td>
-																<td>
-																	<?php if($row->Status==0){ ?>
-																		<div class="dropdown">
-																			<a class="btn btn-primary btn-sm dropdown-toggle"
-																				href="#" role="button" data-toggle="dropdown">
-																				SELECT
-																			</a>
-																			<div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
-																				<button type="button" class="dropdown-item approve" value="<?php echo $row->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
-																				<button type="button" class="dropdown-item decline" value="<?php echo $row->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
-																			</div>
-																		</div>														
-																	<?php }else{?>
-																		-
-																	<?php } ?>
-																</td>
-															</tr>
-														<?php endforeach; ?>
+													<tbody id="tblpurchase"> 
+														
 													</tbody>
 												</table>
 											</div>
@@ -694,13 +622,33 @@
 		<script>
 			$(document).ready(function()
 			{
-				notify();
+				notify();loadOrder();loadPurchase();
 			});
+
+			function loadOrder()
+			{
+				$('#tblreview').html("<tr><td colspan='9'><center>Searching....</center></td></tr>");
+				$.ajax({
+					url:"<?=site_url('load-order')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#tblreview').html("<tr><td colspan='9'><center>No Record(s) found</center></td></tr>");
+						}
+						else
+						{
+							$('#tblreview').html(response);
+						}
+					}
+				});
+			}
+
 			$('#search').keyup(function()
 			{
 				var val = $(this).val(); 
 				var searchType = $('#searchType').val();
-				$('#tblreview').html("<tr><td colspan='8'><center>Searching....</center></td></tr>");
+				$('#tblreview').html("<tr><td colspan='9'><center>Searching....</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('search-order')?>",method:"GET",
 					data:{value:val,search:searchType},
@@ -708,7 +656,7 @@
 					{
 						if(response==="")
 						{
-							$('#tblreview').html("<tr><td colspan='8'><center>No Record(s) found</center></td></tr>");
+							$('#tblreview').html("<tr><td colspan='9'><center>No Record(s) found</center></td></tr>");
 						}
 						else
 						{
@@ -717,6 +665,25 @@
 					}
 				});
 			});
+
+			function loadPurchase()
+			{
+				$.ajax({
+					url:"<?=site_url('load-purchase')?>",method:"GET",
+					success:function(response)
+					{
+						if(response==="")
+						{
+							$('#tblpurchase').html("<tr><td colspan='8'><center>No Record(s) found</center></td></tr>");
+						}
+						else
+						{
+							$('#tblpurchase').html(response);
+						}
+					}
+				});
+			}
+
 			$('#searchPO').keyup(function()
 			{
 				var val = $(this).val(); 
@@ -737,6 +704,7 @@
 					}
 				});
 			});
+
 			function approver()
 			{
 				$.ajax({
@@ -816,7 +784,8 @@
 								if(response==="success")
 								{
 									//location.reload();
-									notify();
+									$('#viewModal').modal('hide');
+									notify();loadOrder();
 								}
 								else
 								{
@@ -851,7 +820,8 @@
 								if(response==="success")
 								{
 									//location.reload();
-									notify();
+									$('#viewModal').modal('hide');
+									notify();loadOrder();
 								}
 								else
 								{
@@ -885,7 +855,8 @@
 								if(response==="success")
 								{
 									//location.reload();
-									notify();
+									$('#viewModal').modal('hide');
+									notify();loadOrder();
 								}
 								else
 								{
@@ -974,7 +945,8 @@
 								if(response==="success")
 								{
 									//location.reload();
-									notify();
+									$('#viewQuotationModal').modal('hide');
+									notify();loadPurchase();
 								}
 								else
 								{
@@ -1010,7 +982,8 @@
 								if(response==="success")
 								{
 									//location.reload();
-									notify();
+									$('#viewQuotationModal').modal('hide');
+									notify();loadPurchase();
 								}
 								else
 								{

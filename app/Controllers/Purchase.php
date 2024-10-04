@@ -2671,6 +2671,49 @@ class Purchase extends BaseController
         echo "success";
     }
 
+    public function loadRequest()
+    {
+        $user = session()->get('loggedUser');
+        $builder = $this->db->table('tblcanvass_review a');
+        $builder->select('a.DateReceived,a.Reference,b.DateNeeded,b.Department,a.Status,c.Fullname,b.OrderNo,a.accountID,d.PurchaseType,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
+        $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
+        $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
+        $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
+        $builder->WHERE('a.accountID',$user);
+        $builder->groupBy('a.crID')->orderby('a.Status','ASC');
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <tr>
+                <td>
+                    <?php echo $row->DateReceived ?><br/>
+                    <small><?php echo $row->Age ?> days ago</small>
+                </td>
+                <?php if($row->Status==0){ ?>
+                <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
+                <?php }else { ?>
+                <td><button type="button" class="btn btn-link" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
+                <?php } ?>
+                <td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
+                <td><?php echo $row->PurchaseType ?></td>
+                <td><?php echo $row->Fullname ?></td>
+                <td><?php echo $row->Department ?></td>
+                <td><?php echo $row->DateNeeded ?></td>
+                <td>
+                    <?php if($row->Status==0){ ?>
+                        <span class="badge bg-warning text-white">PENDING</span>
+                    <?php }else if($row->Status==1){?>
+                        <span class="badge bg-success text-white">APPROVED</span>
+                    <?php }else if($row->Status==2){ ?>
+                        <span class="badge bg-danger text-white">REJECTED</span>
+                    <?php } ?>
+                </td>
+            </tr>
+            <?php
+        }
+    }
+
     public function searchRequest()
     {
         $val = $this->request->getGet('values');
@@ -2758,6 +2801,58 @@ class Purchase extends BaseController
                 </tr>
                 <?php
             }
+        }
+    }
+
+    public function loadOrder()
+    {
+        $user = session()->get('loggedUser');
+        $builder = $this->db->table('tblreview a');
+        $builder->select('a.reviewID,a.OrderNo,a.DateReceived,a.DateApproved,a.Status,b.Department,b.DateNeeded,
+        b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
+        $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
+        $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
+        $builder->WHERE('a.accountID',$user);
+        $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <tr>
+                <td>
+                    <?php if($row->Urgency==1){ ?>
+                        <span class="badge bg-danger text-white"><i class="icon-copy bi bi-exclamation-triangle"></i></span>
+                    <?php }else if($row->Urgency==2){?>
+                        <span class="badge bg-warning text-white"><i class="icon-copy bi bi-clock"></i></span>
+                    <?php } ?>
+                </td>
+                <td>
+                    <?php echo $row->DateReceived ?><br/>
+                    <small><?php echo $row->Age ?> days ago</small>
+                </td>
+                <td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
+                <td><?php echo $row->Fullname ?></td>
+                <td><?php echo $row->Department ?></td>
+                <td><?php echo $row->DateNeeded ?></td>
+                <td><?php echo $row->DateApproved ?></td>
+                <td>
+                    <?php if($row->Status==0){ ?>
+                        <span class="badge bg-warning text-white">PENDING</span>
+                    <?php }else if($row->Status==1){?>
+                        <span class="badge bg-success text-white">APPROVED</span>
+                    <?php }else if($row->Status==2){?>
+                        <span class="badge bg-danger text-white">CANCELLED</span>
+                    <?php }else{ ?>
+                        <span class="badge bg-danger text-white">HOLD</span>
+                    <?php } ?>
+                </td>
+                <td>
+                    <?php if($row->Status==0){ ?>
+                    <a href="edit-order/<?php echo $row->OrderNo ?>" class="btn btn-warning btn-sm"><span class="dw dw-edit-1"></span></a>
+                    <?php } ?>
+                </td>
+            </tr>
+            <?php
         }
     }
 
@@ -2971,6 +3066,60 @@ class Purchase extends BaseController
         }
     }
 
+    public function loadPurchase()
+    {
+        $user = session()->get('loggedUser');
+        $builder = $this->db->table('tblpurchase_review a');
+        $builder->select('a.prID,a.DateReceived,c.Department,a.Status,a.purchaseNumber,a.DateApproved,c.OrderNo,
+        TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
+        $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
+        $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
+        $builder->WHERE('a.accountID',$user);
+        $builder->groupBy('a.prID')->orderBy('a.Status','ASC');
+        $data = $builder->get();
+        foreach($data->getResult() as $row)
+        {
+            ?>
+            <tr>
+                <td>
+                    <?php echo $row->DateReceived ?><br/>
+                    <small><?php echo $row->Age ?> days ago</small>
+                </td>
+                <td><?php echo $row->purchaseNumber ?></td>
+                <td><?php echo $row->OrderNo ?></td>
+                <td><?php echo $row->Department ?></td>
+                <td><?php echo $row->DateApproved ?></td>
+                <td><button type="button" class="btn btn-primary btn-sm viewQuotation" value="<?php echo $row->purchaseNumber ?>">Details</button></td>
+                <td>
+                    <?php if($row->Status==0){ ?>
+                        <span class="badge bg-warning text-white">PENDING</span>
+                    <?php }else if($row->Status==1){?>
+                        <span class="badge bg-success text-white">APPROVED</span>
+                    <?php }else{?>
+                        <span class="badge bg-danger text-white">CANCELLED</span>
+                    <?php } ?>
+                </td>
+                <td>
+                    <?php if($row->Status==0){ ?>
+                        <div class="dropdown">
+                            <a class="btn btn-primary btn-sm dropdown-toggle"
+                                href="#" role="button" data-toggle="dropdown">
+                                SELECT
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-left dropdown-menu-icon-list">
+                                <button type="button" class="dropdown-item approve" value="<?php echo $row->prID ?>"><span class="dw dw-check"></span>&nbsp;Approve</button>
+                                <button type="button" class="dropdown-item decline" value="<?php echo $row->prID ?>"><span class="dw dw-trash"></span>&nbsp;Decline</button>
+                            </div>
+                        </div>														
+                    <?php }else{?>
+                        -
+                    <?php } ?>
+                </td>
+            </tr>
+            <?php
+        }
+    }
+
     public function searchPurchase()
     {
         $val = $this->request->getGet('values');
@@ -2981,7 +3130,6 @@ class Purchase extends BaseController
         TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
         $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
         $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
-
         $builder->WHERE('a.accountID',$user)->like('a.purchaseNumber',$keyword);
         $builder->groupBy('a.prID')->orderBy('a.Status','ASC');
         $data = $builder->get();
