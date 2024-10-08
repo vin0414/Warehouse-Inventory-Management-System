@@ -856,14 +856,18 @@ class ProductController extends BaseController
                     {
                      ?>
                     <object data="Attachment/<?php echo $rows->Attachment ?>" type="application/pdf" style="width:100%;height:500px;">
-                        <div>No PDF viewer available</div>
+                    <p>Your web browser doesn't have a PDF plugin.
+                        Instead you can <a href="Attachment/<?php echo $rows->Attachment ?>">click here to
+                        download the PDF file.</a></p>
                     </object>
                     <?php } ?>
                 </div>
                 <div class="tab-pane fade show" id="quotation" role="tabpanel">
                     <br/>
                     <object data="Canvass/<?php echo $row->Attachment ?>" type="application/pdf" style="width:100%;height:500px;">
-                        <div>No PDF viewer available</div>
+                    <p>Your web browser doesn't have a PDF plugin.
+                        Instead you can <a href="Canvass/<?php echo $row->Attachment ?>">click here to
+                        download the PDF file.</a></p>    
                     </object>
                 </div>
             </div>
