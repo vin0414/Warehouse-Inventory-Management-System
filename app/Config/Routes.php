@@ -169,7 +169,7 @@ $routes->get('search-vendor','Home::searchVendor');
 $routes->get('vendor-information','Home::vendorInformation');
 $routes->post('save-new-vendor','Home::updateVendor');
 $routes->get('download/(:any)','ReportController::Download/$1');
-$routes->get('download-file/(:any)','ReporController::DownloadFile/$1');
+$routes->get('download-file/(:any)','ReportController::DownloadFile/$1');
 $routes->get('file-download/(:any)','ReportController::fileDownload/$1');
 $routes->get('open-file/(:any)','ReportController::openFile/$1');
 $routes->get('vendor-ledger','ReportController::vendorLedger');

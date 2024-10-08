@@ -1063,13 +1063,17 @@ class Purchase extends BaseController
                     <div class="tab-pane fade show" id="prf" role="tabpanel">
                         <br/>
                         <object data="Attachment/<?php echo $file ?>" type="application/pdf" style="width:100%;height:500px;">
-                            <div>No PDF viewer available</div>
+                        <p>Your web browser doesn't have a PDF plugin.
+                        Instead you can <a href="Attachment/<?php echo $file ?>">click here to
+                        download the PDF file.</a></p>
                         </object>
                     </div>
                     <div class="tab-pane fade show" id="quotation" role="tabpanel">
                         <br/>
                         <object data="Canvass/<?php echo $quotation ?>" type="application/pdf" style="width:100%;height:500px;">
-                            <div>No PDF viewer available</div>
+                        <p>Your web browser doesn't have a PDF plugin.
+                        Instead you can <a href="Canvass/<?php echo $quotation ?>">click here to
+                        download the PDF file.</a></p>
                         </object>
                     </div>
                 </div>
@@ -1215,7 +1219,9 @@ class Purchase extends BaseController
                     <div class="tab-pane fade" id="quotation" role="tabpanel">
                         <br/>
                         <object data="Canvass/<?=$quotation['Attachment'] ?>" type="application/pdf" style="width:100%;height:500px;">
-                            <div>No PDF viewer available</div>
+                        <p>Your web browser doesn't have a PDF plugin.
+                        Instead you can <a href="Canvass/<?=$quotation['Attachment'] ?>">click here to
+                        download the PDF file.</a></p>
                         </object>
                     </div>
                     <div class="tab-pane fade" id="po" role="tabpanel">
@@ -1474,7 +1480,9 @@ class Purchase extends BaseController
                     <div class="tab-pane fade show" id="attachment" role="tabpanel">
                         <br/>
                         <object data="Attachment/<?php echo $file ?>" type="application/pdf" style="width:100%;height:500px;">
-                            <div>No PDF viewer available</div>
+                            <p>Your web browser doesn't have a PDF plugin.
+                                Instead you can <a href="Attachment/<?php echo $file ?>">click here to
+                                download the PDF file.</a></p>
                         </object>
                     </div>
                     <div class="tab-pane fade show" id="approval" role="tabpanel">
