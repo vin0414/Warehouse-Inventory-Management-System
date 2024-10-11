@@ -12,6 +12,8 @@
 * Account Expense Management
 * Email and SMS Notification
 * API Integration with HRIS
+* DOMPDF Integration
+* Google Charts
   
 ## Languages
 * PHP/CodeIgniter 4
