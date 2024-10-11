@@ -19,5 +19,5 @@
 * Ajax-jQuery
 * JavaScript
 * JSON
-* HTML/CSS
+* HTML/CSS/Bootstrap
 * SweetAlert
