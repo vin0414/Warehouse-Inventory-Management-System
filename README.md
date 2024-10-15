@@ -24,3 +24,7 @@
 * JSON
 * HTML/CSS/Bootstrap
 * SweetAlert
+
+## Security
+* Password B_CRPYT
+* Session Management
