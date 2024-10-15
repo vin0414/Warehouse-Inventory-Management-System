@@ -2,7 +2,7 @@
 
 ## Features
 * Stock Management
-* Order Management
+* Order Management and Tracking
 * Generation of Purchase Order
 * PRF/Purchase Order Report
 * Filing of Purchase Requisition
@@ -11,9 +11,10 @@
 * User Management
 * Account Expense Management
 * Email and SMS Notification
-* API Integration with HRIS
-* DOMPDF Integration
+* API Integration
+* DOMPDF
 * Google Charts
+* Promotexter
   
 ## Languages
 * PHP/CodeIgniter 4
