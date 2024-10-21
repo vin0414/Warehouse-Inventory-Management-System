@@ -793,7 +793,7 @@ class ProductController extends BaseController
     {
         $val = $this->request->getGet('value');
         $builder = $this->db->table('tblcanvass_sheet a');
-        $builder->select('a.*,b.Item_Name,c.Attachment');
+        $builder->select('a.*,b.Item_Name,c.Attachment,b.Qty');
         $builder->join('tbl_order_item b','b.orderID=a.orderID','LEFT');
         $builder->join('tblcanvass_form c','c.Reference=a.Reference','LEFT');
         $builder->WHERE('a.Reference',$val);
@@ -818,6 +818,7 @@ class ProductController extends BaseController
                     <table class="table table-bordered hover nowrap">
                         <thead>
                             <th class="bg-primary text-white">Product Name</th>
+                            <th class="bg-primary text-white">Qty</th>
                             <th class="bg-primary text-white">Vendor</th>
                             <th class="bg-primary text-white">Price</th>
                             <th class="bg-primary text-white">Terms</th>
@@ -830,6 +831,7 @@ class ProductController extends BaseController
                         ?>
                         <tr>
                             <td><?php echo $row->Item_Name ?></td>
+                            <td><?php echo $row->Qty ?></td>
                             <td><?php echo $row->Supplier ?></td>
                             <td><?php echo number_format($row->Price,3) ?></td>
                             <td><?php echo $row->Terms ?></td>

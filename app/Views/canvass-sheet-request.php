@@ -627,6 +627,7 @@
 								{
 									//location.reload();
 									notify();loadRequest();
+									$('#viewModal').modal('hide');
 								}
 								else
 								{
@@ -662,6 +663,7 @@
 								{
 									//location.reload();
 									notify();loadRequest();
+									$('#viewModal').modal('hide');
 								}
 								else
 								{
