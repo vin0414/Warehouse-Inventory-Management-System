@@ -1174,6 +1174,7 @@ class Purchase extends BaseController
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <th class="bg-primary text-white">Item(s)</th>
+                                        <th class="bg-primary text-white">UOM</th>
                                         <th class="bg-primary text-white">Qty</th>
                                         <th class="bg-primary text-white">Unit Price</th>
                                         <th class="bg-primary text-white">Total Price</th>
@@ -1186,6 +1187,7 @@ class Purchase extends BaseController
                                             ?>
                                             <tr>
                                                 <td><?php echo $row->Item_Name ?></td>
+                                                <td><?php echo $row->ItemUnit ?></td>
                                                 <td><?php echo $row->Qty ?></td>
                                                 <td style="text-align:right;"><?php echo $row->Currency ?> <?php echo number_format($row->Price,2) ?></td>
                                                 <td style="text-align:right;"><?php echo $row->Currency ?> <?php echo number_format($row->Qty*$row->Price,2) ?></td>
