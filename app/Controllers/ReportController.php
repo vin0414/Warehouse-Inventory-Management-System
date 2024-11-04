@@ -1505,10 +1505,18 @@ class ReportController extends BaseController
                 </tr>";
             }   
             $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
-            if($row->Vatable=="VAT INC"||$row->Vatable=="VAT EX")
+            if($row->Vatable=="VAT INC")
             {
                 $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount/1.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount/1.12)*0.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
+            }
+            else if($row->Vatable=="VAT EX")
+            {
+                $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount*1.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount*1.12)*0.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
@@ -1810,10 +1818,18 @@ class ReportController extends BaseController
                 </tr>";
             }   
             $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
-            if($row->Vatable=="VAT INC" || $row->Vatable=="VAT EX")
+            if($row->Vatable=="VAT INC")
             {
                 $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount/1.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount/1.12)*0.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
+            }
+            else if($row->Vatable=="VAT EX")
+            {
+                $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount*1.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount*1.12)*0.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
@@ -2115,10 +2131,18 @@ class ReportController extends BaseController
                 </tr>";
             }   
             $template.="<tr><td colspan='5'>&nbsp;</td></tr>";
-            if($row->Vatable=="VAT INC" || $row->Vatable=="VAT EX")
+            if($row->Vatable=="VAT INC")
             {
                 $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount/1.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount/1.12)*0.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
+            }
+            else if($row->Vatable=="VAT EX")
+            {
+                $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount*1.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount*1.12)*0.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
