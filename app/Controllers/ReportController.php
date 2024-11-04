@@ -1516,7 +1516,7 @@ class ReportController extends BaseController
             else if($row->Vatable=="VAT EX")
             {
                 $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount*1.12,2)."</td></tr>";
-                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount*1.12)*0.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount)* 0.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
@@ -1829,7 +1829,7 @@ class ReportController extends BaseController
             else if($row->Vatable=="VAT EX")
             {
                 $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount*1.12,2)."</td></tr>";
-                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount*1.12)*0.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount)*0.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
@@ -2142,7 +2142,7 @@ class ReportController extends BaseController
             else if($row->Vatable=="VAT EX")
             {
                 $template.="<tr><td colspan='3'></td><td>VATable</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount*1.12,2)."</td></tr>";
-                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount*1.12)*0.12,2)."</td></tr>";
+                $template.="<tr><td colspan='3'></td><td>VAT - 12%</td><td style='text-align:right;'>".$currency." ".number_format(($totalAmount)*0.12,2)."</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Exempt</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Zero Rated</td><td style='text-align:right;'>0.00</td></tr>";
                 $template.="<tr><td colspan='3'></td><td>VAT Total</td><td style='text-align:right;'>".$currency." ".number_format($totalAmount,2)."</td></tr>";
