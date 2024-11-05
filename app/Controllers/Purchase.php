@@ -2236,11 +2236,11 @@ class Purchase extends BaseController
                         unset($unitPrice[$key]);
                 foreach($unitPrice as $key => $value) 
                 {
-                $values = 
-                ['OrderNo'=>$orderNo, 'orderID'=>$orderID[$key],'Supplier'=>$supplier,'Price'=>$unitPrice[$key]*1.12,
-                'Currency'=>$currency,'ContactPerson'=>$contactPerson,'ContactNumber'=>$phone,'EmailAddress'=>$email,'Address'=>$address,
-                'Terms'=>$terms,'Warranty'=>$warranty,'Reference'=>'','Remarks'=>'','Vatable'=>$vatable,'purchaseLogID'=>0];
-                $canvassModel->save($values);
+                    $values = 
+                    ['OrderNo'=>$orderNo, 'orderID'=>$orderID[$key],'Supplier'=>$supplier,'Price'=>$unitPrice[$key]*1.12,
+                    'Currency'=>$currency,'ContactPerson'=>$contactPerson,'ContactNumber'=>$phone,'EmailAddress'=>$email,'Address'=>$address,
+                    'Terms'=>$terms,'Warranty'=>$warranty,'Reference'=>'','Remarks'=>'','Vatable'=>$vatable,'purchaseLogID'=>0];
+                    $canvassModel->save($values);
                 }
             }
             else
