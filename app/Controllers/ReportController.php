@@ -17,7 +17,7 @@ class ReportController extends BaseController
         $to = $this->request->getGet('to');
         $assignee = $this->request->getGet('assignee');
         //generate
-        $sql = "Select a.DateNeeded,a.OrderNo,b.Item_Name,b.Qty,b.ItemUnit,b.Specification,c.purchaseLogID,e.Fullname from tblprf a 
+        $sql = "Select a.DateNeeded,a.Department,a.OrderNo,b.Item_Name,b.Qty,b.ItemUnit,b.Specification,c.purchaseLogID,e.Fullname from tblprf a 
                 LEFT JOIN tbl_order_item b ON b.OrderNo=a.OrderNo 
                 LEFT JOIN tblcanvass_sheet c ON c.OrderNo=a.OrderNo
                 LEFT JOIN tblassignment d ON d.prfID=a.prfID
@@ -29,6 +29,7 @@ class ReportController extends BaseController
             ?>
             <tr>
                 <td><?php echo $row->DateNeeded ?></td>
+                <td><?php echo $row->Department ?></td>
                 <td><?php echo $row->OrderNo ?></td>
                 <td><?php echo $row->Item_Name ?></td>
                 <td><?php echo $row->ItemUnit ?></td>

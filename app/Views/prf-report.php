@@ -479,6 +479,7 @@
                         <table class="table-bordered" id="table">
                             <thead>
                                 <th>Date Needed</th>
+								<th>Department</th>
                                 <th>PRF No</th>
                                 <th>Item(s)</th>
                                 <th>UOM</th>
@@ -489,7 +490,7 @@
                             </thead>
                             <tbody id="result">
                                 <tr>
-                                    <td colspan="8" style="text-align:center;">No Record(s)</td>
+                                    <td colspan="9" style="text-align:center;">No Record(s)</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -511,14 +512,14 @@
 			$('#frmSearch').on('submit',function(e){
                 e.preventDefault();
                 var data = $(this).serialize();
-                $('#result').html("<tr><td colspan='8'><center>Loading...</center></td></tr>");
+                $('#result').html("<tr><td colspan='9'><center>Loading...</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('generate-prf-report')?>",method:"GET",
 					data:data,success:function(response)
 					{
 						if(response==="")
 						{
-							$('#result').html("<tr><td colspan='8'><center>No Record(s)</center></td></tr>");
+							$('#result').html("<tr><td colspan='9'><center>No Record(s)</center></td></tr>");
 						}
 						else
 						{
