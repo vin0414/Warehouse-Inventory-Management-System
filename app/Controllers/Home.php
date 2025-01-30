@@ -724,6 +724,11 @@ class Home extends BaseController
         return view('edit-purchase',$data);
     }
 
+    public function track()
+    {
+        return view('track');
+    }
+
     public function addReport()
     {
         $user = session()->get('loggedUser');

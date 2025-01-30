@@ -367,6 +367,12 @@
 							</ul>
 						</li>
 						<li class="dropdown">
+							<a href="<?=site_url('track')?>" class="dropdown-toggle no-arrow">
+								<span class="micon bi bi-layers"></span>
+								<span class="mtext">PRF/PO Track</span>
+							</a>
+						</li>
+						<li class="dropdown">
 							<a href="javascript:;" class="dropdown-toggle">
                                 <i class="micon dw dw-clipboard1"></i><span class="mtext">Receiving</span>
 							</a>

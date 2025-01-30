@@ -361,6 +361,12 @@
 							</ul>
 						</li>
 						<li class="dropdown">
+							<a href="<?=site_url('track')?>" class="dropdown-toggle no-arrow">
+								<span class="micon bi bi-layers"></span>
+								<span class="mtext">PRF/PO Track</span>
+							</a>
+						</li>
+						<li class="dropdown">
 							<a href="javascript:;" class="dropdown-toggle">
                                 <i class="micon dw dw-clipboard1"></i><span class="mtext">Receiving</span>
 							</a>
@@ -506,12 +512,14 @@
                                     </div>
                                     <div class="col-lg-3">
                                         <label>Vessel/Port/Department</label>
-										<!-- <select class="form-control custom-select2" name="department" id="department">
+										<select class="form-control custom-select2" name="department" id="department">
 											<option value="">Choose</option>
-											
-										</select> -->
-                                        <input type="text" class="form-control"  name="department" required/>
-                                    </div>
+											<?php foreach($assign as $row): ?>
+												<option><?php echo $row['warehouseName'] ?></option>
+											<?php endforeach; ?>
+										</select>
+                                        <!-- <input type="text" class="form-control"  name="department" required/> -->
+									</div>
                                     <div class="col-lg-2">
                                         <label>Date Needed</label>
                                         <input type="date" class="form-control" name="dateNeeded" id="dateNeeded" required/>
@@ -522,7 +530,7 @@
                                 <a href="javascript:void(0);" class="btn btn-outline-primary btn-sm" onclick="addRow()">
             						<span class="icon-copy dw dw-add"></span>&nbsp;Add Item(s)
             					</a>
-								<label style="float:right;">Count : <label id="count">0/15</label></label>
+								<label style="float:right;">Count : <label id="count">0/25</label></label>
                             </div>
                             <div class="col-12 form-group">
                                 <table class="table stripe table-bordered hover nowrap">
@@ -594,37 +602,9 @@
                     $(this).closest('tr').remove();
 					var table = document.getElementById("Table");
 					var x = table.rows.length;
-					document.getElementById("count").innerHTML = x+"/15";
+					document.getElementById("count").innerHTML = x+"/25";
                 });
 			});
-			// $('input:radio[name="urgencyLevel"]').change(function(){
-			// 	if($(this).val()==1||$(this).val()==2)
-			// 	{
-			// 		$('#dateNeeded').val("<?php echo date('Y-m-d') ?>");
-            // 		$('#dateNeeded').attr('min',"<?php echo date('Y-m-d') ?>");
-			// 	}
-			// 	else if($(this).val()==3)
-			// 	{
-			// 		var date = new Date();
-			// 		var startDate = new Date(); 
-			// 		startDate = new Date(startDate);
-			// 		var endDate = "", count = 0;
-			// 		var noOfDaysToAdd = 3;
-			// 		while(count < noOfDaysToAdd){
-			// 			endDate = new Date(startDate.setDate(startDate.getDate() + 1));
-			// 			if(endDate.getDay() != 0 && endDate.getDay() != 6){
-			// 			//Date.getDay() gives weekday starting from 0(Sunday) to 6(Saturday)
-			// 			count++;
-			// 			}
-			// 		}
-			// 		$('#dateNeeded').val(convert(endDate));
-            // 		$('#dateNeeded').attr('min',convert(endDate));
-			// 	}
-			// 	else if($(this).val()==4)
-			// 	{
-					
-			// 	}
-			// });
 
 			function convert(str) {
 				var date = new Date(str),
@@ -670,11 +650,11 @@
             function addRow() {
 				var table = document.getElementById("Table");
 				var x = table.rows.length+1;
-				if(x<=15)
+				if(x<=25)
 				{	
 					var row = table.insertRow(0);
 					var countRow = table.rows.length;
-					document.getElementById("count").innerHTML = countRow+"/15";
+					document.getElementById("count").innerHTML = countRow+"/25";
 					var cell1 = row.insertCell(0);
 					var cell2 = row.insertCell(1);
 					var cell3 = row.insertCell(2);

@@ -235,6 +235,7 @@ $routes->group('',['filter'=>'AuthCheck'],function($routes)
     $routes->get('/approve-orders','Home::approver');
     $routes->get('/canvass-sheet-request','Home::canvassRequest');
     $routes->get('/profile','Home::profile');
+    $routes->get('/track','Home::track');
     //reports
     $routes->get('/report-stocks','Home::stocksReport');
     $routes->get('/assign','Home::Assign');
