@@ -468,9 +468,14 @@
 		<div class="main-container">
 			<div class="xs-pd-20-10 pd-ltr-20">
 				<div class="card-box">
-					<div class="card-header"><span class="icon-copy bi bi-layers"></span>&nbsp;PRF/PO Tracks</div>
+					<div class="card-header">
+						<h6>
+						<span class="icon-copy bi bi-layers"></span>&nbsp;PRF/PO Tracks
+						<a href="javascript:void(0);" class="btn btn-sm" onclick="exportf(this)" style="float:right;font-size:12px;"><i class="icon-copy bi bi-cloud-download"></i> Export</a>
+						</h6>
+					</div>
 					<div class="card-body">
-						<table class="data-table table stripe hover nowrap">
+						<table class="data-table table stripe hover nowrap" id="table">
 							<thead>
 								<th>Date Created</th>
 								<th>Order No</th>
@@ -561,6 +566,14 @@
 					}
 				});
 			});
+			function exportf(elem) {
+			var table = document.getElementById("table");
+			var html = table.outerHTML;
+			var url = 'data:application/vnd.ms-excel,' + escape(html); // Set your html table into url 
+			elem.setAttribute("href", url);
+			elem.setAttribute("download","prf-po-tracking-report.xls"); // Choose the file name
+			return false;
+			}
 		</script>
 	</body>
 </html>
