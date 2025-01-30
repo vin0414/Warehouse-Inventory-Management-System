@@ -4,7 +4,7 @@
 	<head>
 		<!-- Basic Page Info -->
 		<meta charset="utf-8" />
-		<title>Reserved</title>
+		<title>PRF/PO Track</title>
 
 		<!-- Site favicon -->
 		<link
@@ -90,7 +90,7 @@
 				100%{
 					transform:rotate(360deg)
 				}
-				}
+			}
         </style>
 	</head>
 	<body>
@@ -470,41 +470,73 @@
 				<div class="card-box">
 					<div class="card-header"><span class="icon-copy bi bi-layers"></span>&nbsp;PRF/PO Tracks</div>
 					<div class="card-body">
-						<div class="tabs">
-							<ul class="nav nav-pills justify-content-left" role="tablist">
-								<li class="nav-item">
-									<a
-										class="nav-link active text-blue"
-										data-toggle="tab"
-										href="#home6"
-										role="tab"
-										aria-selected="true"
-										>Purchase Requisition</a>
-								</li>
-								<li class="nav-item">
-									<a
-										class="nav-link text-blue"
-										data-toggle="tab"
-										href="#profile6"
-										role="tab"
-										aria-selected="false"
-										>Purchase Order</a>
-								</li>
-							</ul>
-							<div class="tab-content">
-								<div class="tab-pane fade show active" id="home6" role="tabpanel">
-									
-								</div>
-								<div class="tab-pane fade" id="profile6" role="tabpanel">
-			
-									
-								</div>
-							</div>
-						</div>
+						<table class="data-table table stripe hover nowrap">
+							<thead>
+								<th>Date Created</th>
+								<th>Order No</th>
+								<th>Item Group</th>
+								<th>Department</th>
+								<th>Reason</th>
+								<th>Status</th>
+								<th>With C.S.</th>
+								<th>Reference No</th>
+								<th>With P.O.</th>
+							</thead>
+							<tbody>
+							<?php foreach($query as $row): ?>
+								<tr>
+									<td><?php echo $row->DateCreated ?></td>
+									<td><button type="button" class="btn btn-sm btn-link view" value="<?php echo $row->OrderNo ?>"><?php echo $row->OrderNo ?></button></td>
+									<td><?php echo $row->ItemGroup ?></td>
+									<td><?php echo $row->Department ?></td>
+									<td><?php echo $row->Reason ?></td>
+									<td>
+									<?php if($row->Status==0){ ?>
+										<span class="badge bg-warning text-white">To Dept Head/Tech Support</span>
+									<?php }else if($row->Status==1){?>
+										<span class="badge bg-info text-white">To Materials Manager</span>
+									<?php }else if($row->Status==2){ ?>
+										<span class="badge bg-danger text-white">Cancelled</span>
+									<?php }else if($row->Status==3){ ?>
+										<?php if(empty($row->Fullname)){ ?>
+										<span class="badge bg-success text-white">Approved</span>
+										<?php }else{ ?>
+										<span class="badge bg-success text-white">Assigned : <?php echo $row->Fullname ?></span>
+										<?php } ?>
+									<?php }else if($row->Status==4){ ?>
+										<span class="badge bg-primary text-white">To Dept Head</span>
+									<?php }else if($row->Status==5){ ?>
+										<span class="badge bg-secondary text-white">Close</span>
+									<?php }else{ ?>
+										<span class="badge bg-danger text-white">Hold</span>
+									<?php } ?>
+									</td>
+									<td><?php if(empty($row->Reference)){echo "-";}else{echo "Yes";} ?></td>
+									<td><?php echo $row->Reference ?></td>
+									<td><?php if(empty($row->purchaseNumber)){echo "-";}else{echo "Yes";} ?></td>
+								</tr>
+							<?php endforeach; ?>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myLargeModalLabel">
+                            View Item(s)
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="result"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 		<!-- js -->
 		<script src="assets/vendors/scripts/core.js"></script>
 		<script src="assets/vendors/scripts/script.min.js"></script>
@@ -515,5 +547,20 @@
 		<script src="assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script src="assets/vendors/scripts/datatable-setting.js"></script>
+		<script>
+			$(document).on('click','.view',function()
+			{
+				var val = $(this).val();
+				$.ajax({
+					url:"<?=site_url('view-order')?>",method:"GET",
+					data:{value:val},
+					success:function(response)
+					{
+						$('#viewModal').modal('show');
+						$('#result').html(response);
+					}
+				});
+			});
+		</script>
 	</body>
 </html>
