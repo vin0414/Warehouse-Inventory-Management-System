@@ -2726,9 +2726,8 @@ class Purchase extends BaseController
 
     public function searchRequest()
     {
-        $val = $this->request->getGet('values');
+        $keyword = $this->request->getGet('values');
         $filter = $this->request->getGet('filter');
-        $keyword = "%".$val."%";
         $user = session()->get('loggedUser');
         if($filter=="Reference")
         {
@@ -2737,7 +2736,7 @@ class Purchase extends BaseController
             $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
             $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
-            $builder->WHERE('a.accountID',$user)->LIKE('a.Reference',$keyword);
+            $builder->WHERE('a.accountID',$user)->WHERE('a.Reference',$keyword);
             $builder->groupBy('a.crID')->orderby('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -2751,7 +2750,7 @@ class Purchase extends BaseController
                     <?php if($row->Status==0){ ?>
                     <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                     <?php }else { ?>
-                    <td><button type="button" class="btn btn-link" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
+                    <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                     <?php } ?>
                     <td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
                     <td><?php echo $row->PurchaseType ?></td>
@@ -2778,7 +2777,7 @@ class Purchase extends BaseController
             $builder->join('tblcanvass_form b','b.Reference=a.Reference','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
             $builder->join('tblprf d','d.OrderNo=b.OrderNo','LEFT');
-            $builder->WHERE('a.accountID',$user)->LIKE('b.OrderNo',$keyword);
+            $builder->WHERE('a.accountID',$user)->WHERE('b.OrderNo',$keyword);
             $builder->groupBy('a.crID')->orderby('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -2792,7 +2791,7 @@ class Purchase extends BaseController
                     <?php if($row->Status==0){ ?>
                     <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                     <?php }else { ?>
-                    <td><button type="button" class="btn btn-link" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
+                    <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                     <?php } ?>
                     <td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
                     <td><?php echo $row->PurchaseType ?></td>

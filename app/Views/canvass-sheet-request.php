@@ -477,13 +477,22 @@
 					<div class="card-header"><span class="dw dw-list"></span>&nbsp;Canvass Sheet/Quotation Request</div>
 					<div class="card-body">
                         <div class="row g-3">
-							<div class="col-12">
-								<label><b><i class="icon-copy dw dw-search"></i>&nbsp;Search By</b></label><br/>
-								<input type="radio" class="btn" style="height:25px;width:25px;" name="filter" value="Reference" checked/>&nbsp;<label>Reference</label>
-								<input type="radio" class="btn" style="height:25px;width:25px;" name="filter" value="OrderNo"/>&nbsp;<label>PRF Number</label>
-							</div>
 							<div class="col-12 form-group">
-								<input type="search" class="form-control" id="search"/>
+								<div class="row g-3">
+									<div class="col-lg-2 form-group">
+										<select class="form-control custom-select2" name="filter" id="filter">
+											<option value="">Filter</option>
+											<option value="Reference">Reference</option>
+											<option value="OrderNo">PRF Number</option>
+										</select>
+									</div>
+									<div class="col-lg-8 form-group">
+										<input type="search" class="form-control" id="search" placeholder="Enter text here"/>
+									</div>
+									<div class="col-lg-2 form-group">
+										<button type="submit" class="btn btn-primary text-white form-control" id="btnSearch"><i class="icon-copy bi bi-search"></i>&nbsp;Search</button>
+									</div>
+								</div>
 							</div>
 							<div class="col-12 form-group tableFixHead" style="height:400px;overflow-y:auto;">
 								<table class="table stripe hover nowrap">
@@ -573,10 +582,11 @@
 					}
 				});
 			}
-			$('#search').keyup(function()
+			$('#btnSearch').on('click',function(e)
 			{
-				var val = $(this).val();
-				var filter =  document.querySelector('input[name="filter"]:checked').value;  
+				e.preventDefault();
+				var val = $('#search').val();
+				var filter =  $('#filter').val();  
 				$('#tbl_list').html("<tr><td colspan='7'><center>Searching....</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('search-request')?>",method:"GET",

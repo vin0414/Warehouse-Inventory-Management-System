@@ -549,10 +549,10 @@
 									<div class="row g-3">
 										<div class="col-12 form-group">
 											<div class="row g-3">
-												<div class="col-lg-10">
+												<div class="col-lg-10 form-group">
 													<input type="search" class="form-control" id="searchPO" placeholder="Enter P.O. Number"/>
 												</div>
-												<div class="col-lg-2">
+												<div class="col-lg-2 form-group">
 												<button type="submit" class="btn btn-primary text-white form-control" id="btnSearchPO"><i class="icon-copy bi bi-search"></i>&nbsp;Search</button>
 												</div>
 											</div>
