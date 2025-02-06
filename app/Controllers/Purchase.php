@@ -2868,7 +2868,7 @@ class Purchase extends BaseController
 
     public function searchOrder()
     {
-        $keyword = "%".$this->request->getGet('value')."%";
+        $keyword = $this->request->getGet('value');
         $search = $this->request->getGet('search');
         if($search=="1")
         {
@@ -2878,7 +2878,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->like('a.OrderNo',$keyword);
+            $builder->WHERE('a.accountID',$user)->WHERE('a.OrderNo',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -2929,7 +2929,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->like('c.Fullname',$keyword);
+            $builder->WHERE('a.accountID',$user)->WHERE('c.Fullname',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -2980,7 +2980,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->like('a.DateReceived',$keyword);
+            $builder->WHERE('a.accountID',$user)->WHERE('a.DateReceived',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -3031,7 +3031,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->like('b.Department',$keyword);
+            $builder->WHERE('a.accountID',$user)->WHERE('b.Department',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -3132,15 +3132,14 @@ class Purchase extends BaseController
 
     public function searchPurchase()
     {
-        $val = $this->request->getGet('values');
-        $keyword = "%".$val."%";
+        $keyword = $this->request->getGet('values');
         $user = session()->get('loggedUser');
         $builder = $this->db->table('tblpurchase_review a');
         $builder->select('a.prID,a.DateReceived,c.Department,a.Status,a.purchaseNumber,a.DateApproved,c.OrderNo,
         TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
         $builder->join('tblpurchase_logs b','b.purchaseNumber=a.purchaseNumber','LEFT');
         $builder->join('tblcanvass_form c','c.Reference=b.Reference','LEFT');
-        $builder->WHERE('a.accountID',$user)->like('a.purchaseNumber',$keyword);
+        $builder->WHERE('a.accountID',$user)->WHERE('a.purchaseNumber',$keyword);
         $builder->groupBy('a.prID')->orderBy('a.Status','ASC');
         $data = $builder->get();
         foreach($data->getResult() as $row)

@@ -516,8 +516,11 @@
 												<option value="4">Search By Department</option>
 											</select>
 										</div>
-										<div class="col-lg-9 form-group">
-											<input type="search" class="form-control" id="search" placeholder="Search here..."/>
+										<div class="col-lg-7 form-group">
+											<input type="search" class="form-control" id="search" placeholder="Enter text here"/>
+										</div>
+										<div class="col-lg-2 form-group">
+											<button type="submit" class="btn btn-primary text-white form-control" id="btnSearch"><i class="icon-copy bi bi-search"></i>&nbsp;Search</button>
 										</div>
 										<div class="col-12 form-group">
 											<div class="table-responsive tableFixHead" style="height:500px;overflow-y:auto;">
@@ -545,10 +548,17 @@
 									<br/>
 									<div class="row g-3">
 										<div class="col-12 form-group">
-											<input type="search" class="form-control" id="searchPO" placeholder="Search here..."/>
+											<div class="row g-3">
+												<div class="col-lg-10">
+													<input type="search" class="form-control" id="searchPO" placeholder="Enter P.O. Number"/>
+												</div>
+												<div class="col-lg-2">
+												<button type="submit" class="btn btn-primary text-white form-control" id="btnSearchPO"><i class="icon-copy bi bi-search"></i>&nbsp;Search</button>
+												</div>
+											</div>
 										</div>
 										<div class="col-12 form-group">
-											<div class="table-responsive tableFixHead" style="height:500px;overflow-y:auto;"">
+											<div class="table-responsive tableFixHead" style="height:500px;overflow-y:auto;">
 												<table class="table table-striped hover nowrap">
 													<thead>
 														<th>Date Received</th>
@@ -650,9 +660,10 @@
 				});
 			}
 
-			$('#search').keyup(function()
+			$('#btnSearch').on('click',function(e)
 			{
-				var val = $(this).val(); 
+				e.preventDefault();
+				var val = $('#search').val(); 
 				var searchType = $('#searchType').val();
 				$('#tblreview').html("<tr><td colspan='9'><center>Searching....</center></td></tr>");
 				$.ajax({
@@ -690,9 +701,10 @@
 				});
 			}
 
-			$('#searchPO').keyup(function()
+			$('#btnSearchPO').on('click',function(e)
 			{
-				var val = $(this).val(); 
+				e.preventDefault();
+				var val = $('#searchPO').val(); 
 				$('#tblpurchase').html("<tr><td colspan='8'><center>Searching....</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('search-purchase')?>",method:"GET",

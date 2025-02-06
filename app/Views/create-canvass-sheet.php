@@ -495,13 +495,13 @@
                                 </div>
                             </div>
                             <div class="col-12 form-group">
-                                <table class="table table-bordered table-striped hover nowrap">
+                                <table class="table table-bordered table-striped hover nowrap" style="font-size:12px;">
                                     <thead>
                                         <th class="bg-primary text-white">Qty</th>
                                         <th class="bg-primary text-white">UOM</th>
                                         <th class="bg-primary text-white">Item Description</th>
                                         <th class="bg-primary text-white">Unit Price</th>
-                                        <th class="bg-primary text-white">Supplier</th>
+                                        <th class="bg-primary text-white">Vendor</th>
                                         <th class="bg-primary text-white">Contact Person</th>
                                         <th class="bg-primary text-white">Contact #</th>
                                         <th class="bg-primary text-white">Terms</th>
