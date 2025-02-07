@@ -77,13 +77,16 @@
 			.tableFixHead thead th { position: sticky; top: 0; z-index: 1;color:#fff;background-color:#0275d8;}
 
 			/* Just common table stuff. Really. */
-			table  { border-collapse: collapse; width: 100%; }
+			table  { border-collapse: collapse; width: 100%;font-size:12px; }
 			th, td { padding: 8px 16px;color:#000; }
 			tbody{color:#000;}
 			tr:nth-child(even) {
 			background-color: #f2f2f2;
 			}
-            
+            .custom-control-label
+			{
+				width:100px;
+			}
         </style>
 	</head>
 	<body>
@@ -499,8 +502,9 @@
                                     <thead>
                                         <th class="bg-primary text-white">Qty</th>
                                         <th class="bg-primary text-white">UOM</th>
-                                        <th class="bg-primary text-white">Item Description</th>
+                                        <th class="bg-primary text-white">Description</th>
                                         <th class="bg-primary text-white">Unit Price</th>
+										<th class="bg-primary text-white">Total Price</th>
                                         <th class="bg-primary text-white">Vendor</th>
                                         <th class="bg-primary text-white">Contact Person</th>
                                         <th class="bg-primary text-white">Contact #</th>
@@ -557,19 +561,51 @@
 							<input type="hidden" name="orderNo" value="<?=$id ?>"/>
 							<div class="col-12">
 								<label>VAT (Value Added Tax)</label>
-								<select class="form-control" name="vatable">
-									<option value="">Choose</option>
-									<option>VAT INC</option>
-									<option>VAT EX</option>
-									<option>Non-Vatable</option>
-								</select>
+								<div class="d-flex">
+									<div class="custom-control custom-radio mb-5 mr-20">
+										<input
+											type="radio"
+											id="customRadio4"
+											name="vatable"
+											value="VAT INC"
+											class="custom-control-input"
+										/>
+										<label class="custom-control-label weight-400"
+											for="customRadio4">VAT INC</label>
+									</div>
+									<div class="custom-control custom-radio mb-5">
+										<input
+											type="radio"
+											id="customRadio5"
+											name="vatable"
+											value="VAT EX"
+											class="custom-control-input"
+										/>
+										<label
+											class="custom-control-label weight-400"
+											for="customRadio5"
+											>VAT EX</label>
+									</div>
+									<div class="custom-control custom-radio mb-5">
+										<input
+											type="radio"
+											id="customRadio6"
+											name="vatable"
+											value="Non-Vatable"
+											class="custom-control-input"
+										/>
+										<label
+											class="custom-control-label weight-400"
+											for="customRadio6">Non-Vatable</label>
+									</div>
+								</div>
 							</div>
 							<div class="col-12 form-group">
 								<label>Item/Equipment</label>
-								<select class="form-control" name="item">
+								<select class="form-control custom-select2" name="item" id="item" style="width:100%;">
 									<option value="">Choose</option>
 									<?php foreach($item as $row): ?>
-										<option value="<?php echo $row->orderID ?>"><?php echo $row->Item_Name ?> - <?php echo $row->Specification ?></option>
+										<option value="<?php echo $row->orderID ?>"><?php echo $row->Qty ?> <?php echo $row->ItemUnit ?> of <?php echo $row->Item_Name ?> - <?php echo $row->Specification ?></option>
 									<?php endforeach; ?>
 								</select>
 							</div>
@@ -580,21 +616,29 @@
 							</div>
 							<div class="col-12 form-group">
 								<div class="row g-3">
-									<div class="col-lg-3">
+									<div class="col-lg-4">
 										<label>Contact Person</label>
 										<input type="text" class="form-control" name="contactPerson" id="person" required/>
 									</div>
-									<div class="col-lg-3">
-										<label>Unit Price</label>
-										<input type="text" class="form-control" name="unitPrice" required/>
-									</div>
-									<div class="col-lg-3">
+									<div class="col-lg-4">
 										<label>Email Address</label>
 										<input type="email" class="form-control" name="email" id="email" required/>
 									</div>
-									<div class="col-lg-3">
+									<div class="col-lg-4">
 										<label>Contact Number</label>
 										<input type="phone" class="form-control" maxlength="11" minlength="11" name="phone" id="phone" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required/>
+									</div>
+								</div>
+							</div>
+							<div class="col-12 form-group">
+								<div class="row g-3">
+									<div class="col-lg-6">
+										<label>Unit Price</label>
+										<input type="text" class="form-control" name="unitPrice" id="unitPrice" required/>
+									</div>
+									<div class="col-lg-6">
+										<label>Total Price</label>
+										<input type="text" class="form-control" name="totalPrice" id="totalPrice" disabled/>
 									</div>
 								</div>
 							</div>
@@ -737,6 +781,18 @@
 			$(document).ready(function()
 			{
 				loadSuppliers();entries();
+				$('#unitPrice').keyup(function(){
+					var val = $(this).val();
+					var item = $('#item').val();
+					$.ajax({
+						url:"<?=site_url('compute')?>",
+						method:"GET",data:{value:val,item:item},
+						success:function(response)
+						{
+							$('#totalPrice').attr("value",response);
+						}
+					})
+				});
 			});
 			function entries()
 			{
@@ -753,6 +809,7 @@
 			function loadSuppliers()
 			{
 				var val = $('#OrderNo').val();
+				$('#tbl_supplier').html("<tr><td colspan='11'><center>Loading. Please wait</center></td></tr>");
 				$.ajax({
 					url:"<?=site_url('fetch-added-supplier')?>",method:"GET",
 					data:{value:val},
@@ -760,7 +817,7 @@
 					{
 						if(response==="")
 						{
-							$('#tbl_supplier').html("<tr><td colspan='10'><center>No Data</center></td></tr>");
+							$('#tbl_supplier').html("<tr><td colspan='11'><center>No Data</center></td></tr>");
 							$('#btnSubmit').attr("disabled",true);
 						}
 						else

@@ -529,12 +529,7 @@
 						<form method="post" class="row g-3">
 							<input type="hidden" name="code" id="code"/>
 							<div class="col-12">
-								<div id="result"></div>
-								<br/>
-							</div>
-							<div class="col-12 form-group">
-								<button type="submit" class="btn btn-primary approve"><span class="dw dw-check"></span>&nbsp;Approve</button>
-								<button type="button" class="btn btn-danger cancel"><span class="dw dw-trash"></span>&nbsp;Cancel</button>
+							<div id="result"></div>
 							</div>
 						</form>
                     </div>

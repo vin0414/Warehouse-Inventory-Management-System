@@ -34,7 +34,7 @@ class Purchase extends BaseController
         }
         echo "success";
     }
-
+ 
     public function saveChanges()
     {
         date_default_timezone_set('Asia/Manila');
@@ -2063,6 +2063,7 @@ class Purchase extends BaseController
                 <td><?php echo $row->ItemUnit ?></td>
                 <td><?php echo $row->Item_Name ?></td>
                 <td><?php echo number_format($row->Price,3) ?></td>
+                <td><?php echo number_format($row->Price*$row->Qty,3) ?></td>
                 <td><?php echo $row->Supplier ?></td>
                 <td><?php echo $row->ContactPerson ?></td>
                 <td><?php echo $row->ContactNumber ?></td>
@@ -2703,7 +2704,7 @@ class Purchase extends BaseController
                 <?php if($row->Status==0){ ?>
                 <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                 <?php }else { ?>
-                <td><button type="button" class="btn btn-link" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
+                <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
                 <?php } ?>
                 <td><a class="btn btn-link" href="generate/<?php echo $row->OrderNo ?>" target="_blank"><?php echo $row->OrderNo ?></a></td>
                 <td><?php echo $row->PurchaseType ?></td>
@@ -3643,5 +3644,21 @@ class Purchase extends BaseController
             $systemLogsModel->save($value);
             echo "success";
         }
+    }
+
+    public function compute()
+    {
+        $OrderItemModel = new \App\Models\OrderItemModel();
+        $value = $this->request->getGet('value');
+        $item = $this->request->getGet('item');
+        $order = $OrderItemModel->WHERE('orderID',$item)->first();
+        if(empty($value))
+        {
+            echo 0 * $order['Qty'];
+        }
+        else
+        {
+            echo $value * $order['Qty'];
+        } 
     }
 }

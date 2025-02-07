@@ -156,6 +156,7 @@ $routes->get('auto-reset','Purchase::autoReset');
 $routes->get('auto-email','Purchase::autoEmail');
 $routes->get('auto-detect','ReportController::autoDetect');
 $routes->get('view-images','Purchase::viewImage');
+$routes->get('compute','Purchase::compute');
 $routes->post('add-assignment','Home::addAssignment');
 $routes->post('accept-assignment','Home::acceptAssignment');
 $routes->post('accept-request','Home::acceptRequest');

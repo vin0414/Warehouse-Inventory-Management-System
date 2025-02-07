@@ -726,10 +726,14 @@ class Home extends BaseController
 
     public function track()
     {
-        $sql = "Select a.DateCreated,a.OrderNo,a.ItemGroup,a.Department,a.Reason,a.Status,b.Reference,b.Status,c.purchaseNumber 
+        $sql = "Select a.DateCreated,a.OrderNo,a.ItemGroup,a.Department,a.Reason,a.Status,
+                b.Reference,c.purchaseNumber,e.Fullname
                 from tblprf a
-                LEFT JOIN tblcanvass_form b ON b.OrderNo=a.OrderNo LEFT JOIN
-                tblpurchase_logs c ON c.Reference=b.Reference";
+                LEFT JOIN tblcanvass_form b ON b.OrderNo=a.OrderNo 
+                LEFT JOIN tblpurchase_logs c ON c.Reference=b.Reference
+                LEFT JOIN tblassignment d ON d.prfID=a.prfID
+                LEFT JOIN tblaccount e ON e.accountID=d.accountID
+                GROUP BY c.purchaseLogID";
         $query = $this->db->query($sql);
         $data['query'] = $query->getResult();
         return view('track',$data);

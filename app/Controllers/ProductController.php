@@ -800,79 +800,99 @@ class ProductController extends BaseController
         $builder->orderby('a.orderID');
         $data = $builder->get();
         ?>
-        <div class="tab">
-            <ul class="nav nav-pills" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Vendors and Price List</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#prf" role="tab" aria-selected="true">PRF Attachment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-blue" data-toggle="tab" href="#quotation" role="tab" aria-selected="true">Quotation</a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane fade show active" id="items" role="tabpanel">
-                    <br/>
-                    <table class="table table-bordered hover nowrap">
-                        <thead>
-                            <th class="bg-primary text-white">Product Name</th>
-                            <th class="bg-primary text-white">Qty</th>
-                            <th class="bg-primary text-white">Vendor</th>
-                            <th class="bg-primary text-white">Price</th>
-                            <th class="bg-primary text-white">Terms</th>
-                            <th class="bg-primary text-white">Warranty</th>
-                            <th class="bg-primary text-white">Remarks</th>
-                        </thead>
-                    <?php
-                    foreach($data->getResult() as $row)
-                    {
-                        ?>
-                        <tr>
-                            <td><?php echo $row->Item_Name ?></td>
-                            <td><?php echo $row->Qty ?></td>
-                            <td><?php echo $row->Supplier ?></td>
-                            <td><?php echo number_format($row->Price,3) ?></td>
-                            <td><?php echo $row->Terms ?></td>
-                            <td><?php echo $row->Warranty ?></td>
-                            <td>
-                                <?php if(!empty($row->Remarks)){ ?>
-                                <span class="badge bg-success text-white"><?php echo $row->Remarks ?></span>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                        <?php
-                    }
-                    ?>
-                    </table>
-                </div>
-                <div class="tab-pane fade show" id="prf" role="tabpanel">
-                    <br/>
-                    <?php
-                    $builder = $this->db->table('tblprf');
-                    $builder->select('Attachment');
-                    $builder->WHERE('OrderNo',$row->OrderNo);
-                    $data = $builder->get();
-                    if($rows = $data->getRow())
-                    {
-                     ?>
-                    <object data="Attachment/<?php echo $rows->Attachment ?>" type="application/pdf" style="width:100%;height:500px;">
-                    <p>Your web browser doesn't have a PDF plugin.
-                        Instead you can <a href="Attachment/<?php echo $rows->Attachment ?>">click here to
-                        download the PDF file.</a></p>
-                    </object>
-                    <?php } ?>
-                </div>
-                <div class="tab-pane fade show" id="quotation" role="tabpanel">
-                    <br/>
-                    <object data="Canvass/<?php echo $row->Attachment ?>" type="application/pdf" style="width:100%;height:500px;">
-                    <p>Your web browser doesn't have a PDF plugin.
-                        Instead you can <a href="Canvass/<?php echo $row->Attachment ?>">click here to
-                        download the PDF file.</a></p>    
-                    </object>
+        <div class="row">
+            <div class="col-lg-12 form-group">
+                <div class="tab">
+                    <ul class="nav nav-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active text-blue" data-toggle="tab" href="#items" role="tab" aria-selected="true">Vendors and Price List</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-blue" data-toggle="tab" href="#prf" role="tab" aria-selected="true">PRF Attachment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-blue" data-toggle="tab" href="#quotation" role="tab" aria-selected="true">Quotation</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="items" role="tabpanel">
+                            <br/>
+                            <table class="table table-bordered hover nowrap">
+                                <thead>
+                                    <th class="bg-primary text-white">Product Name</th>
+                                    <th class="bg-primary text-white">Qty</th>
+                                    <th class="bg-primary text-white">Unit Price</th>
+                                    <th class="bg-primary text-white">Total Price</th>
+                                    <th class="bg-primary text-white">Vendor</th>
+                                    <th class="bg-primary text-white">Terms</th>
+                                    <th class="bg-primary text-white">Warranty</th>
+                                    <th class="bg-primary text-white">Remarks</th>
+                                </thead>
+                            <?php
+                            foreach($data->getResult() as $row)
+                            {
+                                ?>
+                                <tr>
+                                    <td><?php echo $row->Item_Name ?></td>
+                                    <td><?php echo $row->Qty ?></td>
+                                    <td><?php echo number_format($row->Price,3) ?></td>
+                                    <td><?php echo number_format($row->Price*$row->Qty,3) ?></td>
+                                    <td><?php echo $row->Supplier ?></td>
+                                    <td><?php echo $row->Terms ?></td>
+                                    <td><?php echo $row->Warranty ?></td>
+                                    <td>
+                                        <?php if(!empty($row->Remarks)){ ?>
+                                        <span class="badge bg-success text-white"><?php echo $row->Remarks ?></span>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade show" id="prf" role="tabpanel">
+                            <br/>
+                            <?php
+                            $builder = $this->db->table('tblprf');
+                            $builder->select('Attachment');
+                            $builder->WHERE('OrderNo',$row->OrderNo);
+                            $data = $builder->get();
+                            if($rows = $data->getRow())
+                            {
+                            ?>
+                            <object data="Attachment/<?php echo $rows->Attachment ?>" type="application/pdf" style="width:100%;height:500px;">
+                            <p>Your web browser doesn't have a PDF plugin.
+                                Instead you can <a href="Attachment/<?php echo $rows->Attachment ?>">click here to
+                                download the PDF file.</a></p>
+                            </object>
+                            <?php } ?>
+                        </div>
+                        <div class="tab-pane fade show" id="quotation" role="tabpanel">
+                            <br/>
+                            <object data="Canvass/<?php echo $row->Attachment ?>" type="application/pdf" style="width:100%;height:500px;">
+                            <p>Your web browser doesn't have a PDF plugin.
+                                Instead you can <a href="Canvass/<?php echo $row->Attachment ?>">click here to
+                                download the PDF file.</a></p>    
+                            </object>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <?php
+            $reviewCanvassModel = new \App\Models\reviewCanvassModel();
+            $review = $reviewCanvassModel
+                    ->WHERE('accountID',session()->get('loggedUser'))
+                    ->WHERE('Reference',$val)
+                    ->first();
+            if($review['Status']==0)
+            {    
+            ?>
+            <div class="col-12 form-group">
+                <button type="submit" class="btn btn-primary approve"><span class="dw dw-check"></span>&nbsp;Approve</button>
+                <button type="button" class="btn btn-danger cancel"><span class="dw dw-trash"></span>&nbsp;Cancel</button>
+            </div>
+            <?php } ?>
         </div>
         <?php
     }
