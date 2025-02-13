@@ -2173,8 +2173,11 @@ class Purchase extends BaseController
             ?>
             <tr>
                 <td><input type="checkbox" style="height:18px;width:18px;" value="<?php echo $row->orderID ?>" name="itemID[]" id="itemID" checked/></td>
-                <td><?php echo $row->Item_Name ?></td>
-                <td><?php echo $row->Specification ?></td>
+                <td><?php echo $row->Qty ?></td>
+                <td>
+                    <?php echo $row->Item_Name ?><br/>
+                    <small><?php echo nl2br($row->Specification) ?></small>
+                </td>
                 <td><input type="text" class="form-control" name="unitPrice[]"/></td>
             </tr>
             <?php
@@ -2699,7 +2702,9 @@ class Purchase extends BaseController
             <tr>
                 <td>
                     <?php echo $row->DateReceived ?><br/>
+                    <?php if($row->Status==0){ ?>
                     <small><?php echo $row->Age ?> days ago</small>
+                    <?php } ?>
                 </td>
                 <?php if($row->Status==0){ ?>
                 <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
@@ -2746,7 +2751,9 @@ class Purchase extends BaseController
                 <tr>
                     <td>
                         <?php echo $row->DateReceived ?><br/>
+                        <?php if($row->Status==0){ ?>
                         <small><?php echo $row->Age ?> days ago</small>
+                        <?php } ?>
                     </td>
                     <?php if($row->Status==0){ ?>
                     <td><button type="button" class="btn btn-link view" value="<?php echo $row->Reference ?>"><?php echo $row->Reference ?></button></td>
@@ -2838,7 +2845,9 @@ class Purchase extends BaseController
                 </td>
                 <td>
                     <?php echo $row->DateReceived ?><br/>
+                    <?php if($row->Status==0){ ?>
                     <small><?php echo $row->Age ?> days ago</small>
+                    <?php } ?>
                 </td>
                 <td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
                 <td><?php echo $row->Fullname ?></td>
@@ -2894,7 +2903,9 @@ class Purchase extends BaseController
                     </td>
                     <td>
                         <?php echo $row->DateReceived ?><br/>
+                        <?php if($row->Status==0){ ?>
                         <small><?php echo $row->Age ?> days ago</small>
+                        <?php } ?>
                     </td>
                     <td><button type="button" class="btn btn-link view" value="<?php echo $row->reviewID ?>"><?php echo $row->OrderNo ?></button></td>
                     <td><?php echo $row->Fullname ?></td>
@@ -3093,7 +3104,9 @@ class Purchase extends BaseController
             <tr>
                 <td>
                     <?php echo $row->DateReceived ?><br/>
+                    <?php if($row->Status==0){ ?>
                     <small><?php echo $row->Age ?> days ago</small>
+                    <?php } ?>
                 </td>
                 <td><?php echo $row->purchaseNumber ?></td>
                 <td><?php echo $row->OrderNo ?></td>
@@ -3148,7 +3161,9 @@ class Purchase extends BaseController
             <tr>
                 <td>
                     <?php echo $row->DateReceived ?><br/>
+                    <?php if($row->Status==0){ ?>
                     <small><?php echo $row->Age ?> days ago</small>
+                    <?php } ?>
                 </td>
                 <td><?php echo $row->purchaseNumber ?></td>
                 <td><?php echo $row->OrderNo ?></td>

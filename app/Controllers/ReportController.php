@@ -1600,7 +1600,7 @@ class ReportController extends BaseController
         $purchase_number="";
         $builder = $this->db->table('tblpurchase_logs a');
         $builder->select('a.purchaseLogID,a.purchaseNumber,a.Date,a.Reference,b.OrderNo,b.Supplier,b.Price,b.Terms,
-        b.Address,e.Fullname,b.Vatable,c.PurchaseType,b.Currency');
+        b.Address,e.Fullname,b.Vatable,c.PurchaseType,b.Currency,c.Department');
         $builder->join('tblcanvass_sheet b','b.purchaseLogID=a.purchaseLogID','INNER');
         $builder->join('tblprf c','c.OrderNo=b.OrderNo','LEFT');
         $builder->join('tblpurchase_review d','d.purchaseNumber=a.purchaseNumber','LEFT');
@@ -1771,8 +1771,10 @@ class ReportController extends BaseController
                     <td><b>Terms</b> : ".$row->Terms."</td>
                 </tr>
                 <tr><td colspan='2'><b>TIN :</b></td><td><b>PRF No</b> : ".$row->OrderNo."</td></tr>
-                <tr><td colspan='3'><b>Ship To : Archipelago Philippine Ferries Corporation</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unioil Center Building, Commerce Ave. Cor. Acacia Ave., Muntinlupa, PHL</td></tr>
+                <tr><td colspan='2'><b>Ship To : Archipelago Philippine Ferries Corporation</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unioil Center Building, Commerce Ave. Cor. Acacia Ave., Muntinlupa, PHL</td>
+                <td><b>Department</b> : ".$row->Department."</td>
+                </tr>
                 <tr><td colspan='3'>&nbsp;</td></tr>
                 <tr><td colspan='3'><b>Gentlemen:</b> We are ordering the following and charged to our account</td></tr>";
             $template.="
@@ -1913,7 +1915,7 @@ class ReportController extends BaseController
         $purchase_number="";
         $builder = $this->db->table('tblpurchase_logs a');
         $builder->select('a.purchaseLogID,a.purchaseNumber,a.Date,a.Reference,b.OrderNo,b.Supplier,b.Price,b.Terms,
-        b.Address,e.Fullname,b.Vatable,c.PurchaseType,b.Currency');
+        b.Address,e.Fullname,b.Vatable,c.PurchaseType,b.Currency,c.Department');
         $builder->join('tblcanvass_sheet b','b.purchaseLogID=a.purchaseLogID','INNER');
         $builder->join('tblprf c','c.OrderNo=b.OrderNo','LEFT');
         $builder->join('tblpurchase_review d','d.purchaseNumber=a.purchaseNumber','LEFT');
@@ -2084,8 +2086,10 @@ class ReportController extends BaseController
                     <td><b>Terms</b> : ".$row->Terms."</td>
                 </tr>
                 <tr><td colspan='2'><b>TIN :</b></td><td><b>PRF No</b> : ".$row->OrderNo."</td></tr>
-                <tr><td colspan='3'><b>Ship To : Archipelago Philippine Ferries Corporation</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unioil Center Building, Commerce Ave. Cor. Acacia Ave., Muntinlupa, PHL</td></tr>
+                <tr><td colspan='2'><b>Ship To : Archipelago Philippine Ferries Corporation</b><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unioil Center Building, Commerce Ave. Cor. Acacia Ave., Muntinlupa, PHL</td>
+                <td><b>Department</b> : ".$row->Department."</td>
+                </tr>
                 <tr><td colspan='3'>&nbsp;</td></tr>
                 <tr><td colspan='3'><b>Gentlemen:</b> We are ordering the following and charged to our account</td></tr>";
             $template.="

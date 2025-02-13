@@ -341,8 +341,8 @@
                                 <li><a href="<?=site_url('orders')?>">Purchase Request</a></li>
 								<li><a href="<?=site_url('list-orders')?>">List Order</a></li>
 								<?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){?>
-								<li><a href="<?=site_url('assign')?>">Assigned PRF</a></li>
-								<li><a href="<?=site_url('local-purchase')?>">Local Purchase</a></li>
+								<li><a href="<?=site_url('assign')?>">Assigned PRF&nbsp;<span class="badge badge-pill bg-primary text-white" id="regularNotif">0</span></a></li>
+								<li><a href="<?=site_url('local-purchase')?>">Local Purchase&nbsp;<span class="badge badge-pill bg-primary text-white" id="localNotif">0</span></a></li>
 								<li><a href="<?=site_url('purchase-order')?>">Purchase Order</a></li>
 								<?php } ?>
 							</ul>
@@ -506,5 +506,24 @@
 		<script src="/assets/src/plugins/datatables/js/dataTables.responsive.min.js"></script>
 		<script src="/assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
 		<script src="/assets/vendors/scripts/datatable-setting.js"></script>
+		<script>
+			$(document).ready(function(){
+				$.ajax({
+					url:"<?=site_url('regular-notification')?>",method:"GET",
+					success:function(response)
+					{
+						$('#regularNotif').html(response);
+					}
+				});
+
+				$.ajax({
+					url:"<?=site_url('local-notification')?>",method:"GET",
+					success:function(response)
+					{
+						$('#localNotif').html(response);
+					}
+				});
+			});
+		</script>
 	</body>
 </html>

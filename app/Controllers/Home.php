@@ -1399,8 +1399,11 @@ class Home extends BaseController
         $builder->join('tbldelivery_info d','d.purchaseNumber=b.purchaseNumber','LEFT');
         $builder->WHERE('a.accountID',$user);
         $po = $builder->get()->getResult();
+        //items
+        $OrderItemModel = new \App\Models\OrderItemModel();
+        $item = $OrderItemModel->WHERE('accountID',$user)->findAll();
 
-        $data = ['orders'=>$orders,'canvass'=>$canvass,'po'=>$po];
+        $data = ['orders'=>$orders,'canvass'=>$canvass,'po'=>$po,'item'=>$item];
         return view('list-orders',$data);
     }
 

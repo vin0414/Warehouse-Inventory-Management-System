@@ -10,6 +10,23 @@ class Notification extends BaseController
         $this->db = db_connect();
     }
 
+    public function regularNotification()
+    {
+        $assignmentModel = new \App\Models\assignmentModel();
+        $assign = $assignmentModel->WHERE('accountID',session()->get('loggedUser'))
+                                  ->WHERE('Status',0)
+                                  ->countAllResults();
+        echo $assign;
+    }
+
+    public function localNotification()
+    {
+        $reviewCanvassModel = new \App\Models\reviewCanvassModel();
+        $review = $reviewCanvassModel->WHERE('accountID',session()->get('loggedUser'))
+                                     ->WHERE('Status',0)->countAllResults();
+        echo $review;
+    }
+
     //float approved PRF
     public function quotationNotification()
     {

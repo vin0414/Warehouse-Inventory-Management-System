@@ -43,6 +43,8 @@ $routes->get('delivery-notification','Notification::deliveryNotification');
 $routes->get('delivery-sms','Notification::deliverySMSNotification');
 $routes->get('quotation-notification','Notification::quotationNotification');
 $routes->get('sms-notification','Notification::smsNotification');
+$routes->get('regular-notification','Notification::regularNotification');
+$routes->get('local-notification','Notification::localNotification');
 //API
 $routes->get('list-purchase-order','purchaseOrderResource::index');
 $routes->get('list-items/(:any)','purchaseOrderResource::listItems/$1');

@@ -347,8 +347,8 @@
 								<li><a href="<?=site_url('canvass-sheet-request')?>">Canvass Sheet&nbsp;<span class="badge badge-pill bg-primary text-white" id="notif">0</span></a></li>
 								<?php } ?>
 								<?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){?>
-								<li><a href="<?=site_url('assign')?>">Assigned PRF</a></li>
-								<li><a href="<?=site_url('local-purchase')?>">Local Purchase</a></li>
+								<li><a href="<?=site_url('assign')?>">Assigned PRF&nbsp;<span class="badge badge-pill bg-primary text-white" id="regularNotif">0</span></a></li>
+								<li><a href="<?=site_url('local-purchase')?>">Local Purchase&nbsp;<span class="badge badge-pill bg-primary text-white" id="localNotif">0</span></a></li>
 								<li><a href="<?=site_url('purchase-order')?>">Purchase Order</a></li>
 								<?php } ?>
 							</ul>
@@ -464,11 +464,21 @@
 									<a
 										class="nav-link active text-blue"
 										data-toggle="tab"
+										href="#items"
+										role="tab"
+										aria-selected="true"
+										>Ordered Items
+									</a>
+								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link text-blue"
+										data-toggle="tab"
 										href="#home6"
 										role="tab"
 										aria-selected="true"
-										>Purchase Requisition</a
-									>
+										>Purchase Requisition
+									</a>
 								</li>
 								<li class="nav-item">
 									<a
@@ -492,7 +502,30 @@
 								</li>
 							</ul>
 							<div class="tab-content">
-								<div class="tab-pane fade show active" id="home6" role="tabpanel">
+								<div class="tab-pane fade show active" id="items" role="tabpanel">
+									<br/>
+									<table class="data-table table stripe hover">
+										<thead>
+											<th>PRF #</th>
+											<th>Qty</th>
+											<th>UOM</th>
+											<th>Item/Product</th>
+											<th>Specification</th>
+										</thead>
+										<tbody>
+										<?php foreach($item as $row): ?>
+											<tr>
+												<td><?=$row['OrderNo']?></td>
+												<td><?=$row['Qty']?></td>
+												<td><?=$row['ItemUnit']?></td>
+												<td><?=$row['Item_Name']?></td>
+												<td><?=$row['Specification']?></td>
+											</tr>
+										<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+								<div class="tab-pane fade" id="home6" role="tabpanel">
 									<br/>
 									<table class="data-table table stripe hover">
 										<thead>
@@ -735,6 +768,21 @@
 					success:function(response)
 					{
 						$('#notification').html(response);
+					}
+				});
+				$.ajax({
+					url:"<?=site_url('regular-notification')?>",method:"GET",
+					success:function(response)
+					{
+						$('#regularNotif').html(response);
+					}
+				});
+
+				$.ajax({
+					url:"<?=site_url('local-notification')?>",method:"GET",
+					success:function(response)
+					{
+						$('#localNotif').html(response);
 					}
 				});
 			}

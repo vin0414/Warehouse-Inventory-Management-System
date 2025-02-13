@@ -748,8 +748,8 @@
 									<table class="table-bordered">
 										<thead>
 											<th>#</th>
-											<th>Item Name</th>
-											<th>Specification</th>
+											<th>Qty</th>
+											<th>Item and Description</th>
 											<th>Unit Price</th>
 										</thead>
 										<tbody id="tbl_entries">

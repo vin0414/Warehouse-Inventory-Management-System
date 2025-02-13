@@ -338,7 +338,7 @@
 						</li>
 						<li class="dropdown">
 							<a href="javascript:;" class="dropdown-toggle">
-                            <i class="micon dw dw-shopping-cart"></i><span class="mtext">Purchasing</span>&nbsp;<span class="badge badge-pill bg-primary text-white" id="notification">0</span>
+                            <i class="micon dw dw-shopping-cart"></i><span class="mtext">Purchasing</span>
 							</a>
 							<ul class="submenu">
                                 <li><a href="<?=site_url('orders')?>">Purchase Request</a></li>
@@ -348,8 +348,8 @@
 								<li><a href="<?=site_url('canvass-sheet-request')?>">Canvass Sheet&nbsp;<span class="badge badge-pill bg-primary text-white" id="notif">0</span></a></li>
 								<?php } ?>
 								<?php if(session()->get('role')=="Staff"||session()->get('role')=="Administrator"){?>
-								<li><a href="<?=site_url('assign')?>">Assigned PRF</a></li>
-								<li><a href="<?=site_url('local-purchase')?>">Local Purchase</a></li>
+								<li><a href="<?=site_url('assign')?>">Assigned PRF&nbsp;<span class="badge badge-pill bg-primary text-white" id="regularNotif">0</span></a></li>
+								<li><a href="<?=site_url('local-purchase')?>">Local Purchase&nbsp;<span class="badge badge-pill bg-primary text-white" id="regularNotif">0</span></a></li>
 								<li><a href="<?=site_url('purchase-order')?>">Purchase Order</a></li>
 								<?php } ?>
 							</ul>
@@ -515,6 +515,23 @@
 		<script src="assets/src/plugins/datatables/js/responsive.bootstrap4.min.js"></script>
         <script src="assets/vendors/scripts/datatable-setting.js"></script>
         <script>
+			$(document).ready(function(){
+				$.ajax({
+					url:"<?=site_url('regular-notification')?>",method:"GET",
+					success:function(response)
+					{
+						$('#regularNotif').html(response);
+					}
+				});
+
+				$.ajax({
+					url:"<?=site_url('local-notification')?>",method:"GET",
+					success:function(response)
+					{
+						$('#localNotif').html(response);
+					}
+				});
+			});
 			$('#frmSearch').on('submit',function(e){
                 e.preventDefault();
                 var data = $(this).serialize();
