@@ -519,7 +519,7 @@
 												<td><?=$row['Qty']?></td>
 												<td><?=$row['ItemUnit']?></td>
 												<td><?=$row['Item_Name']?></td>
-												<td><?=$row['Specification']?></td>
+												<td><?=substr($row['Specification'],0,100)?>...</td>
 											</tr>
 										<?php endforeach; ?>
 										</tbody>

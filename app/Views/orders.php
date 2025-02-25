@@ -557,7 +557,7 @@
                                 <input type="file" class="form-control" name="file" accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps" required/>
                             </div>
 							<div class="col-12 form-group">
-								<label>Department Head/Masters</label>
+								<label>Department Head</label>
 								<select class="form-control custom-select2" name="approver" id="approver" style="width:100%;">
 									<option value="">Choose</option>
 								</select>
