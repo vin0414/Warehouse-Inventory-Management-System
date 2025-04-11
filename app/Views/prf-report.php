@@ -469,6 +469,13 @@
 											<?php endforeach; ?>
 										</select>
 									</div>
+									<div class="col-lg-2 form-group">
+										<select name="withPo" class="form-control">
+											<option value="">-With P.O.-</option>
+											<option value="1">Yes</option>
+											<option value="0">No</option>
+										</select>
+									</div>
                                     <div class="col-lg-3 form-group">
                                         <button type="submit" class="btn btn-primary" id="btnSearch">
                                             <i class="icon-copy dw dw-search"></i> Search

@@ -528,7 +528,7 @@
                                         <th class="bg-primary text-white">Specification</th>
                                     </thead>
                                     <tbody id="Table">
-
+									<tr><td colspan="5"><center>No Data(s)</center></td></tr>
                                     </tbody>
                                 </table>
 							</div>

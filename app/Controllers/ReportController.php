@@ -16,13 +16,28 @@ class ReportController extends BaseController
         $from  = $this->request->getGet('from');
         $to = $this->request->getGet('to');
         $assignee = $this->request->getGet('assignee');
+        $withPo = $this->request->getGet('withPo');
         //generate
-        $sql = "Select a.DateNeeded,a.Department,a.OrderNo,b.Item_Name,b.Qty,b.ItemUnit,b.Specification,c.purchaseLogID,e.Fullname from tblprf a 
-                LEFT JOIN tbl_order_item b ON b.OrderNo=a.OrderNo 
-                LEFT JOIN tblcanvass_sheet c ON c.OrderNo=a.OrderNo
-                LEFT JOIN tblassignment d ON d.prfID=a.prfID
-                LEFT JOIN tblaccount e ON e.accountID=d.accountID
-                WHERE a.DateNeeded BETWEEN :from: AND :to: AND e.accountID=:accountID: group by b.orderID";
+        $sql = "";
+        if($withPo=="1")
+        {
+            $sql = "Select a.DateNeeded,a.Department,a.OrderNo,b.Item_Name,b.Qty,b.ItemUnit,b.Specification,c.purchaseLogID,e.Fullname from tblprf a 
+            LEFT JOIN tbl_order_item b ON b.OrderNo=a.OrderNo 
+            LEFT JOIN tblcanvass_sheet c ON c.OrderNo=a.OrderNo
+            LEFT JOIN tblassignment d ON d.prfID=a.prfID
+            LEFT JOIN tblaccount e ON e.accountID=d.accountID
+            WHERE a.DateNeeded BETWEEN :from: AND :to: AND e.accountID=:accountID: AND c.purchaseLogID!='' group by b.orderID";
+        }
+        else
+        {
+            $sql = "Select a.DateNeeded,a.Department,a.OrderNo,b.Item_Name,b.Qty,b.ItemUnit,b.Specification,c.purchaseLogID,e.Fullname from tblprf a 
+            LEFT JOIN tbl_order_item b ON b.OrderNo=a.OrderNo 
+            LEFT JOIN tblcanvass_sheet c ON c.OrderNo=a.OrderNo
+            LEFT JOIN tblassignment d ON d.prfID=a.prfID
+            LEFT JOIN tblaccount e ON e.accountID=d.accountID
+            WHERE a.DateNeeded BETWEEN :from: AND :to: AND e.accountID=:accountID: AND c.purchaseLogID IS NULL group by b.orderID";
+        }
+        
         $query = $this->db->query($sql,['from'=>$from,'to'=>$to,'accountID'=>$assignee]);
         foreach($query->getResult() as $row)
         {
