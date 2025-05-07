@@ -744,6 +744,9 @@ class Purchase extends BaseController
     public function viewOrder()
     {
         $val = $this->request->getGet('value');
+        //get the attachment
+        $purchaseModel = new \App\Models\purchaseModel();
+        $purchase = $purchaseModel->WHERE('OrderNo',$val)->first();  
         $builder = $this->db->table('tbl_order_item');
         $builder->select('*');
         $builder->WHERE('OrderNo',$val);
@@ -770,9 +773,19 @@ class Purchase extends BaseController
             <?php
         }
         ?>
-        </table>
             </tbody>
-        <?php
+        </table> 
+        <br/>
+        <?php if($purchase['Attachment']!="N/A")
+        {
+            ?>
+            <a href="<?php echo base_url('Attachment/'.$purchase['Attachment']) ?>" target="_blank" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Download</a>
+            <?php
+        }
+        else
+        {
+            echo "No Attachment";
+        }   
     }
 
     public function getEditor()
