@@ -749,6 +749,7 @@
 										<thead>
 											<th>#</th>
 											<th>Qty</th>
+											<th>UOM</th>
 											<th>Item and Description</th>
 											<th>Unit Price</th>
 										</thead>

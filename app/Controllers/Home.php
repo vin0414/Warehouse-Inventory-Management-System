@@ -1600,8 +1600,16 @@ class Home extends BaseController
         //delivery Info
         $deliveryModel = new \App\Models\deliveryModel();
         $delivery = $deliveryModel->findAll();
+        //load all the items with PO
+        $builder = $this->db->table('tbl_order_item a');
+        $builder->select('a.*,b.Price,c.purchaseNumber');
+        $builder->join('tblcanvass_sheet b','b.orderID=a.orderID','LEFT');
+        $builder->join('tblpurchase_logs c','c.purchaseLogID=b.purchaseLogID','LEFT');
+        $builder->WHERE('b.purchaseLogID <>',0);
+        $builder->groupBy('a.orderID');
+        $items = $builder->get()->getResult();
 
-        $data = ['canvass'=>$canvass,'purchase'=>$purchase,'delivery'=>$delivery];
+        $data = ['canvass'=>$canvass,'purchase'=>$purchase,'delivery'=>$delivery,'items'=>$items];
         return view('purchase-order',$data);
     }
 

@@ -2187,6 +2187,7 @@ class Purchase extends BaseController
             <tr>
                 <td><input type="checkbox" style="height:18px;width:18px;" value="<?php echo $row->orderID ?>" name="itemID[]" id="itemID" checked/></td>
                 <td><?php echo $row->Qty ?></td>
+                <td><?php echo $row->ItemUnit ?></td>
                 <td>
                     <?php echo $row->Item_Name ?><br/>
                     <small><?php echo nl2br($row->Specification) ?></small>
@@ -2890,7 +2891,7 @@ class Purchase extends BaseController
 
     public function searchOrder()
     {
-        $keyword = $this->request->getGet('value');
+        $keyword = "%".$this->request->getGet('value')."%";
         $search = $this->request->getGet('search');
         if($search=="1")
         {
@@ -2900,7 +2901,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->WHERE('a.OrderNo',$keyword);
+            $builder->WHERE('a.accountID',$user)->LIKE('a.OrderNo',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -2953,7 +2954,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->WHERE('c.Fullname',$keyword);
+            $builder->WHERE('a.accountID',$user)->LIKE('c.Fullname',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -3004,7 +3005,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->WHERE('a.DateReceived',$keyword);
+            $builder->WHERE('a.accountID',$user)->LIKE('a.DateReceived',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)
@@ -3055,7 +3056,7 @@ class Purchase extends BaseController
             b.PurchaseType,b.Urgency,c.Fullname,TIMESTAMPDIFF(Day, a.DateReceived, CURDATE()) Age');
             $builder->join('tblprf b','b.OrderNo=a.OrderNo','LEFT');
             $builder->join('tblaccount c','c.accountID=b.accountID','LEFT');
-            $builder->WHERE('a.accountID',$user)->WHERE('b.Department',$keyword);
+            $builder->WHERE('a.accountID',$user)->LIKE('b.Department',$keyword);
             $builder->groupBy('a.reviewID')->orderBy('a.Status','ASC');
             $data = $builder->get();
             foreach($data->getResult() as $row)

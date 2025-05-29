@@ -503,6 +503,16 @@
 									<a
 										class="nav-link text-blue"
 										data-toggle="tab"
+										href="#items6"
+										role="tab"
+										aria-selected="true"
+										>List of Items</a
+									>
+								</li>
+								<li class="nav-item">
+									<a
+										class="nav-link text-blue"
+										data-toggle="tab"
 										href="#delivery6"
 										role="tab"
 										aria-selected="true"
@@ -648,6 +658,9 @@
 															<button type="button" class="dropdown-item cancel" value="<?php echo $row->purchaseLogID ?>">
 																<i class="icon-copy dw dw-trash"></i>&nbsp;Cancel
 															</button>
+															<button type="button" class="dropdown-item discontinue" value="<?php echo $row->purchaseLogID ?>">
+																<i class="icon-copy dw dw-broken-link"></i>&nbsp;Discontinue
+															</button>
 															<?php }?>
 															<button type="button" class="dropdown-item sendEmail" value="<?php echo $row->purchaseNumber ?>">
 																<i class="icon-copy dw dw-mail"></i>&nbsp;Send via Email
@@ -667,6 +680,34 @@
 													</div>
 												</td>
 											</tr>
+										<?php endforeach; ?>
+										</tbody>
+									</table>
+								</div>
+								<div class="tab-pane fade" id="items6" role="tabpanel">
+									<br/>
+									<table class="table data-table stripe hover">
+										<thead>
+											<th>P.O. Number</th>
+											<th>Items</th>
+											<th>UOM</th>
+											<th>Qty</th>
+											<th>Unit Cost</th>
+											<th>Total Price</th>
+											<th>Description</th>
+										</thead>
+										<tbody>
+										<?php foreach($items as $row): ?>
+										<?php $total = $row->Qty * $row->Price; ?>
+										<tr>
+											<td><?=$row->purchaseNumber?></td>
+											<td><?=$row->Item_Name?></td>
+											<td><?=$row->ItemUnit?></td>
+											<td><?=$row->Qty?></td>
+											<td><?=number_format($row->Price,2)?></td>
+											<td><?=number_format($total,2)?></td>
+											<td><?=$row->Specification?></td>
+										</tr>
 										<?php endforeach; ?>
 										</tbody>
 									</table>
@@ -1090,6 +1131,40 @@
 					}
 				});
 			});
+
+			$(document).on('click','.discontinue',function(e)
+            {
+                e.preventDefault();
+                Swal.fire({
+					title: "Are you sure?",
+					text: "Do you want to permanently discontinue this item?",
+					icon: "question",
+					showCancelButton: true,
+					confirmButtonColor: "#3085d6",
+					cancelButtonColor: "#d33",
+					confirmButtonText: "Yes!"
+					}).then((result) => {
+					if (result.isConfirmed) {
+						var val = $(this).val();
+						$('#modal-loading').modal('show');
+						$.ajax({
+							url:"<?=site_url('cancel-purchase-order')?>",method:"POST",
+							data:{value:val},success:function(response)
+							{
+								if(response==="success")
+								{
+									location.reload();
+								}
+								else
+								{
+									alert(response);
+								}
+								$('#modal-loading').modal('hide');
+							}
+						});
+					}
+				});
+            });
 
 			function exportf(elem) {
 			var table = document.getElementById("table");

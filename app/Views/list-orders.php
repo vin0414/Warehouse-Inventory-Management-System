@@ -548,7 +548,11 @@
 													<td><?php echo $row->PurchaseType ?></td>
 													<td>
 														<?php if($row->Status==2){ ?>
+															<?php if($row->Remarks=="CLOSE"): ?>
+															<?php echo $row->OrderNo ?>
+															<?php else : ?>
 															<a href="edit-purchase/<?php echo $row->OrderNo ?>" class="btn-link"><?php echo $row->OrderNo ?></a>
+															<?php endif; ?>
 														<?php }else if($row->Status==6){?>
 															<a href="comply/<?php echo $row->OrderNo ?>" class="btn-link"><?php echo $row->OrderNo ?></a>
 														<?php }else{ ?>
