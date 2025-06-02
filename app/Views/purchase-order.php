@@ -1148,7 +1148,7 @@
 						var val = $(this).val();
 						$('#modal-loading').modal('show');
 						$.ajax({
-							url:"<?=site_url('cancel-purchase-order')?>",method:"POST",
+							url:"<?=site_url('discontinue-order')?>",method:"POST",
 							data:{value:val},success:function(response)
 							{
 								if(response==="success")

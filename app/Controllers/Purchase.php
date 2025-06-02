@@ -740,6 +740,25 @@ class Purchase extends BaseController
         echo "success";
     }
 
+    public function discontinueOrder()
+    {
+        $purchaseModel = new \App\Models\purchaseModel();
+        $canvasFormModel = new \App\Models\canvasFormModel();
+        $purchaseOrderModel = new \App\Models\purchaseOrderModel();
+        //data
+        $val = $this->request->getPost('value');
+        $data = ['Status'=>2,'Remarks'=>'CLOSE','Comment'=>'Discontinued'];
+        $purchaseOrderModel->update($val,$data);
+        //canvass form
+        $canvass = $purchaseOrderModel->WHERE('purchaseLogID',$val)->first();
+        $canvasForm = $canvasFormModel->WHERE('Reference',$canvass['Reference'])->first();
+        $newData = ['Status'=>2,'Comment'=>'Discontinued'];
+        $canvasFormModel->update($canvasForm['formID'],$newData);
+        //prf
+        $purchase = $purchaseModel->WHERE('OrderNo',$canvasForm['OrderNo'])->first();
+        $purchaseModel->update($purchase['prfID'],['Status'=>2,'Remarks'=>'CLOSE']);
+        echo "success";
+    }
 
     public function viewOrder()
     {
