@@ -116,7 +116,7 @@ $routes->post('save-data','ProductController::scanning');
 $routes->get('view-items','ProductController::viewItems');
 $routes->get('view-vendors','ProductController::viewVendor');
 $routes->get('list-editor','Purchase::listEditor');
-//standard user reports
+//standard user reports 
 $routes->post('send-damage-report','ProductController::damageReport');
 $routes->post('accept-damage-report','ProductController::acceptDamageReport');
 $routes->post('send-repair-report','ProductController::repairReport');
