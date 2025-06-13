@@ -416,6 +416,7 @@
 							<ul class="submenu">
 								<li><a href="<?=site_url('add-report')?>" class="active">Create Report</a></li>
 								<li><a href="<?=site_url('prf-report')?>">PRF Report</a></li>
+								<li><a href="<?=site_url('monitoring')?>">PRF/PO Monitoring</a></li>
 							</ul>
 							<?php } ?>
 						</li>
