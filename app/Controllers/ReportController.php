@@ -1089,17 +1089,27 @@ class ReportController extends BaseController
             $template .= "
             <head>
                 <style>
-                table{font-size:12px;}
+                table{font-family: sans-serif; font-size:12px;}
                 #vendor {
-                    font-family: sans-serif;
                     border-collapse: collapse;
                     width: 100%;
+                    page-break-inside: auto;
                   }
                   
                   #vendor td, #vendor th {
                     border: 1px solid #000;
                     padding: 5px;font-size:12px;
                   }
+                  #vendor thead {
+                    display: table-header-group;
+                    }
+                  #vendor tbody {
+                        page-break-inside: auto;
+                    }
+                  #vendor tr {
+                        page-break-inside: avoid;
+                        page-break-after: auto;
+                    }
                  
                   #vendor tr:hover {background-color: #000;}
                   
@@ -1326,17 +1336,27 @@ class ReportController extends BaseController
             $template .= "
             <head>
                 <style>
-                table{font-size:12px;}
+                table{font-family: sans-serif; font-size:12px;}
                 #vendor {
-                    font-family: sans-serif;
                     border-collapse: collapse;
                     width: 100%;
+                    page-break-inside: auto;
                   }
                   
                   #vendor td, #vendor th {
                     border: 1px solid #000;
                     padding: 5px;font-size:12px;
                   }
+                  #vendor thead {
+                    display: table-header-group;
+                    }
+                  #vendor tbody {
+                        page-break-inside: auto;
+                    }
+                  #vendor tr {
+                        page-break-inside: avoid;
+                        page-break-after: auto;
+                    }
                  
                   #vendor tr:hover {background-color: #000;}
                   
@@ -1640,17 +1660,27 @@ class ReportController extends BaseController
             $template .= "
             <head>
                 <style>
-                table{font-size:12px;}
+                table{font-family: sans-serif; font-size:12px;}
                 #vendor {
-                    font-family: sans-serif;
                     border-collapse: collapse;
                     width: 100%;
+                    page-break-inside: auto;
                   }
                   
                   #vendor td, #vendor th {
                     border: 1px solid #000;
                     padding: 5px;font-size:12px;
                   }
+                  #vendor thead {
+                    display: table-header-group;
+                    }
+                  #vendor tbody {
+                        page-break-inside: auto;
+                    }
+                  #vendor tr {
+                        page-break-inside: avoid;
+                        page-break-after: auto;
+                    }
                  
                   #vendor tr:hover {background-color: #000;}
                   
@@ -1955,17 +1985,27 @@ class ReportController extends BaseController
             $template .= "
             <head>
                 <style>
-                table{font-size:12px;}
+                table{font-family: sans-serif; font-size:12px;}
                 #vendor {
-                    font-family: sans-serif;
                     border-collapse: collapse;
                     width: 100%;
+                    page-break-inside: auto;
                   }
                   
                   #vendor td, #vendor th {
                     border: 1px solid #000;
                     padding: 5px;font-size:12px;
                   }
+                  #vendor thead {
+                    display: table-header-group;
+                    }
+                  #vendor tbody {
+                        page-break-inside: auto;
+                    }
+                  #vendor tr {
+                        page-break-inside: avoid;
+                        page-break-after: auto;
+                    }
                  
                   #vendor tr:hover {background-color: #000;}
                   
